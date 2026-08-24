@@ -11,8 +11,6 @@ export default function HomePage() {
       {/* <StoryWorlds /> */}
       {/* <PricingSection /> */}
 
-      {/* Custom Footer */}
-      <Footer />
     </main>
   );
 }
