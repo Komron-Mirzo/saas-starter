@@ -5,15 +5,15 @@ import { Button } from '@/components/ui/button';
 export function Hero() {
   return (
     <section className="w-full bg-[#F8F9FA] pt-6 pb-16 overflow-hidden">
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 flex flex-col items-center text-center">
+      <div className="max-w-[1870px] mx-auto px-6 lg:px-12 flex flex-col items-center text-center">
         
         {/* Top Hero Graphic Banner */}
-        <div className="w-full max-w-6xl mb-12 relative flex justify-center">
+        <div className="w-full mb-12 relative flex justify-center">
           <Image
             src="/images/home-hero.png"
             alt="Worthfit by Steffi Hero Collage"
-            width={1400}
-            height={600}
+            width={1870}
+            height={635}
             unoptimized={true}
             priority
             className="w-full h-auto object-contain rounded-[32px] md:rounded-[48px]"
