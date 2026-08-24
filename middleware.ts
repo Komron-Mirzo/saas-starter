@@ -6,6 +6,26 @@ const protectedRoutes = '/dashboard';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // --- SIMPLE HTTP BASIC AUTH PROTECTION ---
+  const basicAuth = request.headers.get('authorization');
+  
+  if (basicAuth) {
+    const authValue = basicAuth.split(' ')[1];
+    // Decode base64 credentials: "username:password"
+    const [user, pwd] = atob(authValue).split(':');
+
+    // Check if credentials match your required value
+    if (user === 'worthfit777' && pwd === 'worthfit777') {
+      // Credentials are correct, proceed with the rest of middleware logic
+    } else {
+      return unauthorizedResponse();
+    }
+  } else {
+    return unauthorizedResponse();
+  }
+  // ------------------------------------------
+
   const sessionCookie = request.cookies.get('session');
   const isProtectedRoute = pathname.startsWith(protectedRoutes);
 
@@ -41,6 +61,16 @@ export async function middleware(request: NextRequest) {
   }
 
   return res;
+}
+
+// Helper function to prompt the browser's native login popup
+function unauthorizedResponse() {
+  return new NextResponse('Auth required.', {
+    status: 401,
+    headers: {
+      'WWW-Authenticate': 'Basic realm="Secure Area"',
+    },
+  });
 }
 
 export const config = {
