@@ -15,7 +15,7 @@ import { signOut } from '@/app/(login)/actions';
 import { useRouter } from 'next/navigation';
 import { User } from '@/lib/db/schema';
 import useSWR, { mutate } from 'swr';
-import { Footer } from '@/components/ui/Footer';
+import { Footer } from '@/components/sections/shared/Footer';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -30,27 +30,20 @@ function UserActions() {
     router.push('/');
   }
 
-  // If user is NOT logged in, show separate Log In & Sign Up buttons matching Figma
+// If user is NOT logged in, use our global reusable Button components with correct variants
   if (!user) {
     return (
-      <div className="flex items-center space-x-3">
-        <Button 
-          asChild 
-          className="rounded-full text-xs font-bold uppercase px-6 py-5 bg-[#FF7DA8] hover:bg-[#ff6598] text-white shadow-sm"
-        >
+      <div className="flex items-center space-x-4">
+        <Button asChild variant="default">
           <Link href="/sign-in">Log In</Link>
         </Button>
-        <Button 
-          asChild 
-          variant="outline"
-          className="rounded-full text-xs font-bold uppercase px-6 py-5 bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 shadow-sm"
-        >
+        <Button asChild variant="white">
           <Link href="/sign-up">Sign Up</Link>
         </Button>
       </div>
     );
   }
-
+  
   // If user IS logged in, show their avatar dropdown menu
   return (
     <DropdownMenu open={isMenuOpen} onOpenChange={setIsMenuOpen}>

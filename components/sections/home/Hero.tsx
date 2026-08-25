@@ -21,8 +21,8 @@ export function Hero() {
         </div>
 
         {/* Headline & Typography Block */}
-        <div className="max-w-4xl mx-auto flex flex-col items-center space-y-6">
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tight text-[#FF7DA8] leading-[1.05] drop-shadow-sm">
+        <div className="mx-auto flex flex-col items-center space-y-6">
+          <h1 className="text-h1-01 text-4xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tight text-[#FF7DA8] leading-[1.05] drop-shadow-sm">
             This is your story.<br />
             Just worth it.
           </h1>
@@ -31,20 +31,13 @@ export function Hero() {
             Step into a world where you're the heroine — and every workout, every meal, every small win becomes part of your powerful story.
           </p>
 
-          {/* Dual Action Buttons with Retro Hard Shadow */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 w-full sm:w-auto">
-            <Button 
-              asChild
-              className="w-full sm:w-auto rounded-full text-xs sm:text-sm font-black uppercase px-8 py-6 bg-[#FF7DA8] hover:bg-[#ff6598] text-white shadow-[4px_4px_0px_0px_#000000] border-2 border-black transition-transform active:translate-x-1 active:translate-y-1 active:shadow-none"
-            >
+          {/* Dual Action Buttons using Global Reusable Button Component */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-4 w-full sm:w-auto">
+            <Button asChild variant="default">
               <Link href="/sign-up">Begin your glow story</Link>
             </Button>
 
-            <Button 
-              asChild
-              variant="outline"
-              className="w-full sm:w-auto rounded-full text-xs sm:text-sm font-black uppercase px-8 py-6 bg-white hover:bg-gray-50 text-gray-900 shadow-[4px_4px_0px_0px_#000000] border-2 border-black transition-transform active:translate-x-1 active:translate-y-1 active:shadow-none"
-            >
+            <Button asChild variant="white">
               <Link href="#peek-inside">Not sure yet? Peek inside</Link>
             </Button>
           </div>

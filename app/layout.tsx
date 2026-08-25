@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
-import { Poppins, Syne } from 'next/font/google';
+import { Poppins } from 'next/font/google';
+import localFont from 'next/font/local';
 import { getUser, getTeamForUser } from '@/lib/db/queries';
 import { SWRConfig } from 'swr';
 
@@ -21,11 +22,11 @@ const poppins = Poppins({
   variable: '--font-poppins',
 });
 
-// 2. Setup temporary bold headline font for Worthfit placeholders
-const temporaryWorthfit = Syne({
-  subsets: ['latin'],
-  weight: ['800'],
+// 2. Setup your custom local worthfit headline font
+const worthfit = localFont({
+  src: '/fonts/worthfit.woff2',
   variable: '--font-worthfit',
+  display: 'swap',
 });
 
 export default function RootLayout({
@@ -36,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${temporaryWorthfit.variable} h-full`}
+      className={`${poppins.variable} ${worthfit.variable} h-full`}
     >
       <body className="min-h-[100dvh] font-sans antialiased bg-background text-foreground flex flex-col">
         <SWRConfig

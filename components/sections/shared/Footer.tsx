@@ -69,7 +69,7 @@ export function Footer() {
               </ul>
             </div>
 
-            {/* Nav Group 2 (Spills over or grouped cleanly on desktop) */}
+            {/* Nav Group 2 */}
             <div className="flex flex-col space-y-3 lg:pt-6">
               <ul className="flex flex-col space-y-2.5">
                 {navColumn2.map((item, idx) => (
@@ -98,7 +98,7 @@ export function Footer() {
               </p>
             </div>
 
-            {/* Social Icons & Action Buttons Row */}
+            {/* Social Icons Row */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
               {socialLinks.map((social, idx) => (
                 <Link 
@@ -111,17 +111,12 @@ export function Footer() {
               ))}
             </div>
 
+            {/* Reusable Global Buttons */}
             <div className="flex items-center gap-3 pt-2">
-              <Button 
-                asChild 
-                className="rounded-full text-xs font-bold uppercase px-6 py-5 bg-[#FF7DA8] hover:bg-[#ff6598] text-white shadow-md"
-              >
+              <Button asChild variant="default">
                 <Link href="/sign-in">Log In</Link>
               </Button>
-              <Button 
-                asChild 
-                className="rounded-full text-xs font-bold uppercase px-6 py-5 bg-[#22d3ee] hover:bg-[#06b6d4] text-gray-900 shadow-md"
-              >
+              <Button asChild variant="secondary">
                 <Link href="/sign-up">Sign Up</Link>
               </Button>
             </div>

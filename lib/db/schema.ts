@@ -140,3 +140,32 @@ export enum ActivityType {
   INVITE_TEAM_MEMBER = 'INVITE_TEAM_MEMBER',
   ACCEPT_INVITATION = 'ACCEPT_INVITATION',
 }
+
+
+// ==========================================
+// CUSTOM CMS TABLES (FAQs & Reviews)
+// ==========================================
+
+export const faqsTable = pgTable('faqs', {
+  id: serial('id').primaryKey(),
+  question: text('question').notNull(),
+  answer: text('answer').notNull(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
+
+export const reviewsTable = pgTable('reviews', {
+  id: serial('id').primaryKey(),
+  authorName: varchar('author_name', { length: 100 }).notNull(),
+  location: varchar('location', { length: 100 }).notNull(),
+  quote: text('quote').notNull(),
+  avatarUrl: text('avatar_url'),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
+
+// Types for your CMS data
+export type Faq = typeof faqsTable.$inferSelect;
+export type NewFaq = typeof faqsTable.$inferInsert;
+export type Review = typeof reviewsTable.$inferSelect;
+export type NewReview = typeof reviewsTable.$inferInsert;
