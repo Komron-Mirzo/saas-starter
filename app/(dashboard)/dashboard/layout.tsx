@@ -30,7 +30,7 @@ export default function DashboardLayout({
         </div>
         <Button
           className="-mr-3"
-          variant="ghost"
+          variant="default"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         >
           <Menu className="h-6 w-6" />
@@ -51,7 +51,7 @@ export default function DashboardLayout({
             {navItems.map((item) => (
               <Link key={item.href} href={item.href} passHref>
                 <Button
-                  variant={pathname === item.href ? 'secondary' : 'ghost'}
+                  variant={pathname === item.href ? 'secondary' : 'default'}
                   className={`shadow-none my-1 w-full justify-start ${
                     pathname === item.href ? 'bg-gray-100' : ''
                   }`}
