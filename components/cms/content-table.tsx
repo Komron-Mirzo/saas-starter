@@ -12,12 +12,13 @@ interface Props {
   fields: FieldConfig[];
   titleField: string;
   subtitleField?: string;
+  imageField?: string;
   items: Record<string, any>[];
 }
 
 const PAGE_SIZE = 8;
 
-export function ContentTable({ type, label, singular, fields, titleField, subtitleField, items }: Props) {
+export function ContentTable({ type, label, singular, fields, titleField, subtitleField, imageField, items }: Props) {
   const [modal, setModal] = useState<{ mode: 'add' } | { mode: 'edit'; item: Record<string, any> } | null>(null);
   const [page, setPage] = useState(1);
 
@@ -67,24 +68,29 @@ export function ContentTable({ type, label, singular, fields, titleField, subtit
             )}
             {pageItems.map((item) => (
               <tr key={item.id} className="border-b last:border-0 hover:bg-gray-50">
-                <td className="px-4 py-3 font-medium text-gray-900 max-w-xs truncate">{item[titleField]}</td>
-                {subtitleField && (
-                  <td className="px-4 py-3 text-gray-500 max-w-sm truncate hidden md:table-cell">
-                    {item[subtitleField]}
-                  </td>
-                )}
-                <td className="px-4 py-3">
-                  <div className="flex justify-end gap-3">
-                    <button
-                      onClick={() => setModal({ mode: 'edit', item })}
-                      className="text-blue-600 text-xs hover:underline"
-                    >
-                      Edit
-                    </button>
-                    <DeleteButton type={type} id={item.id} label={singular} />
-                  </div>
-                </td>
-              </tr>
+                    <td className="px-4 py-3">
+                        <div className="flex items-center gap-3">
+                        {imageField && item[imageField] && (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={item[imageField]} alt="" className="w-8 h-8 rounded-full object-cover shrink-0" />
+                        )}
+                        <span className="font-medium text-gray-900 truncate">{item[titleField]}</span>
+                        </div>
+                    </td>
+                    {subtitleField && (
+                        <td className="px-4 py-3 text-gray-500 max-w-sm truncate hidden md:table-cell">
+                        {item[subtitleField]}
+                        </td>
+                    )}
+                    <td className="px-4 py-3">
+                        <div className="flex justify-end gap-3">
+                        <button onClick={() => setModal({ mode: 'edit', item })} className="text-blue-600 text-xs hover:underline">
+                            Edit
+                        </button>
+                        <DeleteButton type={type} id={item.id} label={singular} />
+                        </div>
+                    </td>
+                    </tr>
             ))}
           </tbody>
         </table>
@@ -126,6 +132,31 @@ export function ContentTable({ type, label, singular, fields, titleField, subtit
           onClose={() => setModal(null)}
         />
       )}
+    </div>
+  );
+}
+
+function ImageFieldInput({ field, existingUrl }: { field: FieldConfig; existingUrl?: string }) {
+  const [preview, setPreview] = useState<string | null>(existingUrl ?? null);
+
+  return (
+    <div className="space-y-2">
+      {preview && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={preview} alt="" className="w-20 h-20 object-cover rounded-md border" />
+      )}
+      <input
+        type="file"
+        name={field.key}
+        accept="image/*"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) setPreview(URL.createObjectURL(file));
+        }}
+        className="w-full mt-1 text-sm"
+      />
+      {/* carries the existing URL so the server action keeps it if no new file is picked */}
+      <input type="hidden" name={`${field.key}__existing`} value={existingUrl ?? ''} />
     </div>
   );
 }
@@ -176,25 +207,27 @@ function ItemModal({
         >
           {fields.map((field) => (
             <div key={field.key}>
-              <label className="block text-sm font-medium text-gray-700">{field.label}</label>
-              {field.type === 'textarea' ? (
+                <label className="block text-sm font-medium text-gray-700">{field.label}</label>
+                {field.type === 'textarea' ? (
                 <textarea
-                  name={field.key}
-                  defaultValue={item?.[field.key] ?? ''}
-                  required={field.required}
-                  rows={4}
-                  className="w-full mt-1 p-2 border rounded-md"
+                    name={field.key}
+                    defaultValue={item?.[field.key] ?? ''}
+                    required={field.required}
+                    rows={4}
+                    className="w-full mt-1 p-2 border rounded-md"
                 />
-              ) : (
+                ) : field.type === 'image' ? (
+                <ImageFieldInput field={field} existingUrl={item?.[field.key]} />
+                ) : (
                 <input
-                  name={field.key}
-                  defaultValue={item?.[field.key] ?? ''}
-                  required={field.required}
-                  className="w-full mt-1 p-2 border rounded-md"
+                    name={field.key}
+                    defaultValue={item?.[field.key] ?? ''}
+                    required={field.required}
+                    className="w-full mt-1 p-2 border rounded-md"
                 />
-              )}
+                )}
             </div>
-          ))}
+            ))}
 
           <div className="flex justify-end gap-2 pt-2">
             <button
@@ -213,3 +246,5 @@ function ItemModal({
     </div>
   );
 }
+
+

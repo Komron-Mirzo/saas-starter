@@ -1,7 +1,7 @@
 import { faqsTable, reviewsTable } from '@/lib/db/schema';
 import type { PgTable } from 'drizzle-orm/pg-core';
 
-export type FieldType = 'text' | 'textarea';
+export type FieldType = 'text' | 'textarea' | 'image';
 
 export interface FieldConfig {
   key: string;
@@ -17,7 +17,8 @@ export interface ContentTypeConfig {
   table: PgTable;
   fields: FieldConfig[];
   titleField: string;      // which field to show as the row title
-  subtitleField?: string;  // which field to show as the row subtitle
+  subtitleField?: string;
+  imageField?: string;  
 }
 
 export const contentTypes: Record<string, ContentTypeConfig> = {
@@ -44,6 +45,7 @@ export const contentTypes: Record<string, ContentTypeConfig> = {
       { key: 'authorName', label: 'Author Name', type: 'text', required: true },
       { key: 'location', label: 'Location', type: 'text', required: true },
       { key: 'quote', label: 'Quote', type: 'textarea', required: true },
+      { key: 'avatarUrl', label: 'Avatar Image', type: 'image' },
     ],
   },
 
