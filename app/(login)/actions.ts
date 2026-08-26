@@ -26,6 +26,13 @@ import {
   validatedActionWithUser
 } from '@/lib/auth/middleware';
 
+// Define admin emails
+const ADMIN_EMAILS = ['supermiya1990@gmail.com', 'connect@firstconnectapp.com'];
+
+function isAdmin(email: string): boolean {
+  return ADMIN_EMAILS.includes(email.toLowerCase());
+}
+
 async function logActivity(
   teamId: number | null | undefined,
   userId: number,
@@ -92,6 +99,13 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
   ]);
 
   const redirectTo = formData.get('redirect') as string | null;
+  
+  // Check if user is admin
+  if (isAdmin(foundUser.email)) {
+    // Redirect admins to /admin/content
+    redirect('/admin/content');
+  }
+  
   if (redirectTo === 'checkout') {
     const priceId = formData.get('priceId') as string;
     return createCheckoutSession({ team: foundTeam, priceId });
@@ -213,6 +227,13 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   ]);
 
   const redirectTo = formData.get('redirect') as string | null;
+  
+  // Check if user is admin
+  if (isAdmin(createdUser.email)) {
+    // Redirect admins to /admin/content after signup
+    redirect('/admin/content');
+  }
+  
   if (redirectTo === 'checkout') {
     const priceId = formData.get('priceId') as string;
     return createCheckoutSession({ team: createdTeam, priceId });

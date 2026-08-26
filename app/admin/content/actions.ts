@@ -7,11 +7,15 @@ import { getUser } from '@/lib/db/queries';
 import { getContentType, type FieldConfig } from '@/lib/cms/content-types';
 import { put } from '@vercel/blob';
 
-const ADMIN_EMAIL = 'supermiya1990@gmail.com';
+// Simple admin check
+function isAdmin(email: string | null | undefined): boolean {
+  return email === 'supermiya1990@gmail.com' || email === 'connect@firstconnectapp.com';
+}
 
 async function verifyAdmin() {
   const user = await getUser();
-  if (!user || user.email !== ADMIN_EMAIL) {
+  
+  if (!user || !isAdmin(user.email)) {
     throw new Error('Unauthorized');
   }
 }
@@ -24,13 +28,11 @@ async function extractValues(fields: FieldConfig[], formData: FormData) {
       const file = formData.get(field.key) as File | null;
 
       if (file && file.size > 0) {
-        // New file chosen — upload to Vercel Blob
         const blob = await put(`cms/${field.key}-${Date.now()}-${file.name}`, file, {
           access: 'public',
         });
         values[field.key] = blob.url;
       } else {
-        // No new file — keep whatever URL was already there (edit mode)
         const existing = formData.get(`${field.key}__existing`) as string | null;
         values[field.key] = existing || null;
       }
