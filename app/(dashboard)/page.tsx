@@ -1,3 +1,4 @@
+import FaqSection from '@/components/sections/home/FaqSection';
 import { Hero } from '@/components/sections/home/Hero';
 import { PricingSection } from '@/components/sections/home/PricingSection';
 import { StaticPink } from '@/components/sections/home/StaticPinkSection';
@@ -9,6 +10,7 @@ export default function HomePage() {
       <Hero />
       <PricingSection />
       <StaticPink />
+      <FaqSection />
 
     </main>
   );

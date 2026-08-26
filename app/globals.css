@@ -109,7 +109,7 @@
   font-size: clamp(44px, 4.5vw, 70px);
   line-height: 85%;
   letter-spacing: -0.02em;
-  text-transform: none;
+  text-transform: uppercase;
 }
 
 .text-h2-02 {
