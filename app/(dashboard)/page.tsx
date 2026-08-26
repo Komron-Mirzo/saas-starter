@@ -1,7 +1,9 @@
+import CustomContactSection from '@/components/sections/home/CustomContactSection';
 import FaqSection from '@/components/sections/home/FaqSection';
 import { Hero } from '@/components/sections/home/Hero';
 import { PricingSection } from '@/components/sections/home/PricingSection';
 import { StaticPink } from '@/components/sections/home/StaticPinkSection';
+import { sendContactEmail } from '@/app/(dashboard)/actions';
 
 export default function HomePage() {
   return (
@@ -11,6 +13,7 @@ export default function HomePage() {
       <PricingSection />
       <StaticPink />
       <FaqSection />
+      <CustomContactSection action={sendContactEmail} />
 
     </main>
   );

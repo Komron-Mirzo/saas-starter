@@ -3,8 +3,120 @@
 import { useState } from 'react';
 import { PricingCard } from './PricingCard';
 
+interface PricingData {
+  title: string;
+  price: string;
+  badge?: string;
+  features: string[];
+  imageSrc: string;
+  imageAlt: string;
+}
+
 export function PricingSection() {
   const [activeTab, setActiveTab] = useState<'trial' | 'notrial' | 'annual'>('trial');
+
+  // Pricing data for each tab
+  const pricingData: Record<'trial' | 'notrial' | 'annual', PricingData[]> = {
+    trial: [
+      {
+        title: "NUTRITION ONLY",
+        price: "€35/mo",
+        badge: "FREE 1ST WEEK",
+        imageSrc: "/images/pricing_01.png",
+        imageAlt: "Nutrition Plan Jar",
+        features: [
+          "E-Book, nutrition chapters, recipes,",
+          "community access"
+        ]
+      },
+      {
+        title: "FITNESS ONLY",
+        price: "€35/mo",
+        badge: "FREE 1ST WEEK",
+        imageSrc: "/images/pricing_02.png",
+        imageAlt: "Fitness Plan Kettlebell",
+        features: [
+          "E-Book, workout chapters, story content,",
+          "community access"
+        ]
+      },
+      {
+        title: "BOTH COMBINED",
+        price: "€40/mo",
+        badge: "FREE 1ST WEEK",
+        imageSrc: "/images/pricing_03.png",
+        imageAlt: "Combined Nutrition and Fitness Plan",
+        features: [
+          "E-Book with combined chapters, recipes & workouts, community access"
+        ]
+      }
+    ],
+    notrial: [
+      {
+        title: "NUTRITION ONLY",
+        price: "€30/mo",
+        imageSrc: "/images/pricing_01.png",
+        imageAlt: "Nutrition Plan Jar",
+        features: [
+          "48 chapters, deeper support,",
+          "bonus recipes, starter kit, community"
+        ]
+      },
+      {
+        title: "FITNESS ONLY",
+        price: "€30/mo",
+        imageSrc: "/images/pricing_02.png",
+        imageAlt: "Fitness Plan Kettlebell",
+        features: [
+          "48 chapters, progress tracking,",
+          "bonus workouts, starter kit, community"
+        ]
+      },
+      {
+        title: "BOTH COMBINED",
+        price: "€35/mo",
+        imageSrc: "/images/pricing_03.png",
+        imageAlt: "Combined Nutrition and Fitness Plan",
+        features: [
+          "Full coaching experience: comic + recipes + workouts + bonus challenges, community & worthy mascot support"
+        ]
+      }
+    ],
+    annual: [
+      {
+        title: "NUTRITION ONLY",
+        price: "€35/mo",
+        imageSrc: "/images/pricing_01.png",
+        imageAlt: "Nutrition Plan Jar",
+        features: [
+          "24 chapters, story with nutrition focus,",
+          "80s-style starter kit, community"
+        ]
+      },
+      {
+        title: "FITNESS ONLY",
+        price: "€35/mo",
+        imageSrc: "/images/pricing_02.png",
+        imageAlt: "Fitness Plan Kettlebell",
+        features: [
+          "24 chapters, training-focused story,",
+          "starter kit, community"
+        ]
+      },
+      {
+        title: "BOTH COMBINED",
+        price: "€40/mo",
+        imageSrc: "/images/pricing_03.png",
+        imageAlt: "Combined Nutrition and Fitness Plan",
+        features: [
+          "Full storyline with workouts & recipes,",
+          "starter kit, community access"
+        ]
+      }
+    ]
+  };
+
+  const currentPricing = pricingData[activeTab];
 
   return (
     <section className="w-full bg-[#2ECABE] py-20 px-6 lg:px-12 rounded-[48px] max-w-[1870px] mx-auto my-12 relative overflow-hidden">
@@ -55,47 +167,19 @@ export function PricingSection() {
           </button>
         </div>
 
-        {/* The 3 Core Pricing Cards */}
+        {/* The 3 Core Pricing Cards - No animations */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full items-stretch">
-          
-          {/* Card 1: Nutrition Only */}
-          <PricingCard
-            title="NUTRITION ONLY"
-            price="€35/mo"
-            badge="FREE 1ST WEEK"
-            imageSrc="/images/pricing_01.png"
-            imageAlt="Nutrition Plan Jar"
-            features={[
-              "E-Book, nutrition chapters, recipes,",
-              "community access"
-            ]}
-          />
-
-          {/* Card 2: Fitness Only */}
-          <PricingCard
-            title="FITNESS ONLY"
-            price="€35/mo"
-            badge="FREE 1ST WEEK"
-            imageSrc="/images/pricing_02.png"
-            imageAlt="Fitness Plan Kettlebell"
-            features={[
-              "E-Book, workout chapters, story content,",
-              "community access"
-            ]}
-          />
-
-          {/* Card 3: Both Combined */}
-          <PricingCard
-            title="BOTH COMBINED"
-            price="€40/mo"
-            badge="FREE 1ST WEEK"
-            imageSrc="/images/pricing_03.png"
-            imageAlt="Combined Nutrition and Fitness Plan"
-            features={[
-              "E-Book with combined chapters, recipes & workouts, community access"
-            ]}
-          />
-
+          {currentPricing.map((card, index) => (
+            <PricingCard
+              key={`${activeTab}-${index}`}
+              title={card.title}
+              price={card.price}
+              badge={card.badge}
+              imageSrc={card.imageSrc}
+              imageAlt={card.imageAlt}
+              features={card.features}
+            />
+          ))}
         </div>
 
       </div>
