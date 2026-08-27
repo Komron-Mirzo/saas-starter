@@ -19,14 +19,14 @@ export function ReviewCard({ review }: ReviewCardProps) {
     <div className="w-full bg-white rounded-[60px] flex flex-row overflow-hidden">
       
       {/* Left Part: 40% width, 15px padding, 40px border-radius */}
-      <div className="w-[40%] p-[15px] relative flex-shrink-0">
-        <div className="w-full h-full relative rounded-[40px] overflow-hidden bg-gray-100">
+      <div className="w-[40%] max-w-[280px] min-h-[373px] p-[15px] relative flex-shrink-0">
+        <div className="w-full h-full relative rounded-[45px] overflow-hidden bg-gray-100">
           {review.avatarUrl && (
             <Image
                 src={review.avatarUrl}
                 alt={review.authorName}
                 fill
-                sizes="(max-width: 768px) 100vw, 400px"
+                sizes="(max-width: 280px) 100vw, 280px"
                 className="object-cover"
                 />
           )}
@@ -50,7 +50,7 @@ export function ReviewCard({ review }: ReviewCardProps) {
           </div>
 
           {/* Body Text 16 class with 1b1b1b-80% opacity */}
-          <p className="text-[16px] leading-relaxed text-[#1b1b1b]/80 font-normal">
+          <p className="text-body-16 text-[#1b1b1b]/80">
             &ldquo;{review.quote}&rdquo;
           </p>
         </div>
@@ -60,7 +60,7 @@ export function ReviewCard({ review }: ReviewCardProps) {
           <h4 className="text-h4-02 text-[#1b1b1b] uppercase">
             {review.authorName}
           </h4>
-          <span className="text-caps-16 text-[#1b1b1b]/40 uppercase tracking-wider">
+          <span className="text-caps-16-smbld text-[#1b1b1b]/40 uppercase">
             {review.location}
           </span>
         </div>
