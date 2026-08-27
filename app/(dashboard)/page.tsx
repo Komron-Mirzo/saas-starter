@@ -5,6 +5,7 @@ import { PricingSection } from '@/components/sections/home/PricingSection';
 import { StaticPink } from '@/components/sections/home/StaticPinkSection';
 import { sendContactEmail } from '@/app/(dashboard)/actions';
 import TogetherSection from '@/components/sections/home/TogetherSection';
+import ReviewSection from '@/components/sections/home/ReviewSection';
 
 export default function HomePage() {
   return (
@@ -13,6 +14,7 @@ export default function HomePage() {
       <Hero />
       <PricingSection />
       <StaticPink />
+      <ReviewSection />
       <FaqSection />
       <CustomContactSection action={sendContactEmail} />
       <TogetherSection />
