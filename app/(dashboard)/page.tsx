@@ -8,6 +8,7 @@ import TogetherSection from '@/components/sections/home/TogetherSection';
 import ReviewSection from '@/components/sections/home/ReviewSection';
 import FeaturesSectionCarousel from '@/components/sections/home/FeaturesSectionCarousel';
 import BookReaderSection from '@/components/sections/home/BookReaderSection';
+import MagicScrollSection from '@/components/sections/home/MagicScrollSection';
 
 export default function HomePage() {
   return (
@@ -19,6 +20,7 @@ export default function HomePage() {
       <StaticPink />
       <ReviewSection />
       <BookReaderSection />
+      <MagicScrollSection />
       <FaqSection />
       <CustomContactSection action={sendContactEmail} />
       <TogetherSection />
