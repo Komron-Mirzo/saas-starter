@@ -6,9 +6,9 @@ import { StaticPink } from '@/components/sections/home/StaticPinkSection';
 import { sendContactEmail } from '@/app/(dashboard)/actions';
 import TogetherSection from '@/components/sections/home/TogetherSection';
 import ReviewSection from '@/components/sections/home/ReviewSection';
-import FeaturesSectionCarousel from '@/components/sections/home/FeaturesSectionCarousel';
 import BookReaderSection from '@/components/sections/home/BookReaderSection';
-import MagicScrollSection from '@/components/sections/home/MagicScrollSection';
+import FeaturesSectionCarousel from '@/components/sections/home/FeaturesSliderFunction';
+import CardStack from '@/components/sections/home/MagicScrollFunction';
 
 export default function HomePage() {
   return (
@@ -20,7 +20,7 @@ export default function HomePage() {
       <StaticPink />
       <ReviewSection />
       <BookReaderSection />
-      <MagicScrollSection />
+      <CardStack />
       <FaqSection />
       <CustomContactSection action={sendContactEmail} />
       <TogetherSection />

@@ -164,8 +164,34 @@ export const reviewsTable = pgTable('reviews', {
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });
 
+
+export const featuresTable = pgTable('features', {
+  id: serial('id').primaryKey(),
+  title: varchar('title', { length: 255 }).notNull(),
+  description: text('description').notNull(),
+  iconUrl: text('icon_url'),
+  imageUrl: text('image_url'),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
+
+export const howsTable = pgTable('hows', {
+  id: serial('id').primaryKey(),
+  numberText: varchar('number_text', { length: 20 }).notNull(), // e.g., "01", "02"
+  title: varchar('title', { length: 255 }).notNull(),
+  imageUrl: text('image_url'),
+  description: text('description').notNull(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
+
+
 // Types for your CMS data
 export type Faq = typeof faqsTable.$inferSelect;
 export type NewFaq = typeof faqsTable.$inferInsert;
 export type Review = typeof reviewsTable.$inferSelect;
 export type NewReview = typeof reviewsTable.$inferInsert;
+export type FeaturePost = typeof featuresTable.$inferSelect;
+export type NewFeaturePost = typeof featuresTable.$inferInsert;
+export type How = typeof howsTable.$inferSelect;
+export type NewHow = typeof howsTable.$inferInsert;

@@ -1,4 +1,4 @@
-import { faqsTable, reviewsTable } from '@/lib/db/schema';
+import { faqsTable, featuresTable, howsTable, reviewsTable } from '@/lib/db/schema';
 import type { PgTable } from 'drizzle-orm/pg-core';
 
 export type FieldType = 'text' | 'textarea' | 'image';
@@ -49,22 +49,39 @@ export const contentTypes: Record<string, ContentTypeConfig> = {
     ],
   },
 
-  // 👇 To add a new post type in future, just add an entry here.
-  // No new files, no new components. Example:
-  //
-  // posts: {
-  //   slug: 'posts',
-  //   label: 'Blog Posts',
-  //   singular: 'Post',
-  //   table: postsTable, // define this in schema.ts first
-  //   titleField: 'title',
-  //   subtitleField: 'excerpt',
-  //   fields: [
-  //     { key: 'title', label: 'Title', type: 'text', required: true },
-  //     { key: 'excerpt', label: 'Excerpt', type: 'textarea' },
-  //     { key: 'body', label: 'Body', type: 'textarea', required: true },
-  //   ],
-  // },
+  
+  features: {
+    slug: 'features',
+    label: 'Features',
+    singular: 'Feature',
+    table: featuresTable,
+    titleField: 'title',
+    subtitleField: 'description',
+    imageField: 'imageUrl',
+    fields: [
+      { key: 'title', label: 'Feature Title', type: 'text', required: true },
+      { key: 'iconUrl', label: 'Thumbnail Icon (SVG)', type: 'image', required: true },
+      { key: 'imageUrl', label: 'Featured Image', type: 'image', required: true },
+      { key: 'description', label: 'Content Text', type: 'textarea', required: true },
+    ],
+  },
+
+  hows: {
+    slug: 'hows',
+    label: 'How It Works',
+    singular: 'How Step',
+    table: howsTable,
+    titleField: 'title',
+    subtitleField: 'description',
+    imageField: 'imageUrl',
+    fields: [
+      { key: 'numberText', label: 'Step Number (e.g. 01)', type: 'text', required: true },
+      { key: 'title', label: 'Title', type: 'text', required: true },
+      { key: 'imageUrl', label: 'Featured Image', type: 'image', required: true },
+      { key: 'description', label: 'Content Text', type: 'textarea', required: true },
+    ],
+  },
+  
 };
 
 export function getContentType(slug: string) {

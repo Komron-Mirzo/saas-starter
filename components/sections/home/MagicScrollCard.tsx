@@ -21,7 +21,7 @@ export default function StackCard({ data, index, setRef }: StackCardProps) {
     <div
       ref={setRef}
       style={{ zIndex: index }}
-      className="absolute inset-0 flex overflow-hidden rounded-3xl bg-white shadow-xl"
+      className="absolute inset-0 flex overflow-hidden rounded-3xl bg-white shadow-xl max-h-[400px]"
     >
       <div className="flex w-1/2 flex-col justify-center gap-4 p-10">
         <h3 className="whitespace-pre-line text-3xl font-extrabold leading-tight">
