@@ -14,7 +14,7 @@ interface FeatureSliderCardProps {
 
 export function FeatureSliderCard({ feature }: FeatureSliderCardProps) {
   return (
-    <div className="w-full bg-white rounded-[75px] flex flex-col md:flex-row overflow-hidden shadow-xl h-[clamp(320px,22vw,422px)]">
+    <div className="w-full bg-white rounded-[75px] flex flex-col md:flex-row overflow-hidden h-[clamp(320px,22vw,422px)]">
       
       {/* Left Thumbnail/Illustration Part (approx 45% width) */}
       <div className="w-full md:w-[49%] p-[15px_0_15px_15px] relative flex items-center justify-center flex-shrink-0">
