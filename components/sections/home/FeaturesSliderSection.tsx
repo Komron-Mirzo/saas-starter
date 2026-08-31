@@ -162,7 +162,7 @@ export default function FeaturesClientCarousel({ features }: Props) {
             aria-label="Previous slide"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="30" fill="none" viewBox="0 0 19 30">
-              <path fill="#fff" fill-opacity=".7" d="m14.768 0 3.535 3.535L7.07 14.768 18.303 26l-3.535 3.535L0 14.768z"/>
+              <path fill="#fff" fillOpacity=".7" d="m14.768 0 3.535 3.535L7.07 14.768 18.303 26l-3.535 3.535L0 14.768z"/>
             </svg>
           </button>
 
@@ -189,7 +189,7 @@ export default function FeaturesClientCarousel({ features }: Props) {
             aria-label="Next slide"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="30" fill="none" viewBox="0 0 19 30">
-              <path fill="#fff" fill-opacity=".7" d="M3.537 0 .002 3.535l11.232 11.233L.002 26l3.535 3.535 14.768-14.767z"/>
+              <path fill="#fff" fillOpacity=".7" d="M3.537 0 .002 3.535l11.232 11.233L.002 26l3.535 3.535 14.768-14.767z"/>
             </svg>
           </button>
 
