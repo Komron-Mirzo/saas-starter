@@ -136,27 +136,107 @@ export function ContentTable({ type, label, singular, fields, titleField, subtit
   );
 }
 
-function ImageFieldInput({ field, existingUrl }: { field: FieldConfig; existingUrl?: string }) {
+function ImageFieldInput({ fieldKey, existingUrl, namePrefix }: { fieldKey: string; existingUrl?: string; namePrefix?: string }) {
   const [preview, setPreview] = useState<string | null>(existingUrl ?? null);
+  const inputName = namePrefix ? `${namePrefix}[${fieldKey}]` : fieldKey;
+  const existingName = namePrefix ? `${namePrefix}[${fieldKey}__existing]` : `${fieldKey}__existing`;
 
   return (
     <div className="space-y-2">
       {preview && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={preview} alt="" className="w-20 h-20 object-cover rounded-md border" />
+        <img src={preview} alt="" className="w-16 h-16 object-cover rounded-md border" />
       )}
       <input
         type="file"
-        name={field.key}
+        name={inputName}
         accept="image/*"
         onChange={(e) => {
           const file = e.target.files?.[0];
           if (file) setPreview(URL.createObjectURL(file));
         }}
-        className="w-full mt-1 text-sm"
+        className="w-full mt-1 text-xs"
       />
-      {/* carries the existing URL so the server action keeps it if no new file is picked */}
-      <input type="hidden" name={`${field.key}__existing`} value={existingUrl ?? ''} />
+      <input type="hidden" name={existingName} value={existingUrl ?? ''} />
+    </div>
+  );
+}
+
+function RepeaterFieldInput({ field, existingItems = [] }: { field: FieldConfig; existingItems?: Record<string, any>[] }) {
+  const [rows, setRows] = useState<Record<string, any>[]>(
+    existingItems.length > 0 ? existingItems : [{}]
+  );
+
+  const maxLimit = field.maxItems ?? 4;
+
+  const addRow = () => {
+    if (rows.length < maxLimit) {
+      setRows([...rows, {}]);
+    }
+  };
+
+  const removeRow = (index: number) => {
+    setRows(rows.filter((_, i) => i !== index));
+  };
+
+  return (
+    <div className="space-y-3 border p-3 rounded-lg bg-gray-50/50">
+      <div className="flex justify-between items-center">
+        <label className="text-xs font-bold uppercase tracking-wider text-gray-500">{field.label}</label>
+        <span className="text-xs text-gray-400">{rows.length} / {maxLimit} max</span>
+      </div>
+
+      <div className="space-y-3">
+        {rows.map((row, index) => (
+          <div key={index} className="flex gap-2 items-start bg-white p-3 border rounded-md shadow-sm relative">
+            <div className="flex-1 space-y-2">
+              {field.subFields?.map((sub) => {
+                const subFieldName = `${field.key}[${index}][${sub.key}]`;
+                if (sub.type === 'image') {
+                  return (
+                    <div key={sub.key}>
+                      <span className="text-[10px] text-gray-400 block">{sub.label}</span>
+                      <ImageFieldInput 
+                        fieldKey={sub.key} 
+                        existingUrl={row[sub.key]} 
+                        namePrefix={`${field.key}[${index}]`} 
+                      />
+                    </div>
+                  );
+                }
+                return (
+                  <div key={sub.key}>
+                    <span className="text-[10px] text-gray-400 block">{sub.label}</span>
+                    <input
+                      name={subFieldName}
+                      defaultValue={row[sub.key] ?? ''}
+                      placeholder={sub.label}
+                      className="w-full p-1.5 border rounded text-xs"
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            <button
+              type="button"
+              onClick={() => removeRow(index)}
+              className="text-red-500 hover:text-red-700 text-xs font-bold px-2 py-1 mt-1"
+            >
+              &times;
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {rows.length < maxLimit && (
+        <button
+          type="button"
+          onClick={addRow}
+          className="w-full py-1.5 bg-gray-100 hover:bg-gray-200 border rounded text-xs font-semibold text-gray-700 transition"
+        >
+          + Add Item
+        </button>
+      )}
     </div>
   );
 }
@@ -178,12 +258,12 @@ function ItemModal({
 }) {
   return (
     <div
-      className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4 overflow-y-auto"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white rounded-xl shadow-xl w-full max-w-lg p-6 space-y-4"
+        className="bg-white rounded-xl shadow-xl w-full max-w-lg p-6 space-y-4 my-8 max-h-[90vh] overflow-y-auto"
       >
         <div className="flex justify-between items-center">
           <h3 className="text-lg font-semibold">
@@ -205,29 +285,39 @@ function ItemModal({
           }}
           className="space-y-4"
         >
-          {fields.map((field) => (
-            <div key={field.key}>
+          {fields.map((field) => {
+            if (field.type === 'repeater') {
+              return (
+                <div key={field.key}>
+                  <RepeaterFieldInput field={field} existingItems={item?.[field.key]} />
+                </div>
+              );
+            }
+
+            return (
+              <div key={field.key}>
                 <label className="block text-sm font-medium text-gray-700">{field.label}</label>
                 {field.type === 'textarea' ? (
-                <textarea
+                  <textarea
                     name={field.key}
                     defaultValue={item?.[field.key] ?? ''}
                     required={field.required}
                     rows={4}
                     className="w-full mt-1 p-2 border rounded-md"
-                />
+                  />
                 ) : field.type === 'image' ? (
-                <ImageFieldInput field={field} existingUrl={item?.[field.key]} />
+                  <ImageFieldInput fieldKey={field.key} existingUrl={item?.[field.key]} />
                 ) : (
-                <input
+                  <input
                     name={field.key}
                     defaultValue={item?.[field.key] ?? ''}
                     required={field.required}
                     className="w-full mt-1 p-2 border rounded-md"
-                />
+                  />
                 )}
-            </div>
-            ))}
+              </div>
+            );
+          })}
 
           <div className="flex justify-end gap-2 pt-2">
             <button
@@ -246,5 +336,3 @@ function ItemModal({
     </div>
   );
 }
-
-

@@ -9,6 +9,7 @@ import ReviewSection from '@/components/sections/home/ReviewSection';
 import BookReaderSection from '@/components/sections/home/BookReaderSection';
 import FeaturesSectionCarousel from '@/components/sections/home/FeaturesSliderFunction';
 import CardStack from '@/components/sections/home/MagicScrollFunction';
+import MagicCardTopSection from '@/components/sections/home/MagicScrollTopSection';
 
 export default function HomePage() {
   return (
@@ -20,6 +21,7 @@ export default function HomePage() {
       <StaticPink />
       <ReviewSection />
       <BookReaderSection />
+      <MagicCardTopSection />
       <CardStack />
       <FaqSection />
       <CustomContactSection action={sendContactEmail} />

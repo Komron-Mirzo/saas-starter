@@ -195,3 +195,51 @@ export type FeaturePost = typeof featuresTable.$inferSelect;
 export type NewFeaturePost = typeof featuresTable.$inferInsert;
 export type How = typeof howsTable.$inferSelect;
 export type NewHow = typeof howsTable.$inferInsert;
+
+// ==========================================
+// STORY SLIDER TABLES (Vertical Slider Section)
+// ==========================================
+
+export const storySlidersTable = pgTable('story_sliders', {
+  id: serial('id').primaryKey(),
+  categoryText: varchar('category_text', { length: 50 }).notNull(), // e.g., "Fantasy", "Retro"
+  title: varchar('title', { length: 255 }).notNull(),
+  contentText: text('content_text').notNull(),
+  toneText: varchar('tone_text', { length: 255 }).notNull(),
+  goalText: text('goal_text').notNull(),
+  backgroundImageUrl: text('background_image_url').notNull(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
+
+export const storySliderGainsTable = pgTable('story_slider_gains', {
+  id: serial('id').primaryKey(),
+  storySliderId: integer('story_slider_id')
+    .notNull()
+    .references(() => storySlidersTable.id, { onDelete: 'cascade' }),
+  iconUrl: text('icon_url').notNull(),
+  text: varchar('text', { length: 255 }).notNull(),
+  sortOrder: integer('sort_order').notNull().default(0),
+});
+
+// Drizzle Relations
+export const storySlidersRelations = relations(storySlidersTable, ({ many }) => ({
+  gains: many(storySliderGainsTable),
+}));
+
+export const storySliderGainsRelations = relations(storySliderGainsTable, ({ one }) => ({
+  slider: one(storySlidersTable, {
+    fields: [storySliderGainsTable.storySliderId],
+    references: [storySlidersTable.id],
+  }),
+}));
+
+// Export Types
+export type StorySlider = typeof storySlidersTable.$inferSelect;
+export type NewStorySlider = typeof storySlidersTable.$inferInsert;
+export type StorySliderGain = typeof storySliderGainsTable.$inferSelect;
+export type NewStorySliderGain = typeof storySliderGainsTable.$inferInsert;
+
+export type StorySliderWithGains = StorySlider & {
+  gains: StorySliderGain[];
+};
