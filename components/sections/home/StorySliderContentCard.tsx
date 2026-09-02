@@ -2,6 +2,8 @@
 
 import Image from 'next/image';
 import type { StorySliderWithGains } from '@/lib/db/schema';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 interface StorySliderContentCardProps {
   slide: StorySliderWithGains;
@@ -182,19 +184,11 @@ export default function StorySliderContentCard({ slide }: StorySliderContentCard
 
           {/* CTA Button */}
           <div className="mt-auto">
-            <button
-              className="bg-[#00BFA5] text-white font-bold uppercase tracking-widest"
-              style={{
-                borderRadius: '9999px',
-                padding: '14px 28px',
-                fontSize: '13px',
-                letterSpacing: '0.1em',
-                cursor: 'pointer',
-                border: 'none',
-              }}
-            >
-              Start Your Story
-            </button>
+            <Button asChild variant="secondary">
+              <Link href="/">
+                START YOUR FREE TRIAL
+              </Link>
+            </Button>
           </div>
         </div>
 

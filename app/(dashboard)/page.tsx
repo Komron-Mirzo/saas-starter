@@ -11,12 +11,14 @@ import FeaturesSectionCarousel from '@/components/sections/home/FeaturesSliderFu
 import CardStack from '@/components/sections/home/MagicScrollFunction';
 import MagicCardTopSection from '@/components/sections/home/MagicScrollTopSection';
 import StorySliderSectionServer from '@/components/sections/home/StorySliderSectionServer';
+import WorthfitScrollSection from '@/components/sections/home/WorthfitScrollSection';
 
 export default function HomePage() {
   return (
     <main className="min-h-screen flex flex-col bg-[#F8F9FA]">
       {/* Custom Hero Section based on your Figma design */}
       <Hero />
+      <WorthfitScrollSection />
       <FeaturesSectionCarousel />
       <PricingSection />
       <StorySliderSectionServer />

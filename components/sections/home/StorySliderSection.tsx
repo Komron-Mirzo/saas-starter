@@ -34,7 +34,7 @@ export default function StorySliderSection({ slides }: StorySliderSectionProps) 
   return (
     <section
       className="relative w-full"
-      style={{ margin: '25px' }}
+      style={{ padding: '25px' }}
       aria-label="Story Sliders"
     >
 
@@ -42,14 +42,14 @@ export default function StorySliderSection({ slides }: StorySliderSectionProps) 
       <div
         className="overflow-hidden"
         ref={emblaRef}
-        style={{ borderRadius: '120px', height: '850px' }}
+        style={{ borderRadius: '120px', height: '830px' }}
       >
         <div className="flex flex-col h-full">
           {slides.map((slide) => (
             <div
               key={slide.id}
               className="flex-none"
-              style={{ height: '717px', minHeight: '850px' }}
+              style={{ height: '850px' }}
             >
               <VerticalSliderContentCard slide={slide} />
             </div>
