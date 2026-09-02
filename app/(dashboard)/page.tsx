@@ -10,6 +10,7 @@ import BookReaderSection from '@/components/sections/home/BookReaderSection';
 import FeaturesSectionCarousel from '@/components/sections/home/FeaturesSliderFunction';
 import CardStack from '@/components/sections/home/MagicScrollFunction';
 import MagicCardTopSection from '@/components/sections/home/MagicScrollTopSection';
+import StorySliderSectionServer from '@/components/sections/home/StorySliderSectionServer';
 
 export default function HomePage() {
   return (
@@ -18,6 +19,7 @@ export default function HomePage() {
       <Hero />
       <FeaturesSectionCarousel />
       <PricingSection />
+      <StorySliderSectionServer />
       <StaticPink />
       <ReviewSection />
       <BookReaderSection />
