@@ -12,6 +12,7 @@ import CardStack from '@/components/sections/home/MagicScrollFunction';
 import MagicCardTopSection from '@/components/sections/home/MagicScrollTopSection';
 import WorthfitScrollSection from '@/components/sections/home/WorthfitScrollSection';
 import StorySliderAnimatedSectionServer from '@/components/sections/home/StorySliderAnimatedSectionServer';
+import PassionScrollSection from '@/components/sections/home/PassionScrollSection';
 
 export default function HomePage() {
   return (
@@ -22,6 +23,7 @@ export default function HomePage() {
       <FeaturesSectionCarousel />
       <PricingSection />
       <StorySliderAnimatedSectionServer />
+      <PassionScrollSection />
       <StaticPink />
       <ReviewSection />
       <BookReaderSection />

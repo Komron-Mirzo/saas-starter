@@ -254,7 +254,7 @@ export default function StorySliderAnimatedSection({ slides }: Props) {
                         }}
                     >
                         <div
-                            className="relative w-full"
+                            className="relative w-full h-full"
                   
                             aria-label="Story Sliders"
                         >
@@ -262,14 +262,14 @@ export default function StorySliderAnimatedSection({ slides }: Props) {
                             <div
                                 className="overflow-hidden"
                                 ref={emblaRef}
-                                style={{ borderRadius: '120px', height: '830px' }}
+                                style={{ borderRadius: '120px', minHeight: '830px', height: '100%' }}
                             >
                                 <div className="flex flex-col h-full">
                                     {slides.map((slide) => (
                                         <div
                                             key={slide.id}
-                                            className="flex-none"
-                                            style={{ height: '850px' }}
+                                            className="flex-none min-h-[830px]"
+                                            style={{ minHeight: '830px', height: '100%' }}
                                         >
                                             <StorySliderContentCard slide={slide} />
                                         </div>
