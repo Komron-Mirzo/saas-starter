@@ -8,12 +8,13 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-/**
- * Total scroll length the section consumes while pinned.
- * Section height = 100vh (pinned viewport) + this value.
- * Increase to slow the animation down, decrease to speed it up.
- */
-const SCROLL_VH = 400;
+const SCROLL_ANIMATION_VH = 400;
+const SCROLL_HOLD_VH = 200;
+const SCROLL_VH = SCROLL_ANIMATION_VH + SCROLL_HOLD_VH;
+
+const TIMELINE_ANIMATION_UNITS = 10.5;
+const HOLD_UNITS =
+  TIMELINE_ANIMATION_UNITS * (SCROLL_HOLD_VH / SCROLL_ANIMATION_VH);
 
 export default function WorthfitScrollSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -25,25 +26,11 @@ export default function WorthfitScrollSection() {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // ---- initial state ----
       gsap.set(girl01Ref.current, { opacity: 1 });
       gsap.set(girl02Ref.current, { opacity: 0 });
       gsap.set(bubbleRef.current, { opacity: 0, scale: 0 });
       gsap.set(leftWrapRef.current, { yPercent: 0 });
 
-      // Timeline runs on an arbitrary 0–12 scale, scrubbed 1:1 with scroll
-      // progress across SCROLL_VH. Transitions are given a MUCH bigger
-      // share of the timeline than the holds, and use ease:"none" so the
-      // motion is directly tied to scroll position (no easing-induced
-      // "snap" once you're mid-scroll) — only the hold pauses give you a
-      // moment to read before the next transition begins.
-      //
-      // 0.0 – 0.5   hold  A-1
-      // 0.5 – 3.5   move  A-1 -> A-2   (3 units — slow, continuous)
-      // 3.5 – 4.5   hold  A-2
-      // 4.5 – 7.5   move  A-2 -> A-3   (3 units — slow, continuous)
-      // 7.5 – 8.5   hold  A-3
-      // 8.5 – 10.5  bubble scales in / steffy crossfades
       const tl = gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: {
@@ -54,7 +41,6 @@ export default function WorthfitScrollSection() {
           pin: pinRef.current,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          // markers: true, // uncomment while tuning
         },
       });
 
@@ -76,6 +62,8 @@ export default function WorthfitScrollSection() {
       )
         .to(girl01Ref.current, { opacity: 0, duration: 2, ease: "sine.inOut" }, 8.5)
         .to(girl02Ref.current, { opacity: 1, duration: 2, ease: "sine.inOut" }, 8.5);
+
+      tl.to({}, { duration: HOLD_UNITS }, TIMELINE_ANIMATION_UNITS);
     }, sectionRef);
 
     return () => ctx.revert();
@@ -91,14 +79,21 @@ export default function WorthfitScrollSection() {
         ref={pinRef}
         className="absolute inset-0 h-screen w-full overflow-hidden"
       >
-        <div className="mx-auto flex h-full w-full max-w-[1560px] items-center justify-between px-6 md:px-10 lg:px-16">
+        {/* ---------------- background curve shape ---------------- */}
+        {/* Pinned to the right edge of the screen, taking up ~45% width and full height */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 right-0 z-0 w-[46.7vw] overflow-hidden"
+          style={{
+            backgroundImage: "url(/images/steffy-section-bg.svg)",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "left center",
+            backgroundSize: "auto 100%",
+          }}
+        />
+
+        <div className="relative z-10 mx-auto flex h-full w-full max-w-[1650px] items-center justify-between px-[45px] md:px-10 lg:px-16">
           {/* ---------------- A) LEFT: scrolling text stack ---------------- */}
-          {/* Outer clip box stays a normal 1x-screen box; the track inside
-              it is forced to exactly 3x that height (300%) with each panel
-              at exactly 1/3 (33.3333%). That makes the track's own bounding
-              box 3 sections tall, so yPercent -33.333 / -66.666 move it by
-              exactly one full section each time instead of a fraction of
-              one screen. */}
           <div className="relative h-full w-full max-w-[717px] overflow-hidden">
             <div ref={leftWrapRef} className="h-[300%] w-full">
               {/* A-1 */}
@@ -144,8 +139,8 @@ export default function WorthfitScrollSection() {
           </div>
 
           {/* ---------------- B) RIGHT: fixed graphic ---------------- */}
-          <div className="pointer-events-none relative flex h-full flex-1 items-center justify-center">
-            <div className="relative w-[clamp(320px,40vw,629px)]">
+          <div className="pointer-events-none relative flex h-full flex-1 items-center justify-end">
+           <div className="relative max-w-[629px] w-[32.7vw]">
               <img
                 ref={girl01Ref}
                 src="/images/steffy-girl-01.svg"
@@ -161,11 +156,10 @@ export default function WorthfitScrollSection() {
                 draggable={false}
               />
 
-              {/* Speech bubble — position tuned relative to her head/mouth.
-                  Adjust top/right % to match the exact art. */}
+              {/* Speech bubble */}
               <div
                 ref={bubbleRef}
-                className="absolute right-[4%] top-[2%] w-[clamp(140px,18vw,257px)] origin-bottom-left"
+                className="absolute left-[0%] top-[0] w-[clamp(140px,18vw,257px)] origin-bottom-left"
               >
                 <img
                   src="/images/steffy-bubble-speech.svg"
