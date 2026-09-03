@@ -32,7 +32,6 @@ export default function HomePage() {
       <FaqSection />
       <CustomContactSection action={sendContactEmail} />
       <TogetherSection />
-
     </main>
   );
 }
