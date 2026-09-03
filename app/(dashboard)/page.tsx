@@ -16,7 +16,7 @@ import PassionScrollSection from '@/components/sections/home/PassionScrollSectio
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen flex flex-col bg-[#F8F9FA]">
+    <main className="min-h-screen flex flex-col bg-[#f3f3f3]">
       {/* Custom Hero Section based on your Figma design */}
       <Hero />
       <WorthfitScrollSection />

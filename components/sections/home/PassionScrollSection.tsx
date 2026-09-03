@@ -143,41 +143,41 @@ export default function PassionScrollSection() {
   }, []);
 
   return (
-    <div ref={rootRef} className="relative w-full bg-[#F0EFED]">
+    <div ref={rootRef} className="relative w-full bg-[#f3f3f3]">
       {/* ------------------------------------------------------------------ */}
       {/* I) Static top part — outside the scroll animation                  */}
       {/* ------------------------------------------------------------------ */}
-      <div className="flex flex-col items-center gap-[25px] px-4 pb-16 pt-20 text-center max-w-[1870px]">
+      <div className="flex flex-col items-center justify-center gap-[25px] px-4 pb-16 pt-20 text-center max-w-[1870px] m-auto">
         <span className="text-caps-14-smbld rounded-full bg-white px-[12px] py-[4px]">
           ABOUT STEFFI
         </span>
         <img
           src="/images/passion-top-heading.svg"
           alt="From passion to power"
-          className="w-full"
+          className="w-full z-1"
         />
       </div>
 
-      {/* ------------------------------------------------------------------ */}
+   {/* ------------------------------------------------------------------ */}
       {/* II) Pinned, scroll-scrubbed stage                                  */}
       {/* ------------------------------------------------------------------ */}
-      <div ref={pinRef} className="relative h-screen w-full overflow-hidden">
+      <div ref={pinRef} className="relative h-screen w-full  flex items-center justify-center">
         <div
           ref={stageRef}
-          className="relative mx-auto h-full w-full "
+          className="relative mx-auto w-full max-w-[1650px] h-full max-h-[885px] "
         >
           {/* II-A: background dot pattern */}
           <img
             ref={bgDotRef}
             src="/images/passion-bg-dot.svg"
             alt=""
-            className="absolute left-1/2 top-1/2 w-full max-w-[1257px]"
+            className="absolute left-1/2 top-1/2 w-full max-w-[1257px] !z-0"
           />
 
           {/* II-C: teal circle behind Steffy */}
           <div
             ref={circleRef}
-            className="absolute left-1/2 top-1/2 h-[684px] w-[684px] rounded-full bg-[#30D5C8]"
+            className="absolute left-1/2 top-1/2 h-[846px] w-[846px] rounded-full bg-[#30D5C8]"
           />
 
           {/* II-B: Steffy — stays centered & fixed until the closing sequence */}
@@ -193,7 +193,7 @@ export default function PassionScrollSection() {
             ref={bubble1Ref}
             src="/images/passion-bubble-01.svg"
             alt=""
-            className="absolute right-[255px] top-[74px] w-full max-w-[581px]"
+            className="absolute right-[120px] top-[54px] w-full max-w-[581px]"
           />
 
           {/* II-E: bubble 02 — top left */}
@@ -201,7 +201,7 @@ export default function PassionScrollSection() {
             ref={bubble2Ref}
             src="/images/passion-bubble-02.svg"
             alt=""
-            className="absolute left-[180px] top-[131px] w-full max-w-[491px]"
+            className="absolute left-[50px] top-[131px] w-full max-w-[491px]"
           />
 
           {/* II-F: bubble 03 — bottom left */}
@@ -209,7 +209,7 @@ export default function PassionScrollSection() {
             ref={bubble3Ref}
             src="/images/passion-bubble-03.svg"
             alt=""
-            className="absolute bottom-[132px] left-[349px] w-full max-w-[472px]"
+            className="absolute bottom-[110px] left-[210px] w-full max-w-[472px] z-10"
           />
 
           {/* II-H: bubble 04 — top left, larger */}
@@ -217,7 +217,7 @@ export default function PassionScrollSection() {
             ref={bubble4Ref}
             src="/images/passion-bubble-04.svg"
             alt=""
-            className="absolute left-[180px] top-[132px] w-full max-w-[721px]"
+            className="absolute left-[50px] top-[132px] w-full max-w-[721px]"
           />
 
           {/* II-J: bubble 05 — right */}
@@ -225,13 +225,13 @@ export default function PassionScrollSection() {
             ref={bubble5Ref}
             src="/images/passion-bubble-05.svg"
             alt=""
-            className="absolute right-[180px] top-[233px] z-10 w-full max-w-[500px]"
+            className="absolute right-[130px] top-[233px] z-10 w-full max-w-[500px] z-10"
           />
 
           {/* II-I: certificates — travel bottom -> top, then exit */}
           <div
             ref={certWrapRef}
-            className="absolute left-1/2 top-1/2 flex w-[510px] flex-col gap-[87px]"
+            className="absolute -right-[200px] op-1/2 flex w-[581px] flex-col gap-[87px]"
           >
             <img
               src="/images/passion-certificate-01.svg"
@@ -261,8 +261,8 @@ export default function PassionScrollSection() {
           */}
           <div
             ref={halfCircleRef}
-            className="pointer-events-none absolute left-1/2 aspect-square w-[140%] rounded-full bg-[#FF7DA8]"
-            style={{ bottom: "-70%" }}
+            className="pointer-events-none absolute left-1/2 aspect-square w-[140%] rounded-full bg-[#FF7DA8] z-0"
+            style={{ bottom: "-100%" }}
           />
           
         </div>
