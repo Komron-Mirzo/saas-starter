@@ -12,7 +12,7 @@ if (typeof window !== 'undefined') {
 
 export function Container({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`max-w-[1870px] mx-auto px-8 w-full ${className}`}>
+    <div className={`max-w-[1870px] mx-auto px-[20px] lg:px-[45px] w-full ${className}`}>
       {children}
     </div>
   );
@@ -153,13 +153,7 @@ export default function TogetherSection() {
 
             <div
               ref={bubbleRef}
-              className="absolute z-10 pointer-events-none will-change-transform"
-              style={{
-                width: '262px',
-                height: '262px',
-                right: '155px',
-                top: '-112px',
-              }}
+              className="absolute z-10 pointer-events-none will-change-transform w-[158px] h-[158px] lg:w-[262px] lg:h-[262px] right-[5%] lg:right-[8.2%] -top-[100px] lg:-top-[175px]"
             >
               <Image
                 src="/icons/bubble-together.svg"
@@ -169,6 +163,7 @@ export default function TogetherSection() {
                 className="w-full h-full object-contain"
               />
             </div>
+
           </div>
 
           <div ref={buttonRef} className="mt-[80px] will-change-transform">

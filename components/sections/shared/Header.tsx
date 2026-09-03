@@ -89,7 +89,7 @@ export function Header() {
   return (
     <header className="border-b border-border bg-[#F3F3F3] relative">
       {/* Responsive grid: 2 columns on mobile/tablet, switching to 3 columns on desktop */}
-      <div className="max-w-[1870px] mx-auto px-[20px] lg:px-[45px] py-[20px] grid grid-cols-[auto_1fr] min-[1201px]:grid-cols-[auto_1fr_auto] items-center gap-6">        
+      <div className="max-w-[1870px] mx-auto px-[20px] lg:px-[45px] py-[10px] lg:py-[20px]  grid grid-cols-[auto_1fr] min-[1201px]:grid-cols-[auto_1fr_auto] items-center gap-6">        
         {/* Left: Brand Logo */}
         <Link href="/" className="flex items-center shrink-0 max-md:w-[121px]">
           <img 
@@ -134,7 +134,7 @@ export function Header() {
 
       {/* Fullscreen Mobile & Tablet Navigation Overlay with Slide-Down Animation and Scroll Lock */}
      <div 
-        className={`fixed inset-0 z-50 bg-[#F3F3F3] flex flex-col px-[20px] lg:px-[45px] py-[20px] overflow-hidden transition-all duration-300 ease-in-out transform ${
+        className={`fixed inset-0 z-50 bg-[#F3F3F3] flex flex-col px-[20px] lg:px-[45px] py-[10px] lg:py-[20px] overflow-hidden transition-all duration-300 ease-in-out transform ${
           mobileMenuOpen 
             ? 'opacity-100 pointer-events-auto translate-y-0' 
             : 'opacity-0 pointer-events-none -translate-y-full'
