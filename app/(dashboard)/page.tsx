@@ -21,13 +21,13 @@ export default function HomePage() {
       <Hero />
       <WorthfitScrollSection />
       <FeaturesSectionCarousel />
+      <MagicCardTopSection />
+      <CardStack />
       <PricingSection />
       <StorySliderAnimatedSectionServer />
       <PassionScrollSection />
       <StaticPink />
       <ReviewSection />
-      <MagicCardTopSection />
-      <CardStack />
       <BookReaderSection />
       <FaqSection />
       <CustomContactSection action={sendContactEmail} />

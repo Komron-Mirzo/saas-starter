@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 
 export function StaticPink() {
   return (
-    <section className="bg-primary w-full h-[100vh] max-h-[900px] px-6 flex flex-col items-center justify-center text-center overflow-hidden z-1">
+    <section className="bg-primary px-[20px] lg:px-[45px] w-full h-[100vh] max-h-[900px] px-6 flex flex-col items-center justify-center text-center overflow-hidden z-1">
       <div className="max-w-[1298px] w-full mx-auto flex flex-col items-center justify-center">
         
         {/* First Text: Caps 18 */}

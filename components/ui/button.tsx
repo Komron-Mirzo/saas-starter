@@ -21,7 +21,7 @@ const buttonVariants = cva(
         outline: "bg-background text-[#1A1A1A] border border-[#1A1A1A] hover:bg-[#DEDEDE]",
       },
       size: {
-        default: "px-8 py-4 h-[65px] rounded-full",
+        default: "px-8 py-4 h-[60px] md:h-[65px] rounded-full",
         sm: "px-6 py-2 h-10 text-xs rounded-full",
         lg: "px-10 py-5 h-20 text-lg rounded-full",
         pill: "px-6 py-3 h-auto rounded-full text-sm font-semibold not-italic",

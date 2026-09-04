@@ -18,8 +18,8 @@ export default async function ReviewSection() {
   const reviews = await db.select().from(reviewsTable);
 
   return (
-    <section className="relative w-full py-[260px] overflow-hidden">
-      <Container className="flex flex-col items-center text-center">
+    <section className="relative w-full py-[140px] lg:py-[260px] overflow-hidden">
+      <Container className="flex flex-col items-center px-[20px] lg:px-[45px] text-center">
         <div className="text-caps-16-smbld px-[12px] py-[4px] rounded-full text-[#1b1b1b] mb-[25px] bg-white">
           COMMUNITY
         </div>

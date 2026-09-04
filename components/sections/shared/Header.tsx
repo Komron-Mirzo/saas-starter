@@ -87,7 +87,7 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="border-b border-border bg-[#F3F3F3] relative">
+    <header className="bg-[#F3F3F3] relative">
       {/* Responsive grid: 2 columns on mobile/tablet, switching to 3 columns on desktop */}
       <div className="max-w-[1870px] mx-auto px-[20px] lg:px-[45px] py-[10px] lg:py-[20px]  grid grid-cols-[auto_1fr] min-[1201px]:grid-cols-[auto_1fr_auto] items-center gap-6">        
         {/* Left: Brand Logo */}
