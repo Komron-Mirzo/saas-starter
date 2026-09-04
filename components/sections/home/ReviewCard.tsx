@@ -19,7 +19,7 @@ export function ReviewCard({ review }: ReviewCardProps) {
     <div className="w-full bg-white rounded-[60px] flex flex-row overflow-hidden">
       
       {/* Left Part: 40% width, 15px padding, 40px border-radius */}
-      <div className="w-[40%] max-w-[280px] min-h-[373px] p-[15px] relative flex-shrink-0">
+      <div className="w-[40%] max-w-[280px] min-h-[403px] p-[15px] relative flex-shrink-0">
         <div className="w-full h-full relative rounded-[45px] overflow-hidden bg-gray-100">
           {review.avatarUrl && (
             <Image

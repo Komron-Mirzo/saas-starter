@@ -25,11 +25,10 @@ export default function ReviewsSlider({ reviews }: ReviewsSliderProps) {
       <div className="flex -mr-[15px]">
         {extendedReviews.map((review, index) => (
           <div 
-            key={`${review.id}-${index}`} 
-            /* Exact 773px width with outer right margin for spacing */
-            className="flex-[0_0_100%] md:flex-[0_0_773px] min-w-0 mr-[15px]"
-          >
-            <ReviewCard review={review} />
+              key={`${review.id}-${index}`} 
+              className="flex-[0_0_300px] min-[361px]:flex-[0_0_344px] md:flex-[0_0_460px] lg:flex-[0_0_773px] min-w-0 mr-[15px]"
+            >
+              <ReviewCard review={review} />
           </div>
         ))}
       </div>

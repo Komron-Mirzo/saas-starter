@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 export function Container({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`max-w-[1870px] mx-auto px-8 w-full ${className}`}>
+    <div className={`max-w-[1870px] mx-auto w-full ${className}`}>
       {children}
     </div>
   );

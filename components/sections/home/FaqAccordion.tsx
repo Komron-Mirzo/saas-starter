@@ -42,7 +42,7 @@ export default function FaqAccordion({ faqs }: FaqAccordionProps) {
 
         {/* Desktop Button (Visible only on LG screens and above) */}
         <div className="hidden lg:block">
-           <Button asChild variant="default">
+           <Button asChild variant="default" className="w-[291px]">
               <Link href="/">START YOUR FREE TRIAL</Link>
             </Button>
         </div>
@@ -131,7 +131,7 @@ export default function FaqAccordion({ faqs }: FaqAccordionProps) {
 
         {/* Mobile Button (Visible only on screens below LG) */}
         <div className="block lg:hidden mt-[20px]">
-           <Button asChild variant="default" className="w-full">
+           <Button asChild variant="default" className="w-[344px]">
               <Link href="/">START YOUR FREE TRIAL</Link>
             </Button>
         </div>
