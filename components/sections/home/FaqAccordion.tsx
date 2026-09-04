@@ -131,7 +131,7 @@ export default function FaqAccordion({ faqs }: FaqAccordionProps) {
 
         {/* Mobile Button (Visible only on screens below LG) */}
         <div className="block lg:hidden mt-[20px]">
-           <Button asChild variant="default" className="w-[344px]">
+           <Button asChild variant="default" className="w-full max-w-[344px]">
               <Link href="/">START YOUR FREE TRIAL</Link>
             </Button>
         </div>
