@@ -172,7 +172,7 @@ export default function FeaturesClientCarousel({ features }: Props) {
               {features.map((feature) => (
                 <div 
                   key={feature.id} 
-                  className="flex-[0_0_85%] md:flex-[0_0_clamp(500px,53.9vw,1035px)] pl-4 min-w-0 transition-all"
+                  className="flex-[0_0_95%] md:flex-[0_0_clamp(500px,53.9vw,1035px)] pl-4 min-w-0 transition-all"
                 >
                   <div className="embla-tween-target will-change-transform">
                     <FeatureSliderCard feature={feature} />
