@@ -65,11 +65,11 @@ export default function CustomContactSection({ action }: CustomContactSectionPro
 
   return (
     <>
-      <section className="w-full py-24 px-6 md:px-12 bg-[#1b1b1b] flex justify-center items-center relative">
+      <section className="w-full py-[140px] lg:py-[260px] px-[20px] lg:px-[45px] bg-[#1b1b1b] flex justify-center items-center relative">
         <div className="w-full max-w-[1560px] flex flex-col lg:flex-row justify-between items-start gap-16">
           
           {/* Left Side: Max Width 641px */}
-          <div className="w-full lg:max-w-[641px] flex flex-col">
+          <div className="w-[100%] lg:50% lg:max-w-[641px] flex flex-col">
             <h2 className="text-h1-02 text-white italic">
               NEED MORE CLARITY BEFORE YOU GLOW?
             </h2>
@@ -79,7 +79,7 @@ export default function CustomContactSection({ action }: CustomContactSectionPro
           </div>
 
           {/* Right Side: Max Width 50% */}
-          <div className="w-full lg:w-1/2">
+          <div className="w-[100%] lg:50%">
             <form onSubmit={handleSubmit} className="flex flex-col">
               
               {/* Grid for Inputs: Column gap 15px, Row gap 25px */}
@@ -139,7 +139,7 @@ export default function CustomContactSection({ action }: CustomContactSectionPro
                 type="submit"
                 disabled={isPending}
                 variant="default"
-                className="w-[calc(50%-10px)]"
+                className="lg:w-[calc(50%-10px)] w-full "
               >
                 {isPending ? 'SENDING...' : 'SEND'}
               </Button>

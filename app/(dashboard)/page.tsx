@@ -26,9 +26,9 @@ export default function HomePage() {
       <PassionScrollSection />
       <StaticPink />
       <ReviewSection />
-      <BookReaderSection />
       <MagicCardTopSection />
       <CardStack />
+      <BookReaderSection />
       <FaqSection />
       <CustomContactSection action={sendContactEmail} />
       <TogetherSection />
