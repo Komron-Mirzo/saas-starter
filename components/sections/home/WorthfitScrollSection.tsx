@@ -94,7 +94,7 @@ export default function WorthfitScrollSection() {
 
         <div className="relative z-10 mx-auto flex h-full w-full max-w-[1650px] items-center justify-between px-[45px] md:px-10 lg:px-16">
           {/* ---------------- A) LEFT: scrolling text stack ---------------- */}
-          <div className="relative h-full w-full max-w-[717px] overflow-hidden">
+          <div className="relative h-full max-w-[717px] w-[47%] overflow-hidden">
             <div ref={leftWrapRef} className="h-[300%] w-full">
               {/* A-1 */}
               <div className="flex h-[33.3333%] w-full flex-col justify-center">
@@ -138,21 +138,21 @@ export default function WorthfitScrollSection() {
             </div>
           </div>
 
-          {/* ---------------- B) RIGHT: fixed graphic ---------------- */}
-          <div className="pointer-events-none relative flex h-full flex-1 items-center justify-end">
-           <div className="relative max-w-[629px] w-[32.7vw]">
+         {/* ---------------- B) RIGHT: fixed graphic ---------------- */}
+          <div className="pointer-events-none w-[38%] relative flex h-full flex-1 items-center justify-center">
+            <div className="relative w-full max-w-[629px] max-h-[768px] aspect-[629/768] self-center">
               <img
                 ref={girl01Ref}
                 src="/images/steffy-girl-01.svg"
                 alt=""
-                className="h-auto w-full"
+                className="h-full w-full object-contain"
                 draggable={false}
               />
               <img
                 ref={girl02Ref}
                 src="/images/steffy-girl-02.svg"
                 alt=""
-                className="absolute inset-0 h-auto w-full"
+                className="absolute inset-0 h-full w-full object-contain"
                 draggable={false}
               />
 
@@ -170,6 +170,7 @@ export default function WorthfitScrollSection() {
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>
