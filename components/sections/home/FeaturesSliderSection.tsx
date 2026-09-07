@@ -36,6 +36,17 @@ export default function FeaturesClientCarousel({ features }: Props) {
   }, []);
 
   const tweenScale = useCallback((api: EmblaCarouselType, eventName?: string) => {
+    // Disable JS scaling on mobile viewports (768px and below) so all cards stay uniform
+    if (window.innerWidth <= 768) {
+      tweenNodes.current.forEach((node) => {
+        if (node) {
+          node.style.transform = 'scale(1)';
+          node.style.opacity = '1';
+        }
+      });
+      return;
+    }
+
     const engine = api.internalEngine();
     const scrollProgress = api.scrollProgress();
     const slidesInView = api.slidesInView();
@@ -83,6 +94,9 @@ export default function FeaturesClientCarousel({ features }: Props) {
     tweenScale(emblaApi);
     onSelect(emblaApi);
 
+    const handleResize = () => tweenScale(emblaApi);
+    window.addEventListener('resize', handleResize);
+
     emblaApi
       .on('select', onSelect)
       .on('reInit', setTweenNodes)
@@ -93,6 +107,7 @@ export default function FeaturesClientCarousel({ features }: Props) {
       .on('slideFocus', tweenScale);
 
     return () => {
+      window.removeEventListener('resize', handleResize);
       emblaApi
         .off('select', onSelect)
         .off('reInit', setTweenNodes)
@@ -112,41 +127,48 @@ export default function FeaturesClientCarousel({ features }: Props) {
   );
 
   return (
-    <section className="w-full bg-[#FF7DA8] py-[155px]">
+    <section className="w-full bg-[#FF7DA8] lg:py-[155px] py-[120px]">
       <div className="w-full flex flex-col items-center">
-        <h2 className="text-h1-02 text-white mb-[40px]">
+        <h2 className="text-h1-02 text-white text-center mb-[40px] px-[20px] max-[767px]:!text-[32px]">
           WHAT YOU&apos;LL GET:
         </h2>
 
-        {/* Top Thumbnail Navigation Pills */}
-        <div className="flex flex-wrap justify-center gap-[15px] mb-8">
+        {/* Top Thumbnail Navigation Pills (Hidden on 768px and below) */}
+        <div className="hidden min-[769px]:flex flex-wrap items-center justify-center gap-[15px] max-[800px]:gap-[9px] mb-8">
           {features.map((feature, index) => {
             const isSelected = index === selectedIndex;
             return (
               <button
                 key={feature.id}
                 onClick={() => scrollTo(index)}
-                className={`flex flex-col items-center justify-center p-[17px] rounded-[25px] transition-colors duration-200 gap-[6px] ${
-                  isSelected
-                    ? 'bg-white text-[#1b1b1b] shadow-lg'
-                    : 'bg-white/25 text-white hover:bg-white/35'
-                } w-[173px] h-[124px]`}
+                className={`flex flex-col items-center justify-center transition-all duration-200 
+                  /* Desktop (> 1350px) */
+                  w-[173px] h-[124px] p-[17px] rounded-[25px] gap-[6px]
+                  /* Mid screen (769px to 1350px) */
+                  max-[1350px]:w-[98px] max-[1350px]:h-[70px] max-[1350px]:p-[10px] max-[1350px]:rounded-[14px] max-[1350px]:gap-[4px]
+                  ${
+                    isSelected
+                      ? 'bg-white text-[#1b1b1b] shadow-lg'
+                      : 'bg-white/25 text-white hover:bg-white/35'
+                  }
+                `}
               >
-                {feature.icon.startsWith('http') ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={feature.icon}
-                    alt=""
-                    className={`w-[30px] h-[30px] object-contain transition-all ${
-                      isSelected ? '' : 'brightness-0 invert'
-                    }`}
-                  />
-                ) : (
-                  <span className="text-caps-14-smbld">{feature.icon}</span>
-                )}
-                <span className="text-caps-14-smbld">
-                  {feature.title}
-                </span>
+                <div className="flex flex-col items-center justify-center gap-inherit w-full h-full">
+                  {feature.icon.startsWith('http') ? (
+                    <img
+                      src={feature.icon}
+                      alt=""
+                      className={`max-[1350px]:w-[17px] max-[1350px]:h-[17px] max-[1350px]:mb-[4px] w-[30px] h-[30px] object-contain transition-all ${
+                        isSelected ? '' : 'brightness-0 invert'
+                      }`}
+                    />
+                  ) : (
+                    <span className="max-[1350px]:text-[8px] text-caps-14-smbld">{feature.icon}</span>
+                  )}
+                  <span className="max-[1350px]:!text-[8px] leading-tight text-center text-caps-14-smbld">
+                    {feature.title}
+                  </span>
+                </div>
               </button>
             );
           })}
@@ -155,10 +177,10 @@ export default function FeaturesClientCarousel({ features }: Props) {
         {/* Full-Width Carousel Wrapper with Responsive Gap-Centered Arrows */}
         <div className="relative w-full mx-auto flex items-center justify-center">
           
-          {/* Previous Arrow - Fluidly clamped to exact center of left gap */}
+          {/* Previous Arrow */}
           <button
             onClick={() => emblaApi?.scrollPrev()}
-            className="absolute left-[calc(50%-clamp(300px,32vw,665.5px))] top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-white hover:scale-110 transition-transform"
+            className="absolute left-[calc(50%-clamp(300px,32vw,665.5px))] top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 hidden min-[769px]:flex items-center justify-center text-white hover:scale-110 transition-transform"
             aria-label="Previous slide"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="30" fill="none" viewBox="0 0 19 30">
@@ -168,11 +190,11 @@ export default function FeaturesClientCarousel({ features }: Props) {
 
           {/* Carousel Viewport */}
           <div className="overflow-hidden cursor-grab active:cursor-grabbing w-full" ref={emblaRef}>
-            <div className="flex -ml-4 items-center py-6">
-              {features.map((feature) => (
+            <div className="flex -ml-[15px] items-center py-6">
+              {features.map((feature: any) => (
                 <div 
                   key={feature.id} 
-                  className="flex-[0_0_95%] md:flex-[0_0_clamp(500px,53.9vw,1035px)] pl-4 min-w-0 transition-all"
+                  className="flex-[0_0_calc(344px+15px)] md:flex-[0_0_clamp(500px,53.9vw,1035px)] pl-[15px] min-w-0 transition-all max-[400px]:flex-[0_0_calc(300px+15px)]"
                 >
                   <div className="embla-tween-target will-change-transform">
                     <FeatureSliderCard feature={feature} />
@@ -182,10 +204,10 @@ export default function FeaturesClientCarousel({ features }: Props) {
             </div>
           </div>
 
-          {/* Next Arrow - Fluidly clamped to exact center of right gap */}
+          {/* Next Arrow */}
           <button
             onClick={() => emblaApi?.scrollNext()}
-            className="absolute right-[calc(50%-clamp(300px,32vw,665.5px))] top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-white hover:scale-110 transition-transform"
+            className="absolute right-[calc(50%-clamp(300px,32vw,665.5px))] top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 hidden min-[769px]:flex items-center justify-center text-white hover:scale-110 transition-transform"
             aria-label="Next slide"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="30" fill="none" viewBox="0 0 19 30">
@@ -194,6 +216,26 @@ export default function FeaturesClientCarousel({ features }: Props) {
           </button>
 
         </div>
+
+        {/* Mobile Dots Navigation (Visible only on 768px and below) */}
+        <div className="flex min-[769px]:hidden flex-wrap items-center justify-center gap-[9px] mt-6">
+          {features.map((feature, index) => {
+            const isSelected = index === selectedIndex;
+            return (
+              <button
+                key={feature.id}
+                onClick={() => scrollTo(index)}
+                className={`transition-all duration-200 rounded-full ${
+                  isSelected
+                    ? 'bg-white shadow-lg w-[10px] h-[10px]'
+                    : 'bg-white/25 hover:bg-white/35 w-[6px] h-[6px]'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            );
+          })}
+        </div>
+
       </div>
     </section>
   );
