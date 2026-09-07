@@ -13,7 +13,7 @@ export default function StorySliderContentCard({ slide }: StorySliderContentCard
   return (
     <div
       className="relative w-full h-full overflow-hidden"
-      style={{ padding: '25px' }}
+      
     >
       {/* Background Image */}
       <div className="absolute inset-0" >
@@ -33,8 +33,8 @@ export default function StorySliderContentCard({ slide }: StorySliderContentCard
 
       {/* Inner layout: padding 67px 155px */}
       <div
-        className="relative z-10 flex items-center justify-between w-full h-full"
-        style={{ padding: '67px 155px' }}
+        className="relative z-10 flex items-center justify-between w-full h-full max-w-[1600px] m-auto"
+        style={{ padding: '67px 20px' }}
       >
         {/* ── LEFT CONTENT CARD ── */}
         <div

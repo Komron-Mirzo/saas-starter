@@ -130,31 +130,16 @@ export default function StorySliderAnimatedSection({ slides }: Props) {
          * so the rounded corners are always visible during every animation step.
          */
         <div
-            style={{
-                margin: '25px',
-                borderRadius: '120px',
-                overflow: 'hidden',
-                /* height drives scroll budget: 500vh minus the two 25px margins */
-                height: 'calc(500vh - 50px)',
-            }}
+            className="m-[20px] lg:m-[25px] h-[calc(500vh-40px)] lg:h-[calc(500vh-50px)] rounded-[120px] max-[1025px]:rounded-[80px] overflow-hidden"
         >
             {/* outerRef is the ScrollTrigger anchor */}
             <div ref={outerRef} style={{ height: '100%' }}>
 
                 {/* ── Sticky stage ── */}
-                <div
-                    ref={stickyRef}
-                    style={{
-                        position: 'sticky',
-                        top: '25px',
-                        width: '100%',
-                        /* Fill viewport height but respect the 25px top margin */
-                        height: 'calc(100vh - 50px)',
-                        overflow: 'hidden',
-                        background: '#f3f3f3',
-                        borderRadius: '120px',
-                    }}
-                >
+                    <div
+                        ref={stickyRef}
+                        className="sticky top-[20px] lg:top-[25px] w-full h-[calc(100vh-40px)] lg:h-[calc(100vh-50px)] overflow-hidden bg-[#f3f3f3] rounded-[80px] lg:rounded-[120px]"
+                    >
 
                     {/* Rotating sunburst bg */}
                     <div
@@ -195,18 +180,7 @@ export default function StorySliderAnimatedSection({ slides }: Props) {
                     {/* Speech bubble */}
                     <div
                         ref={bubbleRef}
-                        style={{
-                            position: 'absolute',
-                            left: '45%',
-                            top: '50%',
-                            transform: 'translate(-62%, -52%)',
-                            width: '600px',
-                            height: '500px',
-                            zIndex: 5,
-                            opacity: 0,
-                            visibility: 'hidden',
-                            pointerEvents: 'none',
-                        }}
+                        className="absolute w-[600px] max-[1281px]:w-[384px] h-[500px] max-[1281px]:h-[319px] left-[45%] max-[1281px]:left-[40%] top-[50%] max-[1281px]:top-[50%] -translate-x-[62%] -translate-y-[52%] max-[1281px]:-translate-x-1/2 max-[1281px]:-translate-y-1/2 z-[5] opacity-0 invisible pointer-events-none"
                     >
                         <Image
                             src="/images/comic-slider-bubble.svg"
@@ -216,18 +190,12 @@ export default function StorySliderAnimatedSection({ slides }: Props) {
                             priority
                         />
                     </div>
+                       
 
                     {/* Mascot */}
                     <div
                         ref={worthyRef}
-                        style={{
-                            position: 'absolute',
-                            bottom: '166px',
-                            right: '27%',
-                            width: '287px',
-                            height: '383px',
-                            zIndex: 6,
-                        }}
+                        className="w-[287px] max-[1280px]:w-[184px] h-[383px] max-[1280px]:h-[245px] right-[27%] max-[1500px]:right-[20%] max-[1280px]:right-[30%] absolute bottom-[166px] max-[1280px]:bottom-[8.6%] z-[6]"
                     >
                         <Image
                             src="/images/comic-slider-worthy.svg"
@@ -260,9 +228,9 @@ export default function StorySliderAnimatedSection({ slides }: Props) {
                         >
                             {/* Embla viewport */}
                             <div
-                                className="overflow-hidden"
+                                className="overflow-hidden rounded-[80px] lg:rounded-[120px]"
                                 ref={emblaRef}
-                                style={{ borderRadius: '120px', minHeight: '830px', height: '100%' }}
+                                style={{ minHeight: '830px', height: '100%' }}
                             >
                                 <div className="flex flex-col h-full">
                                     {slides.map((slide) => (
@@ -278,36 +246,27 @@ export default function StorySliderAnimatedSection({ slides }: Props) {
                             </div>
 
                             {/* Nav buttons */}
-                            <div
-                                className="absolute flex flex-col gap-3"
-                                style={{
-                                    right: '50px',
-                                    top: '50%',
-                                    transform: 'translateY(-50%)',
-                                    zIndex: 20,
-                                }}
-                            >
+                            <div className="absolute flex flex-col gap-3 right-[50px] top-1/2 -translate-y-1/2 z-[20]">
                                 <button
                                     onClick={scrollPrev}
                                     aria-label="Previous slide"
-                                    className="bg-white flex items-center justify-center shadow-md transition-opacity hover:opacity-80"
-                                    style={{ width: '56px', height: '56px', borderRadius: '50%', border: 'none', cursor: 'pointer' }}
+                                    className="bg-white flex items-center justify-center shadow-md transition-opacity hover:opacity-80 w-[160px] h-[160px] rounded-full border-0 cursor-pointer"
                                 >
-                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                                    <svg width="45" height="55" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                                         <path d="M10 15V5M5 10l5-5 5 5" stroke="#00BFA5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                     </svg>
                                 </button>
                                 <button
                                     onClick={scrollNext}
                                     aria-label="Next slide"
-                                    className="bg-white flex items-center justify-center shadow-md transition-opacity hover:opacity-80"
-                                    style={{ width: '56px', height: '56px', borderRadius: '50%', border: 'none', cursor: 'pointer' }}
+                                    className="bg-white flex items-center justify-center shadow-md transition-opacity hover:opacity-80 w-[160px] h-[160px] rounded-full border-0 cursor-pointer"
                                 >
-                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                                    <svg width="45" height="55" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                                         <path d="M10 5v10M15 10l-5 5-5-5" stroke="#00BFA5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                     </svg>
                                 </button>
                             </div>
+
                         </div>
                     </div>
 
