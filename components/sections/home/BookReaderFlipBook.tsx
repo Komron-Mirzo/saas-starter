@@ -1,12 +1,13 @@
 'use client';
 
-import React, { forwardRef, useRef, useState, useEffect } from 'react';
+import React, { forwardRef, useRef } from 'react';
 import HTMLFlipBook from 'react-pageflip';
 
-const BOOK_WIDTH = 904;
-const BOOK_HEIGHT = 640;
+const BOOK_WIDTH = 904;   // full spread, max
+const BOOK_HEIGHT = 640;  // max
+const MIN_WIDTH = 220;    // single-page min width
+const MIN_HEIGHT = Math.round(MIN_WIDTH * (BOOK_HEIGHT / (BOOK_WIDTH / 2))); // keep aspect ratio
 
-// Page component wrapper required by react-pageflip
 const Page = forwardRef<HTMLDivElement, { pageNumber: number; imageUrl: string }>(
   ({ pageNumber, imageUrl }, ref) => {
     return (
@@ -25,28 +26,6 @@ Page.displayName = 'Page';
 
 export default function BookReaderFlipBook() {
   const bookRef = useRef<React.ElementRef<typeof HTMLFlipBook>>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(1);
-
-  // Dynamically calculate scale factor based on container width
-  useEffect(() => {
-    const handleResize = () => {
-      if (containerRef.current) {
-        const currentWidth = containerRef.current.offsetWidth;
-        // Calculate scale relative to the base BOOK_WIDTH (capping max scale at 1)
-        const newScale = Math.min(currentWidth / BOOK_WIDTH, 1);
-        setScale(newScale);
-      }
-    };
-
-    handleResize();
-    const observer = new ResizeObserver(handleResize);
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
 
   const pages = [
     { id: 1, img: '/flipbook/1.jpg' },
@@ -59,25 +38,13 @@ export default function BookReaderFlipBook() {
     { id: 8, img: '/flipbook/8.jpg' },
   ];
 
-  const handlePrev = () => {
-    const flip = bookRef.current?.pageFlip();
-    if (flip) {
-      flip.flipPrev();
-    }
-  };
-
-  const handleNext = () => {
-    const flip = bookRef.current?.pageFlip();
-    if (flip) {
-      flip.flipNext();
-    }
-  };
+  const handlePrev = () => bookRef.current?.pageFlip()?.flipPrev();
+  const handleNext = () => bookRef.current?.pageFlip()?.flipNext();
 
   return (
-    <div className="w-full flex flex-col items-center justify-center">
+    <div className="w-full min-w-0 flex flex-col items-center justify-center">
 
-      {/* Custom Control Arrows matching your Figma design */}
-      <div className="w-full max-w-[904px] flex justify-end gap-3 mb-6 px-4">
+      <div className="w-full max-w-[904px] flex justify-end gap-[10px] mb-[24px]">
         <button
           onClick={handlePrev}
           className="w-12 h-12 rounded-full bg-white text-[#1b1b1b] hover:bg-neutral-100 flex items-center justify-center font-bold text-xl shadow-md transition-all cursor-pointer"
@@ -94,53 +61,43 @@ export default function BookReaderFlipBook() {
         </button>
       </div>
 
-      {/* Responsive Scaling Container */}
-      <div 
-        ref={containerRef}
-        className="w-full max-w-[904px] flex justify-center items-center overflow-hidden"
-        style={{ height: `${BOOK_HEIGHT * scale}px` }}
-      >
-        <div 
-          style={{
-            transform: `scale(${scale})`,
-            transformOrigin: 'top center',
-            width: `${BOOK_WIDTH}px`,
-            height: `${BOOK_HEIGHT}px`,
-          }}
-          className="flex justify-center items-center transition-transform duration-75 ease-out"
+      {/*
+        No manual scale/transform math needed. size="stretch" lets the library's
+        own ResizeObserver fit the book to this container's width, bounded by
+        min/maxWidth + min/maxHeight. Parent just needs a real width to shrink to.
+      */}
+      <div className="w-full min-w-0" style={{ maxWidth: `${BOOK_WIDTH}px` }}>
+        {/* @ts-ignore */}
+        <HTMLFlipBook
+          ref={bookRef}
+          size="stretch"
+          width={BOOK_WIDTH / 2}
+          height={BOOK_HEIGHT}
+          minWidth={MIN_WIDTH}
+          maxWidth={BOOK_WIDTH / 2}
+          minHeight={MIN_HEIGHT}
+          maxHeight={BOOK_HEIGHT}
+          maxShadowOpacity={0.4}
+          showCover={false}
+          usePortrait={false}
+          mobileScrollSupport={true}
+          className="shadow-2xl mx-auto !w-full"
+          startPage={0}
+          drawShadow={true}
+          flippingTime={800}
+          autoSize={true}
+          startZIndex={0}
+          swipeDistance={30}
+          clickEventForward={true}
+          useMouseEvents={true}
+          renderOnlyPageLengthChange={false}
+          disableFlipByClick={false}
+          showPageCorners={true}
         >
-          {/* @ts-ignore */}
-          <HTMLFlipBook
-            ref={bookRef}
-            width={BOOK_WIDTH / 2}
-            height={BOOK_HEIGHT}
-            size="fixed"
-            minWidth={300}
-            maxWidth={1000}
-            minHeight={400}
-            maxHeight={800}
-            maxShadowOpacity={0.4}
-            showCover={false}
-            usePortrait={false}
-            mobileScrollSupport={true}
-            className="shadow-2xl mx-auto"
-            startPage={0}
-            drawShadow={true}
-            flippingTime={800}
-            autoSize={false}
-            startZIndex={0}
-            swipeDistance={30}
-            clickEventForward={true}
-            useMouseEvents={true}
-            renderOnlyPageLengthChange={false}
-            disableFlipByClick={false}
-            showPageCorners={true}
-          >
-            {pages.map((page, index) => (
-              <Page key={page.id} pageNumber={index + 1} imageUrl={page.img} />
-            ))}
-          </HTMLFlipBook>
-        </div>
+          {pages.map((page, index) => (
+            <Page key={page.id} pageNumber={index + 1} imageUrl={page.img} />
+          ))}
+        </HTMLFlipBook>
       </div>
 
     </div>
