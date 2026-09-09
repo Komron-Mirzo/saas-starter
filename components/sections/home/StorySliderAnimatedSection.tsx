@@ -404,12 +404,10 @@ export default function StorySliderAnimatedSection({ slides }: Props) {
                             {/* Speech bubble */}
                             <div
                                 ref={bubbleMobileRef}
-                                className="absolute z-[5] opacity-0 invisible pointer-events-none"
+                                className="absolute z-[5] opacity-0 invisible pointer-events-none left-[38%] top-[43vh] max-[500px]:top-[35vh] max-[500px]:left-[50%]"
                                 style={{
                                     width: '280px',
                                     height: '233px',
-                                    left: '50%',
-                                    top: '38%',
                                     transform: 'translate(-50%, -50%)',
                                 }}
                             >
@@ -429,8 +427,8 @@ export default function StorySliderAnimatedSection({ slides }: Props) {
                                 style={{
                                     width: '150px',
                                     height: '200px',
-                                    left: '50%',
-                                    bottom: '60px',
+                                    left: '63%',
+                                    bottom: '15vh',
                                     transform: 'translateX(-50%)',
                                 }}
                             >
@@ -452,13 +450,13 @@ export default function StorySliderAnimatedSection({ slides }: Props) {
              */}
             <div className="block md:hidden">
                 <div
-                    className="relative m-[20px] rounded-[40px] overflow-hidden"
-                    style={{ background: '#FF7DA8', padding: '40px 0' }}
+                    className="relative overflow-hidden"
+                    style={{ background: '#FF7DA8', padding: '100px 0' }}
                 >
                     <div className="overflow-hidden px-[20px]" ref={mobileEmblaRef}>
-                        <div className="flex" style={{ gap: '16px' }}>
+                        <div className="flex">
                             {slides.map((slide) => (
-                                <div key={slide.id} className="flex-[0_0_auto]">
+                                <div key={slide.id} className="flex-[0_0_100%] max-[400px]:flex-[0_0_100%] min-[401px]:max-[767px]:flex-[0_0_344px] min-[768px]:flex-[0_0_400px] pr-[16px]">
                                     <StorySliderContentCardMobile slide={slide} />
                                 </div>
                             ))}
@@ -475,7 +473,7 @@ export default function StorySliderAnimatedSection({ slides }: Props) {
                                     type="button"
                                     onClick={() => scrollToMobile(index)}
                                     aria-label={`Go to slide group ${index + 1}`}
-                                    className="rounded-[2px] transition-all"
+                                    className="rounded-full transition-all"
                                     style={{
                                         width: isActive ? '10px' : '6px',
                                         height: isActive ? '10px' : '6px',
