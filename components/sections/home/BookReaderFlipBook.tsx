@@ -5,8 +5,8 @@ import HTMLFlipBook from 'react-pageflip';
 
 const BOOK_WIDTH = 904;   // full spread, max
 const BOOK_HEIGHT = 640;  // max
-const MIN_WIDTH = 220;    // single-page min width
-const MIN_HEIGHT = Math.round(MIN_WIDTH * (BOOK_HEIGHT / (BOOK_WIDTH / 2))); // keep aspect ratio
+const MIN_WIDTH = typeof window !== 'undefined' && window.innerWidth < 500 ? 100 : 220;
+const MIN_HEIGHT = Math.round(MIN_WIDTH * (BOOK_HEIGHT / (BOOK_WIDTH / 2)));
 
 const Page = forwardRef<HTMLDivElement, { pageNumber: number; imageUrl: string }>(
   ({ pageNumber, imageUrl }, ref) => {
@@ -44,17 +44,17 @@ export default function BookReaderFlipBook() {
   return (
     <div className="w-full min-w-0 flex flex-col items-center justify-center">
 
-      <div className="w-full max-w-[904px] flex justify-end gap-[10px] mb-[24px]">
+      <div className="w-full max-w-[904px] flex justify-end gap-[10px] mb-[24px] max-[1024px]:order-last max-[1024px]:justify-center max-[1024px]:mb-[0] max-[1024px]:mt-[25px]">
         <button
           onClick={handlePrev}
-          className="w-12 h-12 rounded-full bg-white text-[#1b1b1b] hover:bg-neutral-100 flex items-center justify-center font-bold text-xl shadow-md transition-all cursor-pointer"
+          className="size-[55px] rounded-full bg-white text-[#1b1b1b] hover:bg-neutral-100 flex items-center justify-center font-bold text-xl shadow-md transition-all cursor-pointer"
           aria-label="Previous page"
         >
           &larr;
         </button>
         <button
           onClick={handleNext}
-          className="w-12 h-12 rounded-full bg-white text-[#1b1b1b] hover:bg-neutral-100 flex items-center justify-center font-bold text-xl shadow-md transition-all cursor-pointer"
+          className="size-[55px] rounded-full bg-white text-[#1b1b1b] hover:bg-neutral-100 flex items-center justify-center font-bold text-xl shadow-md transition-all cursor-pointer"
           aria-label="Next page"
         >
           &rarr;
