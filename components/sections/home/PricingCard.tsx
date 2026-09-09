@@ -51,7 +51,7 @@ export function PricingCard({
             {/* Graphic Area: 155px background container with overlapping image */}
             <div className="relative w-full h-[165px] my-6 flex items-center justify-center">
                 {/* The Grey Background Box */}
-                <div className="w-full h-full bg-[#F3F3F3] rounded-[24px]"></div>
+                <div className="w-full bg-[#F3F3F3] h-[165px] rounded-[24px]"></div>
 
                 {/* The Overlapping Image (Spilling out of the top) */}
                 <div className="absolute -top-7 w-full h-[190px] flex items-center justify-center pointer-events-none">

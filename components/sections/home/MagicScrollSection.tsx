@@ -67,7 +67,7 @@ export default function CardStackClient({ cards }: Props) {
   return (
     <section
       ref={sectionRef}
-      className="relative pb-[260px] bg-[#F3F3F3] overflow-hidden"
+      className="relative pb-[260px] max-[768px]:pb-[60px] bg-[#F3F3F3] overflow-hidden"
     >
       <div
         ref={pinRef}
