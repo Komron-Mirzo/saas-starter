@@ -8,7 +8,7 @@ interface PricingCardProps {
     badge?: string;
     imageSrc: string;
     imageAlt: string;
-    features: string[];
+    features: string;
     buttonText?: string;
     buttonHref?: string;
 }
@@ -24,11 +24,11 @@ export function PricingCard({
     buttonHref = "/sign-up",
 }: PricingCardProps) {
     return (
-        <div className="bg-white rounded-[60px] py-[45px] px-[15px] flex flex-col justify-between relative transition-transform duration-200 hover:-translate-y-1">
+        <div className="bg-white rounded-[60px] max-[768px]:rounded-[40px] py-[45px] px-[15px] flex flex-col justify-between h-full relative transition-transform duration-200 hover:-translate-y-1">
 
             {/* Top Header & Price Pill */}
-            <div className="flex flex-col px-[30px] space-y-2 mb-2 z-20 items-start text-left">
-                <h4 className="text-h4-02 text-lg mb-[20px] font-black tracking-wider uppercase text-gray-900">
+            <div className="flex flex-col px-[30px] max-[768px]:px-[15px] space-y-2 mb-2 z-20 items-start text-left">
+                <h4 className="text-h4-02 mb-[20px] uppercase">
                     {title}
                 </h4>
 
@@ -41,7 +41,7 @@ export function PricingCard({
                     </div>
 
                     {badge && (
-                        <h6 className="text-h6-02 text-white mt-[-12px] self-end translate-x-[32px] z-10 bg-[#30D5C8] px-[12px] py-[6px] rounded-full uppercase -rotate-[8deg] shadow-sm">
+                        <h6 className="text-h6-02 text-white mt-[-12px] self-end translate-x-[32px] z-10 bg-[#30D5C8] px-[12px] py-[6px] rounded-full uppercase -rotate-[8deg]">
                             {badge}
                         </h6>
                     )}
@@ -66,22 +66,18 @@ export function PricingCard({
                 </div>
             </div>
 
-            {/* Features List */}
-            <div className="flex flex-col px-[30px] space-y-3 mb-8 text-left">
+           {/* Features List */}
+            <div className="flex flex-col px-[30px] max-[768px]:px-[15px] space-y-3 mb-8 text-left">
                 <span className=" text-caps-18-smbld">
                     INCLUDES:
                 </span>
-                <ul className="space-y-2">
-                    {features.map((feature, idx) => (
-                        <li key={idx} className="text-body-16 text-[rgba(26,26,26,0.8)]">
-                            {feature}
-                        </li>
-                    ))}
-                </ul>
+                <p className="text-body-16 text-[rgba(26,26,26,0.8)]">
+                    {features}
+                </p>
             </div>
 
             {/* Action Button */}
-            <div className="w-full mt-auto px-[30px]">
+            <div className="w-full mt-auto px-[30px] max-[768px]:px-[15px]">
                 <Button asChild className="w-full">
                     <Link href={buttonHref}>{buttonText}</Link>
                 </Button>

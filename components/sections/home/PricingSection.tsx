@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState } from 'react';
 import { PricingCard } from './PricingCard';
@@ -7,7 +7,7 @@ interface PricingData {
   title: string;
   price: string;
   badge?: string;
-  features: string[];
+  features: string;
   imageSrc: string;
   imageAlt: string;
 }
@@ -24,10 +24,7 @@ export function PricingSection() {
         badge: "FREE 1ST WEEK",
         imageSrc: "/images/pricing_01.png",
         imageAlt: "Nutrition Plan Jar",
-        features: [
-          "E-Book, nutrition chapters, recipes,",
-          "community access"
-        ]
+        features: "E-Book, nutrition chapters, recipes, community access"
       },
       {
         title: "FITNESS ONLY",
@@ -35,10 +32,7 @@ export function PricingSection() {
         badge: "FREE 1ST WEEK",
         imageSrc: "/images/pricing_02.png",
         imageAlt: "Fitness Plan Kettlebell",
-        features: [
-          "E-Book, workout chapters, story content,",
-          "community access"
-        ]
+        features: "E-Book, workout chapters, story content, community access"
       },
       {
         title: "BOTH COMBINED",
@@ -46,9 +40,7 @@ export function PricingSection() {
         badge: "FREE 1ST WEEK",
         imageSrc: "/images/pricing_03.png",
         imageAlt: "Combined Nutrition and Fitness Plan",
-        features: [
-          "E-Book with combined chapters, recipes & workouts, community access"
-        ]
+        features: "E-Book with combined chapters, recipes & workouts, community access"
       }
     ],
     notrial: [
@@ -57,29 +49,21 @@ export function PricingSection() {
         price: "€30/mo",
         imageSrc: "/images/pricing_01.png",
         imageAlt: "Nutrition Plan Jar",
-        features: [
-          "48 chapters, deeper support,",
-          "bonus recipes, starter kit, community"
-        ]
+        features: "48 chapters, deeper support, bonus recipes, starter kit, community"
       },
       {
         title: "FITNESS ONLY",
         price: "€30/mo",
         imageSrc: "/images/pricing_02.png",
         imageAlt: "Fitness Plan Kettlebell",
-        features: [
-          "48 chapters, progress tracking,",
-          "bonus workouts, starter kit, community"
-        ]
+        features: "48 chapters, progress tracking, bonus workouts, starter kit, community"
       },
       {
         title: "BOTH COMBINED",
         price: "€35/mo",
         imageSrc: "/images/pricing_03.png",
         imageAlt: "Combined Nutrition and Fitness Plan",
-        features: [
-          "Full coaching experience: comic + recipes + workouts + bonus challenges, community & worthy mascot support"
-        ]
+        features: "Full coaching experience: comic + recipes + workouts + bonus challenges, community & worthy mascot support"
       }
     ],
     annual: [
@@ -88,30 +72,21 @@ export function PricingSection() {
         price: "€35/mo",
         imageSrc: "/images/pricing_01.png",
         imageAlt: "Nutrition Plan Jar",
-        features: [
-          "24 chapters, story with nutrition focus,",
-          "80s-style starter kit, community"
-        ]
+        features: "24 chapters, story with nutrition focus, 80s-style starter kit, community"
       },
       {
         title: "FITNESS ONLY",
         price: "€35/mo",
         imageSrc: "/images/pricing_02.png",
         imageAlt: "Fitness Plan Kettlebell",
-        features: [
-          "24 chapters, training-focused story,",
-          "starter kit, community"
-        ]
+        features: "24 chapters, training-focused story, starter kit, community"
       },
       {
         title: "BOTH COMBINED",
         price: "€40/mo",
         imageSrc: "/images/pricing_03.png",
         imageAlt: "Combined Nutrition and Fitness Plan",
-        features: [
-          "Full storyline with workouts & recipes,",
-          "starter kit, community access"
-        ]
+        features: "Full storyline with workouts & recipes, starter kit, community access"
       }
     ]
   };
@@ -119,25 +94,25 @@ export function PricingSection() {
   const currentPricing = pricingData[activeTab];
 
   return (
-    <section className="w-full bg-[#2ECABE] py-20 px-6 lg:px-12 rounded-[48px] max-w-[1870px] mx-auto my-12 relative overflow-hidden">
-      <div className="max-w-[1560px] mx-auto flex flex-col items-center text-center">
+    <section className="w-[calc(100%-40px)] m-auto bg-[#30D5C8] rounded-[120px] max-[1024px]:rounded-[50px]">
+      <div className="mx-auto w-full max-w-[1600px] flex flex-col relative overflow-hidden py-[155px] px-[20px] max-[768px]:px-[10px] max-[1024px]:py-[80px] items-center text-center">
         
         {/* Section Header */}
-        <span className="text-xs font-black tracking-widest text-white uppercase bg-black/10 px-4 py-1.5 rounded-full mb-4 border border-black/10">
+        <span className="text-caps-14-smbld py-[4px] px-[12px] rounded-full bg-white mb-[25px] max-[768px]:mb-[15px]">
           PLANS & PRICING
         </span>
 
-        <h2 className="max-w-[1500px] text-h2-01 text-4xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tight text-white leading-[1.05] mb-8 drop-shadow-sm">
+        <h2 className="max-w-[1500px] text-h2-01  text-white mb-[100px] max-[1200px]:mb-[75px] max-[768px]:!text-[38px]">
           One story. Three ways to experience it.
         </h2>
 
         {/* Plan Selection Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-3 bg-white/20 p-2 rounded-full border-2 border-black shadow-[4px_4px_0px_0px_#1A1A1A] mb-16">
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-16">
           <button
             onClick={() => setActiveTab('trial')}
-            className={`px-6 py-3 rounded-full text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
+            className={`text-caps-26-smbld px-[22px] py-[4px] rounded-full uppercase transition-all cursor-pointer border-2 border-white/60 ${
               activeTab === 'trial'
-                ? 'bg-white text-gray-900 shadow-[2px_2px_0px_0px_#1A1A1A] border border-black'
+                ? 'bg-white text-gray-900'
                 : 'text-white hover:text-white/80'
             }`}
           >
@@ -146,9 +121,9 @@ export function PricingSection() {
 
           <button
             onClick={() => setActiveTab('notrial')}
-            className={`px-6 py-3 rounded-full text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
+            className={`text-caps-26-smbld px-[22px] py-[4px] rounded-full uppercase transition-all cursor-pointer border-2 border-white/60 ${
               activeTab === 'notrial'
-                ? 'bg-white text-gray-900 shadow-[2px_2px_0px_0px_#1A1A1A] border border-black'
+                ? 'bg-white text-gray-900'
                 : 'text-white hover:text-white/80'
             }`}
           >
@@ -157,9 +132,9 @@ export function PricingSection() {
 
           <button
             onClick={() => setActiveTab('annual')}
-            className={`px-6 py-3 rounded-full text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
+            className={`text-caps-26-smbld px-[22px] py-[4px] rounded-full uppercase transition-all cursor-pointer border-2 border-white/60 ${
               activeTab === 'annual'
-                ? 'bg-white text-gray-900 shadow-[2px_2px_0px_0px_#1A1A1A] border border-black'
+                ? 'bg-white text-gray-900'
                 : 'text-white hover:text-white/80'
             }`}
           >
@@ -168,18 +143,27 @@ export function PricingSection() {
         </div>
 
         {/* The 3 Core Pricing Cards - No animations */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full items-stretch">
-          {currentPricing.map((card, index) => (
-            <PricingCard
-              key={`${activeTab}-${index}`}
-              title={card.title}
-              price={card.price}
-              badge={card.badge}
-              imageSrc={card.imageSrc}
-              imageAlt={card.imageAlt}
-              features={card.features}
-            />
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px] max-[1024px]:gap-y-[60px] w-full items-stretch">
+          {currentPricing.map((card, index) => {
+            // Check if it's the last item (index 2) on medium screens (md) where it breaks to a new row alone
+            const isLastOnTablet = index === 2;
+
+            return (
+              <div 
+                key={`${activeTab}-${index}`} 
+                className={isLastOnTablet ? 'md:col-span-full lg:col-span-1 md:max-w-[calc(500px)] md:mx-auto w-full' : 'w-full'}
+              >
+                <PricingCard
+                  title={card.title}
+                  price={card.price}
+                  badge={card.badge}
+                  imageSrc={card.imageSrc}
+                  imageAlt={card.imageAlt}
+                  features={card.features}
+                />
+              </div>
+            );
+          })}
         </div>
 
       </div>
