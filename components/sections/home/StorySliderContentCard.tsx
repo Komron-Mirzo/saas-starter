@@ -34,17 +34,14 @@ export default function StorySliderContentCard({ slide }: StorySliderContentCard
 
       {/* Inner layout: padding 67px 155px */}
       <div
-        className="relative z-10 flex items-center justify-between max-[1024px]:flex-col max-[1024px]:items-start w-full h-full max-w-[1600px] m-auto"
-        style={{ padding: '67px 20px' }}
+        className="relative z-10 flex items-center justify-between max-[1024px]:flex-col max-[1024px]:items-start w-full h-full max-w-[1600px] m-auto px-[20px] py-[67px] max-[1024px]:py-[20px]"
       >
         {/* ── LEFT CONTENT CARD ── */}
         <div
-          className="bg-white flex flex-col"
+          className="bg-white flex flex-col p-[45px] max-[1024px]:px-[25px] max-[1024px]:py-[35px] w-[510px] max-[1024px]:w-full max-[1024px]:max-w-[690px]"
           style={{
-            width: '510px',
             minHeight: 'fitContent',
             borderRadius: '60px',
-            padding: '45px',
             flexShrink: 0,
           }}
         >
@@ -128,8 +125,7 @@ export default function StorySliderContentCard({ slide }: StorySliderContentCard
 
           {/* e) GAINS section */}
           <div
-            className="flex flex-col"
-            style={{ gap: '10px', marginBottom: '35px' }}
+            className="flex flex-col gap-[10px] mb-[35px] max-[1024px]:mb-[20px]"
           >
             {/* e-1 Label */}
             <div>
@@ -148,7 +144,7 @@ export default function StorySliderContentCard({ slide }: StorySliderContentCard
             </div>
 
             {/* e-2 Gains list */}
-            <div className="flex flex-col" style={{ gap: '8px' }}>
+            <div className="flex flex-col max-[1024px]:flex-row" style={{ gap: '8px' }}>
               {slide.gains
                 .slice()
                 .sort((a, b) => a.sortOrder - b.sortOrder)
@@ -173,7 +169,7 @@ export default function StorySliderContentCard({ slide }: StorySliderContentCard
                     </div>
                     {/* text */}
                     <p
-                      className="text-body-16"
+                      className="text-body-16 max-[1024px]:!text-[14px]"
                       style={{ color: 'rgba(26, 26, 26, 0.8)' }}
                     >
                       {gain.text}
@@ -185,7 +181,7 @@ export default function StorySliderContentCard({ slide }: StorySliderContentCard
 
           {/* CTA Button */}
           <div className="mt-auto">
-            <Button asChild variant="secondary">
+            <Button asChild variant="secondary" className="max-[1024px]:!h-[60px]">
               <Link href="/">
                 START YOUR FREE TRIAL
               </Link>

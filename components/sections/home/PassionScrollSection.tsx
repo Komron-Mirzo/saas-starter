@@ -8,33 +8,8 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-/**
- * PassionScrollSection
- * ---------------------------------------------------------------------------
- * "From passion to power" — pinned, scroll-scrubbed story section.
- *
- * Structure:
- *  I)  Static top part (label + heading image) — NOT part of the pin/scrub.
- *  II) Pinned stage — a single ScrollTrigger timeline drives every step
- *      described in the spec. The whole thing is wrapped in gsap.context()
- *      and scoped to this component's root so it can never read/kill
- *      ScrollTriggers created by sibling sections (and vice versa).
- *
- * Ending sequence (per Figma steps 10–12):
- *   - bubble-05 scales in, then holds fixed with Steffy for a couple of
- *     scrolls.
- *   - A REAL semicircle (not a squashed ellipse) rises up from the bottom
- *     edge while Steffy + bubble-05 fade/slide upward and out.
- *   - Once the circle settles, the closing copy fades in, followed by the
- *     "START YOUR JOURNEY" button.
- *   - The pin then releases and normal scroll continues into whatever comes
- *     next in the page.
- * ---------------------------------------------------------------------------
- */
-
-// How many "viewport heights" of scroll the whole pinned story should take.
-// Tweak this single number to make the whole sequence feel faster/slower.
-const SCROLL_LENGTH_VH = 12;
+const DESKTOP_SCROLL_LENGTH_VH = 12;
+const MOBILE_SCROLL_LENGTH_VH = 18;
 
 export default function PassionScrollSection() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -51,229 +26,293 @@ export default function PassionScrollSection() {
   const bubble4Ref = useRef<HTMLImageElement>(null);
   const bubble5Ref = useRef<HTMLImageElement>(null);
 
-  const certWrapRef = useRef<HTMLDivElement>(null);
+  const certWrapDesktopRef = useRef<HTMLDivElement>(null);
+  const certWrapMobileRef = useRef<HTMLDivElement>(null);
+
   const halfCircleRef = useRef<HTMLDivElement>(null);
 
+  // ---- Scroll-pinned timelines (one per breakpoint) -----------------------
   useLayoutEffect(() => {
     if (!rootRef.current) return;
 
-    const ctx = gsap.context(() => {
-      // ---- Initial states -------------------------------------------------
-      gsap.set(bgDotRef.current, { xPercent: -50, yPercent: -50, scale: 1, opacity: 1 });
-      gsap.set(steffyRef.current, { xPercent: -50, yPercent: -50, scale: 0 });
-      gsap.set(circleRef.current, { xPercent: -50, yPercent: -50, scale: 0 });
+    const mm = gsap.matchMedia();
 
-      gsap.set(
-        [bubble1Ref.current, bubble2Ref.current, bubble3Ref.current, bubble4Ref.current, bubble5Ref.current],
-        { scale: 0, transformOrigin: "50% 50%" }
-      );
+    // ============================ DESKTOP =================================
+    mm.add("(min-width: 768px)", () => {
+      const ctx = gsap.context(() => {
+        gsap.set(bgDotRef.current, { xPercent: -50, yPercent: -50, scale: 1, opacity: 1 });
+        gsap.set(steffyRef.current, { xPercent: -50, yPercent: -50, scale: 0 });
+        gsap.set(circleRef.current, { xPercent: -50, yPercent: -50, scale: 0 });
+        gsap.set(
+          [bubble1Ref.current, bubble2Ref.current, bubble3Ref.current, bubble4Ref.current, bubble5Ref.current],
+          { scale: 0, transformOrigin: "50% 50%" }
+        );
+        gsap.set(certWrapDesktopRef.current, { xPercent: -50, yPercent: 120 });
+        gsap.set(halfCircleRef.current, { xPercent: -50, yPercent: 100 });
 
-      // Certificates start below the stage, centered horizontally.
-      gsap.set(certWrapRef.current, { xPercent: -50, yPercent: 120 });
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            id: "passion-scroll-section-desktop",
+            trigger: pinRef.current,
+            start: "top top",
+            end: () => `+=${window.innerHeight * DESKTOP_SCROLL_LENGTH_VH}`,
+            scrub: 1,
+            pin: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
 
-      // Closing pink semicircle: a full circle whose vertical center sits
-      // exactly on the stage's bottom edge (see JSX below), so at rest only
-      // its top half is ever visible — a real, mathematically correct
-      // semicircle rather than a squashed ellipse. It starts pushed fully
-      // below the stage and slides up into that resting position.
-      gsap.set(halfCircleRef.current, { xPercent: -50, yPercent: 100 });
+        tl.to(steffyRef.current, { scale: 1, duration: 2, ease: "power2.out" }, 0);
 
-      // ---- Master scrubbed timeline ---------------------------------------
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          id: "passion-scroll-section",
-          trigger: pinRef.current,
-          start: "top top",
-          end: () => `+=${window.innerHeight * SCROLL_LENGTH_VH}`,
-          scrub: 1,
-          pin: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
-      });
+        tl.to(bgDotRef.current, { scale: 0, opacity: 0, duration: 2, ease: "power2.inOut" }, 2);
+        tl.to(circleRef.current, { scale: 1, duration: 2, ease: "power2.out" }, 2);
 
-      // Step II-B — Steffy scales in over the dot background (0 -> 2)
-      tl.to(steffyRef.current, { scale: 1, duration: 2, ease: "power2.out" }, 0);
+        tl.to(bubble1Ref.current, { scale: 1, duration: 2, ease: "back.out(1.5)" }, 4);
+        tl.to(bubble2Ref.current, { scale: 1, duration: 2, ease: "back.out(1.5)" }, 6);
+        tl.to(bubble3Ref.current, { scale: 1, duration: 2, ease: "back.out(1.5)" }, 8);
 
-      // Step II-C — dot fades/scales out, teal circle scales up behind Steffy (2 -> 4)
-      tl.to(bgDotRef.current, { scale: 0, opacity: 0, duration: 2, ease: "power2.inOut" }, 2);
-      tl.to(circleRef.current, { scale: 1, duration: 2, ease: "power2.out" }, 2);
+        tl.to(
+          [bubble1Ref.current, bubble2Ref.current, bubble3Ref.current],
+          { scale: 0, duration: 1, ease: "power2.in" },
+          12
+        );
+        tl.to(circleRef.current, { y: "-120vh", opacity: 0, duration: 1.5, ease: "power2.in" }, 13);
 
-      // Step II-D — bubble 01 scales up, right side (4 -> 6)
-      tl.to(bubble1Ref.current, { scale: 1, duration: 2, ease: "back.out(1.5)" }, 4);
+        tl.to(bubble4Ref.current, { scale: 1, duration: 2, ease: "back.out(1.5)" }, 16.5);
 
-      // Step II-E — bubble 02 scales up, top left (6 -> 8)
-      tl.to(bubble2Ref.current, { scale: 1, duration: 2, ease: "back.out(1.5)" }, 6);
+        tl.to(certWrapDesktopRef.current, { yPercent: -260, duration: 3, ease: "none" }, 18.5);
+        tl.to(bubble4Ref.current, { scale: 0, duration: 1, ease: "power2.in" }, 20.5);
 
-      // Step II-F — bubble 03 scales up, bottom left (8 -> 10)
-      tl.to(bubble3Ref.current, { scale: 1, duration: 2, ease: "back.out(1.5)" }, 8);
+        tl.to(bubble5Ref.current, { scale: 1, duration: 2, ease: "back.out(1.5)" }, 24);
 
-      // Step II-G — hold everything (10 -> 12), then bubbles scale down,
-      // then the teal circle rises out of frame (12 -> 14.5)
-      tl.to(
-        [bubble1Ref.current, bubble2Ref.current, bubble3Ref.current],
-        { scale: 0, duration: 1, ease: "power2.in" },
-        12
-      );
-      tl.to(circleRef.current, { y: "-120vh", opacity: 0, duration: 1.5, ease: "power2.in" }, 13);
+        tl.to(halfCircleRef.current, { yPercent: 0, duration: 3, ease: "power2.inOut" }, 28.5);
+        tl.to(steffyRef.current, { y: "-45vh", opacity: 0, duration: 3, ease: "power2.in" }, 28.5);
+        tl.to(bubble5Ref.current, { y: "-20vh", opacity: 0, scale: 0.6, duration: 2, ease: "power2.in" }, 28.5);
+      }, rootRef);
 
-      // Step II-H — hold Steffy alone (14.5 -> 16.5), then bubble 04 scales up, left (16.5 -> 18.5)
-      tl.to(bubble4Ref.current, { scale: 1, duration: 2, ease: "back.out(1.5)" }, 16.5);
+      return () => ctx.revert();
+    });
 
-      // Step II-I — certificates travel bottom -> top and fully exit the top edge (18.5 -> 21.5).
-      // Bubble 04 scales back down right as the last certificate passes center.
-      tl.to(certWrapRef.current, { yPercent: -260, duration: 3, ease: "none" }, 18.5);
-      tl.to(bubble4Ref.current, { scale: 0, duration: 1, ease: "power2.in" }, 20.5);
+    // ============================= MOBILE ==================================
+    mm.add("(max-width: 767.98px)", () => {
+      const ctx = gsap.context(() => {
+        gsap.set(bgDotRef.current, { xPercent: -50, yPercent: -50, scale: 1, opacity: 1 });
+        gsap.set(steffyRef.current, { xPercent: -50, yPercent: -50, scale: 0 });
+        gsap.set(circleRef.current, { xPercent: -50, yPercent: -50, scale: 0 });
+        gsap.set(
+          [bubble1Ref.current, bubble2Ref.current, bubble3Ref.current, bubble4Ref.current, bubble5Ref.current],
+          { scale: 0, transformOrigin: "50% 50%" }
+        );
+        gsap.set(certWrapMobileRef.current, { opacity: 0, y: 40 });
+        // Mobile: push the circle's top edge to exactly the bottom of the
+        // viewport (y = 100vh in px). The circle is 200vw × 200vw, so this
+        // hides it completely below the fold on every phone screen size.
+        gsap.set(halfCircleRef.current, { xPercent: -50, y: window.innerHeight });
 
-      // Step II-J — hold Steffy alone (21.5 -> 24), then bubble 05 scales up, right side (24 -> 26)
-      tl.to(bubble5Ref.current, { scale: 1, duration: 2, ease: "back.out(1.5)" }, 24);
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            id: "passion-scroll-section-mobile",
+            trigger: pinRef.current,
+            start: "top top",
+            end: () => `+=${window.innerHeight * MOBILE_SCROLL_LENGTH_VH}`,
+            scrub: 1,
+            pin: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
 
-      // Step II-K — bubble 05 + Steffy stay put, fixed, for a couple of scrolls (26 -> 28.5)
-      // (intentionally empty — nothing animates here, it's a hold)
+        tl.to(steffyRef.current, { scale: 1, duration: 2, ease: "power2.out" }, 0);
 
-      // Step II-L — the pink semicircle rises from the bottom while, at the same time,
-      // Steffy drifts upward and fades out along with bubble 05. (28.5 -> 31.5)
-      tl.to(halfCircleRef.current, { yPercent: 0, duration: 3, ease: "power2.inOut" }, 28.5);
-      tl.to(steffyRef.current, { y: "-45vh", opacity: 0, duration: 3, ease: "power2.in" }, 28.5);
-      tl.to(bubble5Ref.current, { y: "-20vh", opacity: 0, scale: 0.6, duration: 2, ease: "power2.in" }, 28.5);
+        tl.to(bgDotRef.current, { scale: 0, opacity: 0, duration: 2, ease: "power2.inOut" }, 2);
+        tl.to(circleRef.current, { scale: 1, duration: 2, ease: "power2.out" }, 2);
 
-    }, rootRef);
+        tl.to(bubble1Ref.current, { scale: 1, duration: 1, ease: "back.out(1.5)" }, 4);
+        tl.to(bubble1Ref.current, { scale: 0, duration: 1, ease: "power2.in" }, 7);
 
-    return () => ctx.revert();
+        tl.to(bubble2Ref.current, { scale: 1, duration: 1, ease: "back.out(1.5)" }, 10);
+        tl.to(bubble2Ref.current, { scale: 0, duration: 1, ease: "power2.in" }, 13);
+        tl.to(circleRef.current, { y: "-50vh", scale: 0, opacity: 0, duration: 1.5, ease: "power2.in" }, 13);
+
+        tl.to(bubble3Ref.current, { scale: 1, duration: 1, ease: "back.out(1.5)" }, 16);
+        tl.to(bubble3Ref.current, { scale: 0, duration: 1, ease: "power2.in" }, 19);
+
+        tl.to(bubble4Ref.current, { scale: 1, duration: 1, ease: "back.out(1.5)" }, 22);
+        tl.to(certWrapMobileRef.current, { opacity: 1, y: 0, duration: 1, ease: "power2.out" }, 22);
+        tl.to(bubble4Ref.current, { scale: 0, duration: 1, ease: "power2.in" }, 25);
+        tl.to(certWrapMobileRef.current, { opacity: 0, y: 30, duration: 1, ease: "power2.in" }, 25);
+
+        tl.to(bubble5Ref.current, { scale: 1, duration: 1, ease: "back.out(1.5)" }, 28);
+
+        // Mobile closing: animate the circle upward so it fills the bottom
+        // half of the screen. Target y = 100vh - circleSize/2 (center of
+        // circle sits at bottom of viewport), which equals innerHeight - circleSize/2.
+        // We use a function-based value so it recalculates on resize/refresh.
+        tl.to(halfCircleRef.current, {
+          y: () => window.innerHeight - (window.innerWidth * 2) / 2,
+          duration: 3,
+          ease: "power2.inOut",
+        }, 31);
+        tl.to(steffyRef.current, { y: "-40vh", opacity: 0, duration: 3, ease: "power2.in" }, 31);
+        tl.to(bubble5Ref.current, { y: "-15vh", opacity: 0, scale: 0.6, duration: 2, ease: "power2.in" }, 31);
+      }, rootRef);
+
+      return () => ctx.revert();
+    });
+
+    return () => mm.revert();
   }, []);
 
   return (
     <div ref={rootRef} className="relative w-full bg-[#f3f3f3]">
-      {/* ------------------------------------------------------------------ */}
-      {/* I) Static top part — outside the scroll animation                  */}
-      {/* ------------------------------------------------------------------ */}
-      <div className="flex flex-col items-center justify-center gap-[25px] px-4 pb-16 pt-20 text-center max-w-[1870px] m-auto">
+      <style>{`
+        @keyframes cert-scroll {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .cert-infinite-track {
+          animation: cert-scroll 8s linear infinite;
+          will-change: transform;
+        }
+        .cert-infinite-track:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+
+      {/* I) Static top part — outside the pin/scrub */}
+      <div className="flex flex-col items-center justify-center gap-[16px] px-4 pb-10 pt-14 text-center md:gap-[25px] md:pb-16 md:pt-20 md:max-w-[1870px] md:m-auto">
         <span className="text-caps-14-smbld rounded-full bg-white px-[12px] py-[4px]">
           ABOUT STEFFI
         </span>
-        <img
-          src="/images/passion-top-heading.svg"
-          alt="From passion to power"
-          className="w-full z-1"
-        />
+        <img src="/images/passion-top-heading.svg" alt="From passion to power" className="w-full z-1" />
       </div>
 
-   {/* ------------------------------------------------------------------ */}
-      {/* II) Pinned, scroll-scrubbed stage                                  */}
-      {/* ------------------------------------------------------------------ */}
-      <div ref={pinRef} className="relative h-screen w-full  flex items-center justify-center">
+      {/*
+        II) Pinned, scroll-scrubbed stage.
+
+        KEY MOBILE FIX:
+        - `overflow-hidden` is removed on mobile (was clipping the halfCircle).
+        - The halfCircle is placed INSIDE pinRef but OUTSIDE stageRef, so it's
+          positioned relative to the full 100vh pinned viewport, not the
+          constrained stageRef. This mirrors how desktop works (stageRef has
+          md:overflow-visible there too).
+        - `overflow-hidden` stays on desktop via `md:overflow-visible` which
+          negates it — actually we just drop it entirely since bubbles are
+          already clipped by the viewport itself when pinned.
+      */}
+      <div
+        ref={pinRef}
+        className="relative h-screen w-full flex items-center justify-center"
+      >
+        {/*
+          Pink semicircle lives here, sibling to stageRef, so it's positioned
+          relative to pinRef (the full 100vh pinned element) on BOTH breakpoints.
+          On mobile this escapes the stageRef's overflow clip entirely.
+        */}
+        <div
+          ref={halfCircleRef}
+          className="pointer-events-none absolute left-1/2 aspect-square w-[200%] rounded-full bg-[#FF7DA8] z-30 md:w-[140%] -bottom-[100%] max-[500px]:-bottom-[50%] max-[400px]:-bottom-[20%]"
+        />
+
         <div
           ref={stageRef}
-          className="relative mx-auto w-full max-w-[1650px] h-full max-h-[885px] "
+          className="relative mx-auto w-full h-full max-h-[85vh] md:max-w-[1650px] md:max-h-[885px] max-[768px]:max-w-full"
         >
-          {/* II-A: background dot pattern */}
+          {/* bg dot pattern */}
           <img
             ref={bgDotRef}
             src="/images/passion-bg-dot.svg"
             alt=""
-            className="absolute left-1/2 top-1/2 w-full max-w-[1257px] !z-0"
+            className="absolute left-1/2 top-[38%] w-[90vw] max-w-[90vw] z-0 md:top-1/2 md:w-full md:max-w-[1257px] md:!z-0 md:max-h-[95vh] md:max-[1024px]:max-h-[80vh]"
           />
 
-          {/* II-C: teal circle behind Steffy */}
+          {/* teal circle behind Steffy */}
           <div
             ref={circleRef}
-            className="absolute left-1/2 top-1/2 h-[846px] w-[846px] rounded-full bg-[#30D5C8]"
+            className="absolute left-1/2 top-[38%] h-[85vw] w-[85vw] max-h-[340px] max-w-[340px] rounded-full bg-[#30D5C8] md:top-1/2 md:h-[846px] md:w-[846px] md:max-h-[95vh] md:max-w-[95vh] md:max-[1024px]:max-h-[80vh] md:max-[1024px]:max-w-[80vh]"
           />
 
-          {/* II-B: Steffy — stays centered & fixed until the closing sequence */}
+          {/* Steffy */}
           <img
             ref={steffyRef}
             src="/images/passion-steffy.svg"
             alt="Steffi"
-            className="absolute left-1/2 top-1/2 z-10 w-full max-w-[522px]"
+            className="absolute left-1/2 top-[38%] z-10 w-[70vw] max-w-[320px] md:top-1/2 md:w-full md:max-w-[522px] md:max-h-[95vh] md:max-[1024px]:max-h-[80vh]"
           />
 
-          {/* II-D: bubble 01 — right */}
+          {/* bubble 01 */}
           <img
             ref={bubble1Ref}
             src="/images/passion-bubble-01.svg"
             alt=""
-            className="absolute right-[120px] top-[54px] w-full max-w-[581px]"
+            className="absolute left-[6%] top-[24%] z-20 w-[60vw] max-w-[260px] md:z-auto md:left-auto md:right-[120px] md:max-[1024px]:right-[10vw] md:top-[54px] md:max-w-[581px] md:w-[30vw] max-[768px]:right-[20px] max-[768px]:left-auto"
           />
 
-          {/* II-E: bubble 02 — top left */}
+          {/* bubble 02 */}
           <img
             ref={bubble2Ref}
             src="/images/passion-bubble-02.svg"
             alt=""
-            className="absolute left-[50px] top-[131px] w-full max-w-[491px]"
+            className="absolute bottom-[6%] z-20 w-[95vw] max-w-[340px] md:z-auto md:left-[50px] md:translate-x-0 md:top-[131px] md:bottom-auto md:max-w-[491px] md:max-[1024px]:left-[5vw] md:max-[1024px]:top-[7vw] md:w-[26vw] md:max-[1200px]:w-[33vw] md:max-[1024px]:w-[45vw] max-[768px]:right-auto max-[768px]:left-[220px] max-[500px]:left-[20px]"
           />
 
-          {/* II-F: bubble 03 — bottom left */}
+          {/* bubble 03 */}
           <img
             ref={bubble3Ref}
             src="/images/passion-bubble-03.svg"
             alt=""
-            className="absolute bottom-[110px] left-[210px] w-full max-w-[472px] z-10"
+            className="absolute right-[20%] bottom-[25%] z-20 w-[80vw] max-w-[260px] md:right-auto md:bottom-[110px] md:left-[210px] md:w-[25vw] md:max-w-[472px] md:z-10 md:max-[1024px]:w-[40vw] md:max-[1024px]:left-[15vw] md:max-[1024px]:bottom-[10vw]"
           />
 
-          {/* II-H: bubble 04 — top left, larger */}
+          {/* bubble 04 */}
           <img
             ref={bubble4Ref}
             src="/images/passion-bubble-04.svg"
             alt=""
-            className="absolute left-[50px] top-[132px] w-full max-w-[721px]"
+            className="absolute left-1/2 -translate-x-1/2 top-[30%] z-20 w-[70vw] max-w-[300px] md:z-auto md:left-[50px] md:translate-x-0 md:top-[132px] md:w-[38vw] md:max-w-[721px]"
           />
 
-          {/* II-J: bubble 05 — right */}
+          {/* bubble 05 */}
           <img
             ref={bubble5Ref}
             src="/images/passion-bubble-05.svg"
             alt=""
-            className="absolute right-[130px] top-[233px] z-10 w-full max-w-[500px] z-10"
+            className="absolute left-1/2 -translate-x-1/2 top-[30%] z-20 w-[62vw] max-w-[260px] md:left-auto md:translate-x-0 md:right-[130px] md:top-[233px] md:z-10 md:w-[26vw] md:max-w-[500px] max-[768px]:right-[20px] max-[768px]:left-auto max-[768px]:right-[20px] max-[768px]:!-right-[125px]"
           />
 
-          {/* II-I: certificates — travel bottom -> top, then exit */}
+          {/* certificates — desktop: vertical strip that travels bottom -> top (unchanged) */}
           <div
-            ref={certWrapRef}
-            className="absolute -right-[200px] op-1/2 flex w-[581px] flex-col gap-[87px]"
+            ref={certWrapDesktopRef}
+            className="hidden md:flex absolute -right-[200px] max-[1500px]:-right-[11vw] op-1/2 max-w-[581px] max-[1500px]:w-[30vw] flex-col gap-[87px]"
           >
-            <img
-              src="/images/passion-certificate-01.svg"
-              alt="Certificate of Achievement"
-              className="w-[379px] self-end"
-            />
-            <img
-              src="/images/passion-certificate-02.svg"
-              alt="Certificate of Completion"
-              className="w-[379px] self-start"
-            />
-            <img
-              src="/images/passion-certificate-03.svg"
-              alt="Certificate of Completion"
-              className="w-[379px] self-end"
-            />
+            <img src="/images/passion-certificate-01.svg" alt="Certificate of Achievement" className="max-w-[379px] w-[20vw] self-end" />
+            <img src="/images/passion-certificate-02.svg" alt="Certified Nutritionist" className="max-w-[379px] w-[20vw] self-start" />
+            <img src="/images/passion-certificate-03.svg" alt="Certificate of Completion" className="max-w-[379px] w-[20vw] self-end" />
           </div>
 
-          {/*
-            II-L: closing pink semicircle.
-            The element is a full circle (aspect-square) whose diameter is
-            wider than the stage so it always bleeds edge-to-edge. It's
-            positioned so its vertical CENTER sits exactly on the stage's
-            bottom edge (bottom: -50% of its own height) — since the stage
-            clips overflow, only the top half is ever visible, which is a
-            true, evenly-curved semicircle, not a stretched ellipse.
-          */}
+          {/* certificates — mobile: pure-CSS infinite auto-scroll loop */}
           <div
-            ref={halfCircleRef}
-            className="pointer-events-none absolute left-1/2 aspect-square w-[140%] rounded-full bg-[#FF7DA8] z-0"
-            style={{ bottom: "-100%" }}
-          />
-          
+            ref={certWrapMobileRef}
+            className="flex md:hidden absolute bottom-[4%] left-0 right-0 z-20"
+            style={{ overflow: "hidden" }}
+          >
+            <div
+              className="cert-infinite-track flex gap-4 px-4"
+              style={{ width: "max-content" }}
+            >
+              {/* Set 1 */}
+              <img src="/images/passion-certificate-01.svg" alt="Certificate of Achievement" className="w-[60vw] max-w-[220px] flex-shrink-0" draggable={false} />
+              <img src="/images/passion-certificate-02.svg" alt="Certified Nutritionist" className="w-[60vw] max-w-[220px] flex-shrink-0" draggable={false} />
+              <img src="/images/passion-certificate-03.svg" alt="Certificate of Completion" className="w-[60vw] max-w-[220px] flex-shrink-0" draggable={false} />
+              {/* Set 2 — duplicate for seamless loop */}
+              <img src="/images/passion-certificate-01.svg" alt="" aria-hidden="true" className="w-[60vw] max-w-[220px] flex-shrink-0" draggable={false} />
+              <img src="/images/passion-certificate-02.svg" alt="" aria-hidden="true" className="w-[60vw] max-w-[220px] flex-shrink-0" draggable={false} />
+              <img src="/images/passion-certificate-03.svg" alt="" aria-hidden="true" className="w-[60vw] max-w-[220px] flex-shrink-0" draggable={false} />
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* Render the next section right after this one in the page. If that
-          next section is a static pink CTA identical to the closing frame
-          above, you likely don't need to render both — this pinned stage
-          already ends on that exact frame. The pin releases automatically
-          once the timeline completes, so normal scroll continues straight
-          into whatever comes next. */}
     </div>
   );
 }
