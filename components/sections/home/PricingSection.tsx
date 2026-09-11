@@ -94,7 +94,7 @@ export function PricingSection() {
   const currentPricing = pricingData[activeTab];
 
   return (
-    <section className="w-[calc(100%-40px)] m-auto bg-[#30D5C8] rounded-[120px] max-[1024px]:rounded-[50px]">
+    <section id="pricing" className="w-[calc(100%-40px)] m-auto bg-[#30D5C8] rounded-[120px] max-[1024px]:rounded-[50px]">
       <div className="mx-auto w-full max-w-[1600px] flex flex-col relative overflow-hidden py-[155px] px-[20px] max-[768px]:px-[10px] max-[1024px]:py-[80px] items-center text-center">
         
         {/* Section Header */}

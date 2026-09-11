@@ -23,7 +23,7 @@ export default function FaqAccordion({ faqs }: FaqAccordionProps) {
   };
 
   return (
-    <section className="w-full max-w-[1650px] lg:px-[45px] px-[20px] lg:py-[260px] py-[140px] mx-auto flex flex-col lg:flex-row justify-between items-start gap-12">
+    <section id="faq" className="w-full max-w-[1650px] lg:px-[45px] px-[20px] lg:py-[260px] py-[140px] mx-auto flex flex-col lg:flex-row justify-between items-start gap-12">
 
       {/* Left Container */}
       <div className="w-full lg:max-w-[641px] flex flex-col">

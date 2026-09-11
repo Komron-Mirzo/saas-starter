@@ -217,7 +217,7 @@ export default function StorySliderAnimatedSection({ slides }: Props) {
     if (!slides || slides.length === 0) return null;
 
     return (
-        <>
+        <section id="story-worlds">
             {/* ══════════════════ DESKTOP (≥768px) — unchanged ══════════════════ */}
             <div className="hidden md:block">
                 {/*
@@ -485,6 +485,6 @@ export default function StorySliderAnimatedSection({ slides }: Props) {
                     </div>
                 </div>
             </div>
-        </>
+        </section>
     );
 }

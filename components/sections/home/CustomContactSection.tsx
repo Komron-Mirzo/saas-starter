@@ -65,7 +65,7 @@ export default function CustomContactSection({ action }: CustomContactSectionPro
 
   return (
     <>
-      <section className="w-full py-[140px] lg:py-[260px] px-[20px] lg:px-[45px] bg-[#1b1b1b] flex justify-center items-center relative">
+      <section id="contact" className="w-full py-[140px] lg:py-[260px] px-[20px] lg:px-[45px] bg-[#1b1b1b] flex justify-center items-center relative">
         <div className="w-full max-w-[1560px] flex flex-col lg:flex-row justify-between items-start gap-16">
           
           {/* Left Side: Max Width 641px */}

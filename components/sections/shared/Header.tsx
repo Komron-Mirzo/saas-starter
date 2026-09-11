@@ -19,11 +19,11 @@ import useSWR, { mutate } from 'swr';
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const navItems = [
-  { label: "ABOUT", href: "#what-is" },
+  { label: "ABOUT", href: "#what-is-worthfit" },
   { label: "HOW IT WORKS", href: "#how-it-works" },
   { label: "WORLDS", href: "#story-worlds" },
   { label: "PRICING", href: "#pricing" },
-  { label: "STEFFI", href: "#about" },
+  { label: "STEFFI", href: "#about-steffi" },
   { label: "COMMUNITY", href: "#community" },
   { label: "FAQ", href: "#faq" },
   { label: "CONTACT", href: "#contact" },

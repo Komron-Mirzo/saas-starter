@@ -165,6 +165,8 @@ export default function PassionScrollSection() {
   }, []);
 
   return (
+    <>
+    <div id="about-steffi" className="relative -top-24 h-0 w-0 pointer-events-none" />
     <div ref={rootRef} className="relative w-full bg-[#f3f3f3]">
       <style>{`
         @keyframes cert-scroll {
@@ -212,6 +214,7 @@ export default function PassionScrollSection() {
         */}
         <div
           ref={halfCircleRef}
+          id="story-worlds"
           className="pointer-events-none absolute left-1/2 aspect-square w-[200%] rounded-full bg-[#FF7DA8] z-30 md:w-[140%] -bottom-[100%] max-[500px]:-bottom-[50%] max-[400px]:-bottom-[20%]"
         />
 
@@ -314,5 +317,6 @@ export default function PassionScrollSection() {
         </div>
       </div>
     </div>
+    </>
   );
 }

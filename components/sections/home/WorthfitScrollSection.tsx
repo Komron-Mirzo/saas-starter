@@ -130,6 +130,7 @@ export default function WorthfitScrollSection() {
       {/* ================= DESKTOP (>=768px) — unchanged ================= */}
       <section
         ref={sectionRef}
+        id="what-is-worthfit"
         className="relative hidden w-full bg-[#1a1a1a] md:block"
         style={{ height: `calc(100vh + ${SCROLL_VH}vh)` }}
       >

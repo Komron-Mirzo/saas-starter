@@ -4,17 +4,17 @@ import { Button } from '@/components/ui/button';
 
 export function Footer() {
   const navColumn1 = [
-    { label: "WHAT IS WORTHFIT?", href: "#" },
-    { label: "HOW IT WORKS", href: "#" },
-    { label: "STORY WORLDS", href: "#" },
-    { label: "PLANS & PRICING", href: "#" },
-    { label: "ABOUT STEFFI", href: "#" },
+    { label: "WHAT IS WORTHFIT?", href: "/#what-is-worthfit" },
+    { label: "HOW IT WORKS", href: "/#how-it-works" },
+    { label: "STORY WORLDS", href: "/#story-worlds" },
+    { label: "PLANS & PRICING", href: "/#pricing" },
+    { label: "ABOUT STEFFI", href: "/#about-steffi" },
   ];
 
   const navColumn2 = [
-    { label: "COMMUNITY", href: "#" },
-    { label: "FAQ", href: "#" },
-    { label: "CONTACT", href: "#" },
+    { label: "COMMUNITY", href: "/#community" },
+    { label: "FAQ", href: "/#faq" },
+    { label: "CONTACT", href: "/#contact" },
   ];
 
   const socialLinks = [
@@ -25,9 +25,9 @@ export function Footer() {
   ];
 
   const legalLinks = [
-    { label: "TERMS AND CONDITIONS", href: "#" },
-    { label: "PRIVACY POLICY", href: "#" },
-    { label: "IMPRINT", href: "#" },
+    { label: "TERMS AND CONDITIONS", href: "/terms" },
+    { label: "PRIVACY POLICY", href: "/privacy" },
+    { label: "IMPRINT", href: "/imprint" },
     { label: "COOKIE SETTINGS", href: "#" },
   ];
 

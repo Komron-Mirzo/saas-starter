@@ -4,6 +4,7 @@ import { Poppins } from 'next/font/google';
 import localFont from 'next/font/local';
 import { getUser, getTeamForUser } from '@/lib/db/queries';
 import { SWRConfig } from 'swr';
+import { ScrollTriggerHashFix } from '@/components/ui/smooth-scroll-provider';
 
 export const metadata: Metadata = {
   title: 'Worthfit SaaS',
@@ -48,6 +49,7 @@ export default function RootLayout({
             }
           }}
         >
+          <ScrollTriggerHashFix />
           {children}
         </SWRConfig>
       </body>
