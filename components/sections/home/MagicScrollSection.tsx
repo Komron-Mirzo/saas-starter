@@ -86,14 +86,17 @@ export default function CardStackClient({ cards }: Props) {
     >
       <div
         ref={pinRef}
-        className="relative flex min-h-[813px] h-screen max-h-[1213px] w-full items-center justify-center"
+        className="relative flex min-h-[813px] h-screen max-h-[1213px] min-[1920px]:h-[900px] w-full items-center justify-center overflow-hidden"
       >
-        <div className="pointer-events-none absolute inset-0 flex select-none items-center justify-center max-[768px]:items-start max-[768px]:top-[10%]">
-          <span className="text-h1-01 !text-[41vw] max-[1500px]:!text-[55vw] max-[500px]:!text-[57.5vw] leading-none text-[#D9D9D9] ">
+        <div className="pointer-events-none absolute inset-0 flex select-none items-start justify-center max-[768px]:items-start max-[768px]:top-[10%]">
+          <span 
+            className="text-h1-01 leading-none text-[#D9D9D9]"
+            style={{ fontSize: "clamp(250px, 41vw, 600px)" }}
+          >
             {cards[activeIndex]?.number || "01"}
           </span>
         </div>
-        <div className="relative h-[60vh] w-full max-w-[834px] max-[1024px]:max-w-[461px] max-h-[564px] -mb-[53vh] max-[768px]:-mb-[34px] max-[768px]:max-w-[344px] max-[500px]:max-w-[280px] max-[500px]:h-[433px]">
+        <div className="relative h-[60vh] max-h-[564px] min-[1920px]:h-[564px] w-full max-w-[834px] max-[1024px]:max-w-[461px] -mb-[53vh] min-[1024px]:-mb-[200px] max-[768px]:-mb-[34px] max-[768px]:max-w-[344px] max-[500px]:max-w-[280px] max-[500px]:h-[433px]">
           {cards.map((card, i) => (
             <StackCard
               key={card.number + i}
