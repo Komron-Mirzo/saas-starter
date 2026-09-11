@@ -106,14 +106,14 @@ export function PricingSection() {
           One story. Three ways to experience it.
         </h2>
 
-        {/* Plan Selection Tabs */}
+       {/* Plan Selection Tabs */}
         <div className="flex flex-wrap items-center justify-center gap-3 mb-16">
           <button
             onClick={() => setActiveTab('trial')}
-            className={`text-caps-26-smbld px-[22px] py-[4px] rounded-full uppercase transition-all cursor-pointer border-2 border-white/60 ${
+            className={`text-caps-26-smbld px-[22px] py-[4px] rounded-full uppercase transition-all cursor-pointer border-2 ${
               activeTab === 'trial'
-                ? 'bg-white text-gray-900'
-                : 'text-white hover:text-white/80'
+                ? 'bg-white text-[#1A1A1A] border-white'
+                : 'border-white/60 text-white/60 hover:text-white hover:border-white'
             }`}
           >
             6MONTH + 1W FREE
@@ -121,10 +121,10 @@ export function PricingSection() {
 
           <button
             onClick={() => setActiveTab('notrial')}
-            className={`text-caps-26-smbld px-[22px] py-[4px] rounded-full uppercase transition-all cursor-pointer border-2 border-white/60 ${
+            className={`text-caps-26-smbld px-[22px] py-[4px] rounded-full uppercase transition-all cursor-pointer border-2 ${
               activeTab === 'notrial'
-                ? 'bg-white text-gray-900'
-                : 'text-white hover:text-white/80'
+                ? 'bg-white text-[#1A1A1A] border-white'
+                : 'border-white/60 text-white/60 hover:text-white hover:border-white'
             }`}
           >
             6MONTH NO TRIAL
@@ -132,10 +132,10 @@ export function PricingSection() {
 
           <button
             onClick={() => setActiveTab('annual')}
-            className={`text-caps-26-smbld px-[22px] py-[4px] rounded-full uppercase transition-all cursor-pointer border-2 border-white/60 ${
+            className={`text-caps-26-smbld px-[22px] py-[4px] rounded-full uppercase transition-all cursor-pointer border-2 ${
               activeTab === 'annual'
-                ? 'bg-white text-gray-900'
-                : 'text-white hover:text-white/80'
+                ? 'bg-white text-[#1A1A1A] border-white'
+                : 'border-white/60 text-white/60 hover:text-white hover:border-white'
             }`}
           >
             12-MONTH MEMBERSHIP

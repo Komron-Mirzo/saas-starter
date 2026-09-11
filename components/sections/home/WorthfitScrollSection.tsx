@@ -9,11 +9,11 @@ if (typeof window !== "undefined") {
 }
 
 // ---------------- Desktop (>=768px) pinned-scroll constants ----------------
-const SCROLL_ANIMATION_VH = 400;
-const SCROLL_HOLD_VH = 200;
+const SCROLL_ANIMATION_VH = 300; // Reduced from 400 so it covers 3 states (Section 1, Section 2, Section 3 + Bubble)
+const SCROLL_HOLD_VH = 100;    // Exactly 1 scroll hold after full animation completes
 const SCROLL_VH = SCROLL_ANIMATION_VH + SCROLL_HOLD_VH;
 
-const TIMELINE_ANIMATION_UNITS = 10.5;
+const TIMELINE_ANIMATION_UNITS = 9; // 3 clear units per transition phase
 const HOLD_UNITS =
   TIMELINE_ANIMATION_UNITS * (SCROLL_HOLD_VH / SCROLL_ANIMATION_VH);
 
@@ -21,7 +21,7 @@ const MOBILE_MQ = "(max-width: 767px)";
 const DESKTOP_MQ = "(min-width: 768px)";
 
 export default function WorthfitScrollSection() {
-  // ----- desktop refs (unchanged) -----
+  // ----- desktop refs -----
   const sectionRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const leftWrapRef = useRef<HTMLDivElement>(null);
@@ -42,9 +42,10 @@ export default function WorthfitScrollSection() {
   useLayoutEffect(() => {
     const mm = gsap.matchMedia();
 
-    // ================= DESKTOP: same pinned crossfade as before =================
+    // ================= DESKTOP: 3-step scroll sequence + 1 final hold =================
     mm.add(DESKTOP_MQ, () => {
       const ctx = gsap.context(() => {
+        // Initial setup for section 1
         gsap.set(girl01Ref.current, { opacity: 1 });
         gsap.set(girl02Ref.current, { opacity: 0 });
         gsap.set(bubbleRef.current, { opacity: 0, scale: 0 });
@@ -63,18 +64,28 @@ export default function WorthfitScrollSection() {
           },
         });
 
-        tl.to(leftWrapRef.current, { yPercent: -33.333, duration: 3 }, 0.5)
-          .to(girl01Ref.current, { opacity: 0, duration: 3, ease: "sine.inOut" }, 0.5)
-          .to(girl02Ref.current, { opacity: 1, duration: 3, ease: "sine.inOut" }, 0.5);
+        // ================= STEP 1: SECTION 1 -> SECTION 2 (0 to 3 units) =================
+        tl.to(leftWrapRef.current, { yPercent: -33.333, duration: 3 }, 0.5);
 
-        tl.to(leftWrapRef.current, { yPercent: -66.666, duration: 3 }, 4.5)
-          .to(girl02Ref.current, { opacity: 0, duration: 3, ease: "sine.inOut" }, 4.5)
-          .to(girl01Ref.current, { opacity: 1, duration: 3, ease: "sine.inOut" }, 4.5);
+        // ================= STEP 2: SECTION 2 -> SECTION 3 (3 to 6 units) =================
+        // Switch leg (girl02) slightly before section 2 locks into center
+        tl.set(girl01Ref.current, { opacity: 0 }, 2.7)
+          .set(girl02Ref.current, { opacity: 1 }, 2.7)
+          .to(leftWrapRef.current, { yPercent: -66.666, duration: 3 }, 3);
 
-        tl.to(bubbleRef.current, { opacity: 1, scale: 1, duration: 2, ease: "power1.out" }, 8.5)
-          .to(girl01Ref.current, { opacity: 0, duration: 2, ease: "sine.inOut" }, 8.5)
-          .to(girl02Ref.current, { opacity: 1, duration: 2, ease: "sine.inOut" }, 8.5);
+        // ================= STEP 3: SECTION 3 & BUBBLE (6 to 9 units) =================
+        // 1. Leg changes back to girl01 right when Section 3 ("No rules. No pressure.") centers
+        tl.set(girl01Ref.current, { opacity: 1 }, 5.7)
+          .set(girl02Ref.current, { opacity: 0 }, 5.7);
 
+        // 2. Bubble starts scaling and fading in at 6 (takes 2 units total duration, so 70% scale happens around 7.4)
+        tl.to(bubbleRef.current, { opacity: 1, scale: 1, duration: 2, ease: "power1.out" }, 6);
+
+        // 3. Leg changes one more time (girl02) once the bubble reaches ~70% scale at unit 7.4
+        tl.set(girl01Ref.current, { opacity: 0 }, 7.4)
+          .set(girl02Ref.current, { opacity: 1 }, 7.4);
+
+        // ================= FINAL HOLD: Exactly 1 scroll hold after everything is complete =================
         tl.to({}, { duration: HOLD_UNITS }, TIMELINE_ANIMATION_UNITS);
       }, sectionRef);
 
@@ -84,7 +95,6 @@ export default function WorthfitScrollSection() {
     // ================= MOBILE: in-flow reveal + one-shot leg swap =================
     mm.add(MOBILE_MQ, () => {
       const ctx = gsap.context(() => {
-        // text blocks fade up as they enter, once
         [mText1Ref, mText2Ref, mText3Ref].forEach((ref) => {
           gsap.set(ref.current, { opacity: 0, y: 32 });
           gsap.to(ref.current, {
@@ -100,7 +110,6 @@ export default function WorthfitScrollSection() {
           });
         });
 
-        // image: girl01 -> girl02 (leg move) once, then bubble in, no pin, no scrub
         gsap.set(mGirl01Ref.current, { opacity: 1 });
         gsap.set(mGirl02Ref.current, { opacity: 0 });
         gsap.set(mBubbleRef.current, { opacity: 0, scale: 0 });
@@ -127,7 +136,7 @@ export default function WorthfitScrollSection() {
 
   return (
     <>
-      {/* ================= DESKTOP (>=768px) — unchanged ================= */}
+      {/* ================= DESKTOP (>=768px) ================= */}
       <section
         ref={sectionRef}
         id="what-is-worthfit"
@@ -219,7 +228,7 @@ export default function WorthfitScrollSection() {
         </div>
       </section>
 
-      {/* ================= MOBILE (<768px) — simple reveal, one-shot leg swap ================= */}
+      {/* ================= MOBILE (<768px) ================= */}
       <div ref={mobileRootRef} className="block w-full bg-[#1a1a1a] px-[20px] pt-[100px] pb-[0px] md:hidden">
         <div className="mx-auto flex flex-col gap-[70px]">
           <div ref={mText1Ref} className="flex flex-col gap-[18px]">
@@ -251,7 +260,6 @@ export default function WorthfitScrollSection() {
             </p>
           </div>
 
-          {/* image block — girl01 -> girl02 leg move once, then bubble */}
           <div className="relative w-screen left-1/2 -translate-x-1/2">
             <div
               aria-hidden
