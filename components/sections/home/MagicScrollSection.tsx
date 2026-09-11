@@ -1,4 +1,5 @@
 "use client";
+
 import { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -24,6 +25,20 @@ export default function CardStackClient({ cards }: Props) {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
+      // Initialize ALL cards hidden off-screen below with 0 opacity so nothing ghosts at the start
+      cards.forEach((_, i) => {
+        const el = cardRefs.current[i];
+        if (!el) return;
+        gsap.set(el, {
+          transformOrigin: "center",
+          yPercent: 40,
+          opacity: 0,
+          rotate: -i * STEP_ROTATE,
+          scale: 1,
+          zIndex: i + 1,
+        });
+      });
+
       const st = ScrollTrigger.create({
         trigger: sectionRef.current,
         pin: pinRef.current,

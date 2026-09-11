@@ -9,11 +9,11 @@ if (typeof window !== "undefined") {
 }
 
 // ---------------- Desktop (>=768px) pinned-scroll constants ----------------
-const SCROLL_ANIMATION_VH = 300; // Reduced from 400 so it covers 3 states (Section 1, Section 2, Section 3 + Bubble)
-const SCROLL_HOLD_VH = 100;    // Exactly 1 scroll hold after full animation completes
+const SCROLL_ANIMATION_VH = 300; 
+const SCROLL_HOLD_VH = 100;    
 const SCROLL_VH = SCROLL_ANIMATION_VH + SCROLL_HOLD_VH;
 
-const TIMELINE_ANIMATION_UNITS = 9; // 3 clear units per transition phase
+const TIMELINE_ANIMATION_UNITS = 9; 
 const HOLD_UNITS =
   TIMELINE_ANIMATION_UNITS * (SCROLL_HOLD_VH / SCROLL_ANIMATION_VH);
 
@@ -45,7 +45,6 @@ export default function WorthfitScrollSection() {
     // ================= DESKTOP: 3-step scroll sequence + 1 final hold =================
     mm.add(DESKTOP_MQ, () => {
       const ctx = gsap.context(() => {
-        // Initial setup for section 1
         gsap.set(girl01Ref.current, { opacity: 1 });
         gsap.set(girl02Ref.current, { opacity: 0 });
         gsap.set(bubbleRef.current, { opacity: 0, scale: 0 });
@@ -64,35 +63,27 @@ export default function WorthfitScrollSection() {
           },
         });
 
-        // ================= STEP 1: SECTION 1 -> SECTION 2 (0 to 3 units) =================
         tl.to(leftWrapRef.current, { yPercent: -33.333, duration: 3 }, 0.5);
 
-        // ================= STEP 2: SECTION 2 -> SECTION 3 (3 to 6 units) =================
-        // Switch leg (girl02) slightly before section 2 locks into center
         tl.set(girl01Ref.current, { opacity: 0 }, 2.7)
           .set(girl02Ref.current, { opacity: 1 }, 2.7)
           .to(leftWrapRef.current, { yPercent: -66.666, duration: 3 }, 3);
 
-        // ================= STEP 3: SECTION 3 & BUBBLE (6 to 9 units) =================
-        // 1. Leg changes back to girl01 right when Section 3 ("No rules. No pressure.") centers
         tl.set(girl01Ref.current, { opacity: 1 }, 5.7)
           .set(girl02Ref.current, { opacity: 0 }, 5.7);
 
-        // 2. Bubble starts scaling and fading in at 6 (takes 2 units total duration, so 70% scale happens around 7.4)
         tl.to(bubbleRef.current, { opacity: 1, scale: 1, duration: 2, ease: "power1.out" }, 6);
 
-        // 3. Leg changes one more time (girl02) once the bubble reaches ~70% scale at unit 7.4
         tl.set(girl01Ref.current, { opacity: 0 }, 7.4)
           .set(girl02Ref.current, { opacity: 1 }, 7.4);
 
-        // ================= FINAL HOLD: Exactly 1 scroll hold after everything is complete =================
         tl.to({}, { duration: HOLD_UNITS }, TIMELINE_ANIMATION_UNITS);
       }, sectionRef);
 
       return () => ctx.revert();
     });
 
-    // ================= MOBILE: in-flow reveal + one-shot leg swap =================
+    // ================= MOBILE: scroll-driven timeline on the image wrap container =================
     mm.add(MOBILE_MQ, () => {
       const ctx = gsap.context(() => {
         [mText1Ref, mText2Ref, mText3Ref].forEach((ref) => {
@@ -110,22 +101,30 @@ export default function WorthfitScrollSection() {
           });
         });
 
+        // Set initial state explicitly
         gsap.set(mGirl01Ref.current, { opacity: 1 });
         gsap.set(mGirl02Ref.current, { opacity: 0 });
         gsap.set(mBubbleRef.current, { opacity: 0, scale: 0 });
 
+        // Use a scroll-scrubbed timeline directly tied to the image wrap container viewport scroll
         const mTl = gsap.timeline({
+          defaults: { ease: "none" },
           scrollTrigger: {
             trigger: mImageWrapRef.current,
-            start: "top 70%",
-            toggleActions: "play none none none",
+            start: "top 90%",
+            end: "top 30%",
+            scrub: true,
           },
         });
 
-        mTl
-          .to(mGirl01Ref.current, { opacity: 0, duration: 0.6, ease: "sine.inOut" })
-          .to(mGirl02Ref.current, { opacity: 1, duration: 0.6, ease: "sine.inOut" }, "<")
-          .to(mBubbleRef.current, { opacity: 1, scale: 1, duration: 0.5, ease: "power1.out" }, "+=0.15");
+        // Step 1: Bubble scales up from 0 to 1
+        mTl.to(mBubbleRef.current, { opacity: 1, scale: 1, duration: 1 })
+           // Step 2: Once bubble hits 100% scale, switch image once
+           .set(mGirl01Ref.current, { opacity: 0 }, "+=0")
+           .set(mGirl02Ref.current, { opacity: 1 }, "+=0")
+           // Small hold spacer so the change stays visible before scrolling past
+           .to({}, { duration: 0.5 });
+
       }, mobileRootRef);
 
       return () => ctx.revert();
