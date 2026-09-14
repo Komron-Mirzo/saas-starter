@@ -55,14 +55,14 @@ export default function WorthfitJoinlistPopup({ onClose }: WorthfitJoinlistPopup
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1A1A1AB2]">
-      <div className="flex h-[840px] w-[1020px] gap-[40px] rounded-[75px] bg-[#F3F3F3] py-[15px] pr-[35px] pl-[15px]">
+<div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1A1A1AB2] p-[20px] max-[768px]:items-end max-[768px]:p-0">
+  <div className="flex w-[1020px] max-w-full max-h-[90vh] overflow-y-auto gap-[40px] rounded-[75px] bg-[#F3F3F3] p-[15px] max-[1200px]:m-[20px] max-[768px]:m-0 max-[768px]:max-h-[100vh] max-[768px]:rounded-b-none max-[768px]:rounded-t-[50px] max-[768px]:p-[20px]">
         {!submitted ? (
           // ==========================================
           // I) FORM DIV
           // ==========================================
           <>
-            <div className="relative h-full w-1/2 overflow-hidden rounded-[60px] border-[5px] border-white">
+            <div className="relative h-full w-1/2 overflow-hidden rounded-[60px] border-[5px] border-white max-[1024px]:w-[40%] max-[768px]:hidden">
               <img
                 src="/images/worthfit-popup.jpg"
                 alt="Worthfit"
@@ -70,7 +70,7 @@ export default function WorthfitJoinlistPopup({ onClose }: WorthfitJoinlistPopup
               />
             </div>
 
-            <div className="flex w-1/2 flex-col justify-center py-[20px]">
+            <div className="flex w-1/2 flex-col justify-center py-[20px] pr-[20px] max-[1024px]:w-[60%] max-[768px]:w-full max-[768px]:justify-start max-[768px]:pr-0">
               <button
                 type="button"
                 onClick={onClose}
@@ -80,16 +80,16 @@ export default function WorthfitJoinlistPopup({ onClose }: WorthfitJoinlistPopup
                 <img
                   src="/icons/worthfit-popup-close.svg"
                   alt="Close"
-                  width={24}
-                  height={24}
+                  width={35}
+                  height={35}
                 />
               </button>
 
-              <span className="text-caps-14-smbld mb-[20px] w-fit bg-white px-[10px] py-[5px] uppercase text-[#1a1a1a]">
+              <span className="text-caps-14-smbld mb-[20px] rounded-full w-fit bg-white px-[10px] py-[5px] uppercase text-[#1a1a1a]">
                 Your Story Starts Soon
               </span>
 
-              <h3 className="text-h3-02 mb-[20px] italic uppercase text-[#FF7DA8]">
+              <h3 className="text-h3-02 mb-[20px] italic !uppercase text-[#FF7DA8] max-[768px]:!text-[32px]">
                 Be First to Enter the Worlds of Worthfit
               </h3>
 
@@ -130,7 +130,7 @@ export default function WorthfitJoinlistPopup({ onClose }: WorthfitJoinlistPopup
                     return (
                       <label
                         key={option.value}
-                        className={`flex flex-1 cursor-pointer items-center rounded-[10px] border-[1.5px] px-[10px] py-[20px] ${
+                        className={`flex flex-1 cursor-pointer items-center rounded-[10px] border-[1.5px] px-[10px] py-[20px] max-[1024px]:flex-col max-[1024px]:items-start max-[1024px]:gap-[15px] ${
                           active
                             ? 'border-[#FF7DA8] bg-[#FF7DA8]/10'
                             : 'border-[#1a1a1a]/15 bg-white'
@@ -147,8 +147,8 @@ export default function WorthfitJoinlistPopup({ onClose }: WorthfitJoinlistPopup
                         <img
                           src={option.icon}
                           alt=""
-                          width={20}
-                          height={20}
+                          width={35}
+                          height={35}
                           className="mr-[10px]"
                         />
                         <span className="text-caps-14-smbld uppercase text-[#1a1a1a]/60">
@@ -164,16 +164,16 @@ export default function WorthfitJoinlistPopup({ onClose }: WorthfitJoinlistPopup
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="bg-primary mb-[10px] w-full rounded-full py-[18px] text-white shadow-[4px_4px_0px_0px_#1A1A1A] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[6px_6px_0px_0px_#1A1A1A] disabled:opacity-60"
+                  className="text-btn bg-primary mb-[10px] w-full rounded-full py-[18px] text-white shadow-[4px_4px_0px_0px_#1A1A1A] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[6px_6px_0px_0px_#1A1A1A] disabled:opacity-60 h-[65px]"
                 >
                   {submitting ? 'Joining...' : 'Join the Waitlist'}
                 </button>
 
-                <p className="text-body-14 mb-[20px] text-[#1a1a1a]">
+                <p className="text-body-14 mb-[20px] text-center text-[#1a1a1a]">
                   No spam. Just Worthfit updates, early access &amp; a little glow.
                 </p>
 
-                <label className="text-body-14 flex cursor-pointer items-start text-[#1a1a1a]/40">
+                <label className="text-body-14 flex cursor-pointer items-start text-[#1a1a1a]/40 mb-[20px]">
                   <span className="relative mr-[15px] mt-[2px] inline-flex h-[23px] w-[23px] shrink-0 items-center justify-center rounded-[5px] border-[1.5px] border-[#1a1a1a]/15 bg-transparent has-[:checked]:border-[#FF7DA8] has-[:checked]:bg-[#FF7DA8]">
                     <input
                       type="checkbox"
@@ -198,7 +198,7 @@ export default function WorthfitJoinlistPopup({ onClose }: WorthfitJoinlistPopup
           // II) SUCCESS DIV
           // ==========================================
           <div className="flex w-full flex-col gap-[40px]">
-            <div className="flex flex-1 flex-col items-center justify-center px-[60px] text-center">
+            <div className="flex h-[45%] flex-1 flex-col items-center justify-start text-center p-[20px] max-[768px]:p-0 max-[768px]:h-[40%]">
               <button
                 type="button"
                 onClick={onClose}
@@ -208,20 +208,20 @@ export default function WorthfitJoinlistPopup({ onClose }: WorthfitJoinlistPopup
                 <img
                   src="/icons/worthfit-popup-close.svg"
                   alt="Close"
-                  width={24}
-                  height={24}
+                  width={35}
+                  height={35}
                 />
               </button>
 
-              <span className="text-caps-14-smbld mb-[20px] w-fit bg-[#30D5C8] px-[10px] py-[5px] uppercase text-[#1a1a1a]">
+              <span className="text-caps-14-smbld mb-[20px] w-fit bg-[#30D5C8] rounded-full text-white px-[10px] py-[5px] uppercase">
                 You&rsquo;re In!
               </span>
 
-              <h3 className="text-h3-02 mb-[20px] italic uppercase text-[#FF7DA8]">
+              <h3 className="text-h2-02 mb-[20px] italic !uppercase text-[#FF7DA8] max-w-[875px] max-[768px]:!text-[32px]">
                 Welcome to the Beginning of Your Glow Story
               </h3>
 
-              <p className="text-body-14 mb-[20px] text-[#1a1a1a]/60">
+              <p className="text-body-14 mb-[20px] text-[#1a1a1a]/60 max-w-[490px]">
                 You&rsquo;re officially on the Worthfit waitlist. We&rsquo;ll let you know as soon
                 as the doors to your Story World open.
               </p>
@@ -231,7 +231,7 @@ export default function WorthfitJoinlistPopup({ onClose }: WorthfitJoinlistPopup
               </Button>
             </div>
 
-            <div className="relative h-[300px] w-full overflow-hidden rounded-[60px] border-[5px] border-white">
+            <div className="relative h-[55%] w-full overflow-hidden rounded-[60px] border-[5px] border-white max-[768px]:!h-[55%] max-[768px]:rounded-[40px]">
               <img
                 src="/images/worthfit-popup-success.jpg"
                 alt="Welcome to Worthfit"
