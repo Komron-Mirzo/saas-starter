@@ -28,11 +28,10 @@ export function Footer() {
     { label: "TERMS AND CONDITIONS", href: "/terms" },
     { label: "PRIVACY POLICY", href: "/privacy" },
     { label: "IMPRINT", href: "/imprint" },
-    { label: "COOKIE SETTINGS", href: "#" },
   ];
 
   return (
-    <footer className="w-full pt-[200px] max-lg:pt-[100px] pb-[30px] text-gray-900 bg-white">
+    <footer className="w-full pt-[200px] max-lg:pt-[100px] pb-[30px] text-gray-900 bg-white z-1">
 <div className="max-w-[1650px] mx-auto px-[20px] lg:px-[45px] flex flex-col gap-12">
         {/* Top Section: Brand Banner & Steffi Character */}
         <div className="flex justify-center w-full">

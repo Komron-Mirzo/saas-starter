@@ -191,7 +191,7 @@ export default function StorySliderAnimatedSection({ slides }: Props) {
         axis: 'x',
         loop: true,
         align: 'start',
-        slidesToScroll: 2,
+        slidesToScroll: 1,
     });
     const [mobileSelectedIndex, setMobileSelectedIndex] = useState(0);
     const [mobileScrollSnaps, setMobileScrollSnaps] = useState<number[]>([]);

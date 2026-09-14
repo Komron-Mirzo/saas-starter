@@ -18,15 +18,6 @@ export function Container({ children, className = "" }: { children: React.ReactN
   );
 }
 
-const HEADING_VH = 1;
-const HOLD_AT_SMALL_VH = 0.4;
-const GROW_VH = 2.6;
-const BUTTON_VH = 1.5;
-const BUBBLE_VH = 0.6;
-
-const TOTAL_VH =
-  HEADING_VH + HOLD_AT_SMALL_VH + GROW_VH + BUTTON_VH + BUBBLE_VH;
-
 const SMALL_SCALE = 0.36;
 
 export default function TogetherSection() {
@@ -73,43 +64,52 @@ export default function TogetherSection() {
         gsap.set(buttonRef.current, { opacity: 0, y: 40, force3D: true });
         gsap.set(bubbleRef.current, { scale: 0, opacity: 0, transformOrigin: '50% 50%', force3D: true });
 
-        const tl = gsap.timeline({
-          defaults: { ease: 'none' },
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top top',
-            end: `+=${TOTAL_VH * 100}%`,
-            scrub: 0.5,
-            pin: pinRef.current,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
+        // DESKTOP: Fast 3-phase scroll timeline + final hold scroll step
+        mm.add('(min-width: 768px)', () => {
+          const tl = gsap.timeline({
+            defaults: { ease: 'power2.out' },
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top top',
+              end: '+=350%',
+              scrub: 0.5,
+              pin: pinRef.current,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+            },
+          });
+
+          tl.to(line1Ref.current, { opacity: 1, y: 0, duration: 0.6 }, 0)
+            .to(line2RefTyped.current, { opacity: 1, y: 0, duration: 0.6 }, 0.2)
+            .to(textWrapRef.current, { opacity: 1, duration: 0.3 }, 0.8)
+            .to(textWrapRef.current, { scale: 1, duration: 1.0, ease: 'power1.inOut' }, 0.8)
+            .to(buttonRef.current, { y: 0, opacity: 1, duration: 0.6 }, 1.8)
+            .to(bubbleRef.current, { scale: 1, opacity: 1, ease: 'back.out(1.7)', duration: 0.6 }, 1.8)
+            .to({}, { duration: 0.8 }, 2.4);
         });
 
-        let t = 0;
+        // MOBILE: 2x faster and snappier
+        mm.add('(max-width: 767px)', () => {
+          const tl = gsap.timeline({
+            defaults: { ease: 'power2.out' },
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top top',
+              end: '+=120%',
+              scrub: 0.3,
+              pin: pinRef.current,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+            },
+          });
 
-        tl.to(line1Ref.current, { opacity: 1, y: 0 }, t);
-        tl.to(line2RefTyped.current, { opacity: 1, y: 0 }, t + HEADING_VH * 0.5);
-        t += HEADING_VH;
-
-        tl.to(textWrapRef.current, { opacity: 1 }, t);
-        t += HOLD_AT_SMALL_VH;
-
-        tl.to(textWrapRef.current, { scale: 1 }, t);
-        t += GROW_VH;
-
-        tl.to(
-          buttonRef.current,
-          { y: 0, opacity: 1, ease: 'power2.out' },
-          t
-        );
-
-        tl.to(
-          bubbleRef.current,
-          { scale: 1, opacity: 1, ease: 'back.out(1.7)' },
-          t + BUTTON_VH * 0.4
-        );
-        t += BUTTON_VH + BUBBLE_VH;
+          tl.to(line1Ref.current, { opacity: 1, y: 0, duration: 0.4 }, 0)
+            .to(line2RefTyped.current, { opacity: 1, y: 0, duration: 0.4 }, 0.1)
+            .to(textWrapRef.current, { opacity: 1, duration: 0.2 }, 0.5)
+            .to(textWrapRef.current, { scale: 1, duration: 0.7, ease: 'power1.inOut' }, 0.5)
+            .to(buttonRef.current, { y: 0, opacity: 1, duration: 0.4 }, 1.2)
+            .to(bubbleRef.current, { scale: 1, opacity: 1, ease: 'back.out(1.7)', duration: 0.4 }, 1.2);
+        });
       });
 
       requestAnimationFrame(() => ScrollTrigger.refresh());
@@ -122,11 +122,11 @@ export default function TogetherSection() {
     <section
       ref={sectionRef}
       className="relative w-full bg-[#32D4C5]"
-      style={{ height: `calc(100vh + ${TOTAL_VH * 100}vh)` }}
+      style={{ height: `calc(100vh + 350%)` }}
     >
       <div
         ref={pinRef}
-        className="absolute inset-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center"
+        className="h-screen w-full overflow-hidden flex flex-col items-center justify-center"
       >
         <Container className="flex flex-col items-center text-center">
 
@@ -139,7 +139,7 @@ export default function TogetherSection() {
             </span>
           </h3>
 
-          <div className="relative w-full flex items-center justify-center">
+          <div className="relative w-full flex items-center justify-center flex-col">
             <div ref={textWrapRef} className="w-full will-change-transform">
               <Image
                 src="/icons/together-text.svg"
@@ -153,7 +153,7 @@ export default function TogetherSection() {
 
             <div
               ref={bubbleRef}
-              className="absolute z-10 pointer-events-none will-change-transform w-[158px] h-[158px] lg:w-[262px] lg:h-[262px] right-[5%] lg:right-[8.2%] -top-[100px] lg:-top-[175px]"
+              className="absolute z-10 pointer-events-none will-change-transform w-[184px] h-[184px] lg:w-[262px] lg:h-[262px] right-[5%] lg:right-[8.2%] -top-[100px] lg:-top-[175px] max-[768px]:relative max-[768px]:inset-0 max-[768]:-mt-[5.4vw]"
             >
               <Image
                 src="/icons/bubble-together.svg"
@@ -166,7 +166,7 @@ export default function TogetherSection() {
 
           </div>
 
-          <div ref={buttonRef} className="mt-[80px] will-change-transform">
+          <div ref={buttonRef} className="mt-[80px] will-change-transform max-[768]:mt-[60px]">
             <Button asChild variant="white">
               <a href="#contact">START YOUR GLOW JOURNEY</a>
             </Button>

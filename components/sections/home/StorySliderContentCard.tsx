@@ -217,7 +217,7 @@ export function StorySliderContentCardMobile({ slide }: StorySliderContentCardMo
 
   return (
     <div
-      className="bg-white flex flex-col flex-shrink-0 max-w-[344px] min-h-[565px] rounded-[40px] overflow-hidden"
+      className="bg-white flex flex-col flex-shrink-0 max-w-[344px] min-h-[585px] rounded-[40px] overflow-hidden"
     >
       {/* ── LEFT: featured image ── */}
       <div className="flex-shrink-0 h-[219px] w-full p-[10px]">

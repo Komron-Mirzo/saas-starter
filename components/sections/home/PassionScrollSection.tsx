@@ -48,7 +48,8 @@ export default function PassionScrollSection() {
           { scale: 0, transformOrigin: "50% 50%" }
         );
         gsap.set(certWrapDesktopRef.current, { xPercent: -50, yPercent: 120 });
-        gsap.set(halfCircleRef.current, { xPercent: -50, yPercent: 100 });
+        // Desktop: hide below viewport. Height is 50vw of 110vw width element.
+        gsap.set(halfCircleRef.current, { xPercent: -50, y: window.innerHeight });
 
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -86,8 +87,17 @@ export default function PassionScrollSection() {
 
         tl.to(bubble5Ref.current, { scale: 1, duration: 2, ease: "back.out(1.5)" }, 24);
 
-        tl.to(halfCircleRef.current, { yPercent: 0, duration: 3, ease: "power2.inOut" }, 28.5);
-        tl.to(steffyRef.current, { y: "-45vh", opacity: 0, duration: 3, ease: "power2.in" }, 28.5);
+        // Animate half circle up from below. Target y so top of half circle
+        // sits at 50% of viewport (fills bottom half of screen).
+        // Height = 110vw * 0.5 = 55vw. We want bottom edge at viewport bottom,
+        // so y = innerHeight - halfCircleHeight.
+        tl.to(halfCircleRef.current, {
+          y: () => window.innerHeight - window.innerWidth * 1.1 * 0.5,
+          duration: 5.5,
+          ease: "power2.inOut",
+        }, 28.5);
+
+        tl.to(steffyRef.current, { y: "-85vh", duration: 5.5, ease: "power2.in" }, 28.5);
         tl.to(bubble5Ref.current, { y: "-20vh", opacity: 0, scale: 0.6, duration: 2, ease: "power2.in" }, 28.5);
       }, rootRef);
 
@@ -105,9 +115,7 @@ export default function PassionScrollSection() {
           { scale: 0, transformOrigin: "50% 50%" }
         );
         gsap.set(certWrapMobileRef.current, { opacity: 0, y: 40 });
-        // Mobile: push the circle's top edge to exactly the bottom of the
-        // viewport (y = 100vh in px). The circle is 200vw × 200vw, so this
-        // hides it completely below the fold on every phone screen size.
+        // Mobile: hide below viewport. Height = 110vw * 0.5 = 55vw.
         gsap.set(halfCircleRef.current, { xPercent: -50, y: window.innerHeight });
 
         const tl = gsap.timeline({
@@ -145,15 +153,16 @@ export default function PassionScrollSection() {
 
         tl.to(bubble5Ref.current, { scale: 1, duration: 1, ease: "back.out(1.5)" }, 28);
 
-        // Mobile closing: animate the circle upward so it fills the bottom
-        // half of the screen. Target y = 100vh - circleSize/2 (center of
-        // circle sits at bottom of viewport), which equals innerHeight - circleSize/2.
-        // We use a function-based value so it recalculates on resize/refresh.
+        // Animate half circle up. Height = 110vw * 0.5.
+        // y target = innerHeight - halfCircleHeight so bottom sits flush with viewport bottom.
         tl.to(halfCircleRef.current, {
-          y: () => window.innerHeight - (window.innerWidth * 2) / 2,
+          y: () => window.innerHeight - window.innerWidth * 1.1 * 0.8, // 80vw height
           duration: 3,
           ease: "power2.inOut",
         }, 31);
+
+
+
         tl.to(steffyRef.current, { y: "-40vh", opacity: 0, duration: 3, ease: "power2.in" }, 31);
         tl.to(bubble5Ref.current, { y: "-15vh", opacity: 0, scale: 0.6, duration: 2, ease: "power2.in" }, 31);
       }, rootRef);
@@ -190,32 +199,24 @@ export default function PassionScrollSection() {
         <img src="/images/passion-top-heading.svg" alt="From passion to power" className="w-full z-1" />
       </div>
 
-      {/*
-        II) Pinned, scroll-scrubbed stage.
-
-        KEY MOBILE FIX:
-        - `overflow-hidden` is removed on mobile (was clipping the halfCircle).
-        - The halfCircle is placed INSIDE pinRef but OUTSIDE stageRef, so it's
-          positioned relative to the full 100vh pinned viewport, not the
-          constrained stageRef. This mirrors how desktop works (stageRef has
-          md:overflow-visible there too).
-        - `overflow-hidden` stays on desktop via `md:overflow-visible` which
-          negates it — actually we just drop it entirely since bubbles are
-          already clipped by the viewport itself when pinned.
-      */}
+      {/* II) Pinned, scroll-scrubbed stage */}
       <div
         ref={pinRef}
         className="relative h-screen w-full flex items-center justify-center"
       >
         {/*
-          Pink semicircle lives here, sibling to stageRef, so it's positioned
-          relative to pinRef (the full 100vh pinned element) on BOTH breakpoints.
-          On mobile this escapes the stageRef's overflow clip entirely.
+          True half circle: width 110vw, height = 55vw (half of width),
+          border-radius curves only the top edge.
+          Starts hidden below viewport via GSAP y: window.innerHeight.
+          -translate-x-1/2 is handled by GSAP xPercent: -50.
         */}
         <div
           ref={halfCircleRef}
           id="story-worlds"
-          className="pointer-events-none absolute left-1/2 aspect-square w-[200%] rounded-full bg-[#FF7DA8] z-30 md:w-[140%] -bottom-[100%] max-[500px]:-bottom-[50%] max-[400px]:-bottom-[20%]"
+          className="pointer-events-none absolute left-1/2 -translate-x-1/2 bg-[#FF7DA8] z-0 w-[110vw] h-[55vw] md:h-[55vw] bottom-[100vw] md:-bottom-[20vw]"
+          style={{
+            borderRadius: "50% 50% 0 0 / 100% 100% 0 0",
+          }}
         />
 
         <div
@@ -284,10 +285,10 @@ export default function PassionScrollSection() {
             className="absolute left-1/2 -translate-x-1/2 top-[30%] z-20 w-[62vw] max-w-[260px] md:left-auto md:translate-x-0 md:right-[130px] md:top-[233px] md:z-10 md:w-[26vw] md:max-w-[500px] max-[768px]:right-[20px] max-[768px]:left-auto max-[768px]:right-[20px] max-[768px]:!-right-[125px]"
           />
 
-          {/* certificates — desktop: vertical strip that travels bottom -> top (unchanged) */}
+          {/* certificates — desktop: vertical strip that travels bottom -> top */}
           <div
             ref={certWrapDesktopRef}
-            className="hidden md:flex absolute -right-[200px] max-[1500px]:-right-[11vw] op-1/2 max-w-[581px] max-[1500px]:w-[30vw] flex-col gap-[87px]"
+            className="hidden md:flex absolute -right-[200px] max-[1500px]:-right-[11vw] top-1/2 max-w-[581px] max-[1500px]:w-[30vw] flex-col gap-[87px]"
           >
             <img src="/images/passion-certificate-01.svg" alt="Certificate of Achievement" className="max-w-[379px] w-[20vw] self-end" />
             <img src="/images/passion-certificate-02.svg" alt="Certified Nutritionist" className="max-w-[379px] w-[20vw] self-start" />
