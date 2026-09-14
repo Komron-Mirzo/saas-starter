@@ -90,9 +90,8 @@ export default function CardStackClient({ cards }: Props) {
       >
         <div className="pointer-events-none absolute inset-0 flex select-none items-start justify-center max-[768px]:items-start max-[768px]:top-[10%]">
           <span 
-            className="text-h1-01 leading-none text-[#D9D9D9]"
-            style={{ fontSize: "clamp(250px, 41vw, 600px)" }}
-          >
+          className="text-h1-01 leading-none text-[#D9D9D9] !text-[56vw] md:!text-[clamp(250px,41vw,600px)]"
+        >
             {cards[activeIndex]?.number || "01"}
           </span>
         </div>
