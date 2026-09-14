@@ -5,6 +5,7 @@ import localFont from 'next/font/local';
 import { getUser, getTeamForUser } from '@/lib/db/queries';
 import { SWRConfig } from 'swr';
 import { ScrollTriggerHashFix } from '@/components/ui/smooth-scroll-provider';
+import { JoinlistPopupProvider } from '@/components/ui/joinlist-popup-context';
 
 export const metadata: Metadata = {
   title: 'Worthfit SaaS',
@@ -50,7 +51,10 @@ export default function RootLayout({
           }}
         >
           <ScrollTriggerHashFix />
+          <JoinlistPopupProvider>
           {children}
+          </JoinlistPopupProvider>
+          
         </SWRConfig>
       </body>
     </html>

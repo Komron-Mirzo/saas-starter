@@ -39,6 +39,7 @@ export default async function ContentTypePage({ params }: { params: Promise<{ ty
       fields={config.fields}
       titleField={config.titleField}
       subtitleField={config.subtitleField}
+      tableFields={config.tableFields}
       imageField={config.imageField}
       items={items}
     />

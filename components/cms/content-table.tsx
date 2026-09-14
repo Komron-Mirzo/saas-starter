@@ -13,21 +13,31 @@ interface Props {
   titleField: string;
   subtitleField?: string;
   imageField?: string;
+  tableFields?: string[];
   items: Record<string, any>[];
 }
 
 const PAGE_SIZE = 8;
 
-// Helper to handle camelCase vs database snake_case mismatches
 function getFieldValue(item: Record<string, any> | undefined, key: string) {
   if (!item) return '';
   if (item[key] !== undefined && item[key] !== null) return item[key];
 
-  // Convert camelCase to snake_case (e.g. categoryText -> category_text)
   const snakeKey = key.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
   if (item[snakeKey] !== undefined && item[snakeKey] !== null) return item[snakeKey];
 
   return '';
+}
+
+function formatCellValue(val: any) {
+  if (val === null || val === undefined) return '';
+  if (val instanceof Date) {
+    return val.toLocaleString();
+  }
+  if (typeof val === 'object') {
+    return JSON.stringify(val);
+  }
+  return String(val);
 }
 
 export function ContentTable({
@@ -38,6 +48,7 @@ export function ContentTable({
   titleField,
   subtitleField,
   imageField,
+  tableFields = [],
   items,
 }: Props) {
   const [modal, setModal] = useState<
@@ -72,7 +83,6 @@ export function ContentTable({
 
   return (
     <div className="space-y-4">
-      {/* Header */}
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-lg font-semibold text-gray-900">{label}</h2>
@@ -86,7 +96,6 @@ export function ContentTable({
         </button>
       </div>
 
-      {/* Table */}
       <div className="bg-white border rounded-xl overflow-hidden">
         <table className="w-full text-sm">
           <thead>
@@ -106,6 +115,14 @@ export function ContentTable({
                   }
                 </th>
               )}
+              {tableFields.map((fieldKey) => {
+                const targetField = fields.find((f) => f.key === fieldKey);
+                return (
+                  <th key={fieldKey} className="px-4 py-3 font-medium hidden lg:table-cell">
+                    {targetField?.label ?? fieldKey}
+                  </th>
+                );
+              })}
               <th className="px-4 py-3 font-medium w-32 text-right">Actions</th>
             </tr>
           </thead>
@@ -138,14 +155,27 @@ export function ContentTable({
                           className="w-8 h-8 rounded-full object-cover shrink-0"
                         />
                       )}
-                      <span className="font-medium text-gray-900 truncate">{displayTitle}</span>
+                      <span className="font-medium text-gray-900 truncate">
+                        {formatCellValue(displayTitle)}
+                      </span>
                     </div>
                   </td>
                   {resolvedSubtitleField && (
                     <td className="px-4 py-3 text-gray-500 max-w-sm truncate hidden md:table-cell">
-                      {displaySubtitle}
+                      {formatCellValue(displaySubtitle)}
                     </td>
                   )}
+                  {tableFields.map((fieldKey) => {
+                    const val = getFieldValue(item, fieldKey);
+                    return (
+                      <td
+                        key={fieldKey}
+                        className="px-4 py-3 text-gray-500 hidden lg:table-cell truncate max-w-xs"
+                      >
+                        {formatCellValue(val)}
+                      </td>
+                    );
+                  })}
                   <td className="px-4 py-3">
                     <div className="flex justify-end gap-3">
                       <button
@@ -164,7 +194,6 @@ export function ContentTable({
         </table>
       </div>
 
-      {/* Pagination */}
       {items.length > PAGE_SIZE && (
         <div className="flex justify-between items-center text-sm text-gray-500">
           <span>
@@ -189,7 +218,6 @@ export function ContentTable({
         </div>
       )}
 
-      {/* Modal */}
       {modal && (
         <ItemModal
           type={type}
@@ -222,7 +250,6 @@ function ImageFieldInput({
   const handleRemove = () => {
     setPreview(null);
     setIsRemoved(true);
-    // Clear the file input
     const fileInput = document.getElementById(`${inputName}-file`) as HTMLInputElement;
     if (fileInput) fileInput.value = '';
   };
@@ -464,7 +491,7 @@ function ItemModal({
                 ) : (
                   <input
                     name={field.key}
-                    defaultValue={fieldValue}
+                    defaultValue={formatCellValue(fieldValue)}
                     required={field.required}
                     className="w-full mt-1 p-2 border rounded-md"
                   />

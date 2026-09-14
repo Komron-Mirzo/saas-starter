@@ -102,3 +102,70 @@ export async function sendContactEmail(formData: FormData) {
     return { success: false, error: 'Failed to send email. Please check your network connection.' };
   }
 }
+
+export async function sendJoinlistConfirmationEmail(firstName: string, email: string) {
+  try {
+    await transporter.sendMail({
+      from: `"WorthFit" <komron@dis7.de>`,
+      to: email,
+      subject: `You're in, ${firstName}!`,
+      text: `Hi ${firstName},\n\nThank you for joining the WorthFit waitlist. You're officially in — we'll let you know as soon as the doors to your Story World open.`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>WorthFit</title>
+          </head>
+          <body style="margin: 0; padding: 0; background-color: #F8F9FA; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #F8F9FA; padding: 40px 0;">
+              <tr>
+                <td align="center">
+                  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width: 600px; background-color: #ffffff; border-radius: 20px; border: 1px solid #E5E7EB; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);">
+
+                    <tr>
+                      <td align="center" style="background-color: #FF6584; padding: 36px 40px;">
+                        <h1 style="margin: 0; font-size: 26px; font-weight: 800; font-style: italic; letter-spacing: -0.5px; color: #ffffff;">
+                          WORTHFIT
+                        </h1>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding: 40px 40px 30px 40px;">
+                        <h2 style="margin: 0 0 16px 0; color: #111111; font-size: 20px; font-weight: 700;">
+                          You're in, ${firstName}!
+                        </h2>
+                        <p style="margin: 0 0 24px 0; color: #4B5563; font-size: 16px; line-height: 1.6;">
+                          Thank you for joining the WorthFit waitlist. You're officially on the list — we'll let you know as soon as the doors to your Story World open.
+                        </p>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td align="center" style="padding: 30px 40px; background-color: #ffffff; border-top: 1px solid #F3F4F6;">
+                        <p style="margin: 0 0 6px 0; color: #6B7280; font-size: 13px; font-weight: 500;">
+                          Every small win becomes part of your powerful story.
+                        </p>
+                        <p style="margin: 0; color: #9CA3AF; font-size: 12px;">
+                          &copy; ${new Date().getFullYear()} WorthFit. All rights reserved.
+                        </p>
+                      </td>
+                    </tr>
+
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </body>
+        </html>
+      `,
+    });
+
+    return { success: true, error: null };
+  } catch (error) {
+    console.error('Hetzner SMTP Error:', error);
+    return { success: false, error: 'Failed to send confirmation email.' };
+  }
+}

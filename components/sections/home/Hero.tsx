@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
+import { WaitlistTriggerButton } from '@/components/ui/joinlist-trigger-button';
+
 
 export function Hero() {
   return (
@@ -33,9 +35,10 @@ export function Hero() {
 
           {/* Dual Action Buttons using Global Reusable Button Component */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-4 w-full sm:w-auto">
-            <Button asChild variant="default" className="max-md:w-full">
-              <Link href="/sign-up">Begin your glow story</Link>
-            </Button>
+  
+            <WaitlistTriggerButton variant="default" className="max-md:w-full">
+              Begin your glow story
+            </WaitlistTriggerButton>
 
             <Button asChild variant="white" className="max-md:w-full">
               <Link href="#peek-inside">Not sure yet? Peek inside</Link>

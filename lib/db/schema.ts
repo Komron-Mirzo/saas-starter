@@ -234,6 +234,18 @@ export const storySliderGainsRelations = relations(storySliderGainsTable, ({ one
   }),
 }));
 
+export const joinlistTable = pgTable('joinlist', {
+  id: serial('id').primaryKey(),
+  firstName: varchar('first_name', { length: 100 }).notNull(),
+  email: varchar('email', { length: 255 }).notNull(),
+  interest: varchar('interest', { length: 20 }), // 'fitness' | 'nutrition' | 'both'
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+});
+ 
+export type Joinlist = typeof joinlistTable.$inferSelect;
+export type NewJoinlist = typeof joinlistTable.$inferInsert;
+ 
+
 // Export Types
 export type StorySlider = typeof storySlidersTable.$inferSelect;
 export type NewStorySlider = typeof storySlidersTable.$inferInsert;

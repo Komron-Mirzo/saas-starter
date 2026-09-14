@@ -1,4 +1,4 @@
-import { faqsTable, featuresTable, howsTable, reviewsTable, storySlidersTable } from '@/lib/db/schema';
+import { faqsTable, featuresTable, howsTable, joinlistTable, reviewsTable, storySlidersTable } from '@/lib/db/schema';
 import type { PgTable } from 'drizzle-orm/pg-core';
 
 export type FieldType = 'text' | 'textarea' | 'image' | 'repeater';
@@ -21,6 +21,7 @@ export interface ContentTypeConfig {
   titleField: string;      // which field to show as the row title
   subtitleField?: string;
   imageField?: string;  
+  tableFields?: string[];
 }
 
 export const contentTypes: Record<string, ContentTypeConfig> = {
@@ -84,6 +85,21 @@ export const contentTypes: Record<string, ContentTypeConfig> = {
     ],
   },
 
+  joinlist: {
+    slug: 'joinlist',
+    label: 'Waitlist Signups',
+    singular: 'Signup',
+    table: joinlistTable,
+    titleField: 'firstName',
+    subtitleField: 'email',
+    tableFields: ['interest', 'createdAt'], // <--- Explicitly show these on the main table
+    fields: [
+      { key: 'firstName', label: 'First Name', type: 'text', required: true },
+      { key: 'email', label: 'Email', type: 'text', required: true },
+      { key: 'interest', label: 'Interested In', type: 'text' },
+      { key: 'createdAt', label: 'Submitted At', type: 'text' },
+    ],
+  },
   storysliders: {
     slug: 'storysliders',
     label: 'Story Sliders',
@@ -91,23 +107,24 @@ export const contentTypes: Record<string, ContentTypeConfig> = {
     table: storySlidersTable,
     titleField: 'title',
     subtitleField: 'categoryText',
-    imageField: 'backgroundImageUrl',
+    imageField: 'backgroundImage',
+    // No tableFields specified here, so it won't clutter the table view!
     fields: [
-      { key: 'categoryText', label: 'Category (e.g. Fantasy)', type: 'text', required: true },
       { key: 'title', label: 'Title', type: 'text', required: true },
+      { key: 'categoryText', label: 'Category', type: 'text', required: true },
       { key: 'contentText', label: 'Content Text', type: 'textarea', required: true },
       { key: 'toneText', label: 'Tone Text', type: 'text', required: true },
-      { key: 'goalText', label: 'Goal Text', type: 'textarea', required: true },
-      { key: 'backgroundImageUrl', label: 'Background Image', type: 'image', required: true },
-      { 
-        key: 'gains', 
-        label: "What You'll Gain Items", 
+      { key: 'goalText', label: 'Goal Text', type: 'text', required: true },
+      { key: 'backgroundImage', label: 'Background Image', type: 'image', required: true },
+      {
+        key: 'gains',
+        label: "What You'll Gain Items",
         type: 'repeater',
         maxItems: 4,
         subFields: [
-          { key: 'iconUrl', label: 'Icon Image/SVG', type: 'image', required: true },
-          { key: 'text', label: 'Benefit Text', type: 'text', required: true }
-        ]
+          { key: 'iconUrl', label: 'Icon Image', type: 'image', required: true },
+          { key: 'text', label: 'Gain Text', type: 'text', required: true },
+        ],
       },
     ],
   },
