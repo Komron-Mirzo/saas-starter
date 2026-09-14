@@ -56,13 +56,16 @@ export default function WorthfitJoinlistPopup({ onClose }: WorthfitJoinlistPopup
 
   return (
 <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1A1A1AB2] p-[20px] max-[768px]:items-end max-[768px]:p-0">
-  <div className="flex w-[1020px] max-w-full max-h-[90vh] overflow-y-auto gap-[40px] rounded-[75px] bg-[#F3F3F3] p-[15px] max-[1200px]:m-[20px] max-[768px]:m-0 max-[768px]:max-h-[100vh] max-[768px]:rounded-b-none max-[768px]:rounded-t-[50px] max-[768px]:p-[20px]">
+  <div className="flex w-[1020px] max-h-[840px] h-full max-w-full overflow-y-auto scrollbar-none gap-[40px] rounded-[75px] bg-[#F3F3F3] p-[15px] max-[1200px]:m-[20px] max-[768px]:m-0 max-[768px]:max-h-[900px] max-[768px]:rounded-b-none max-[768px]:rounded-t-[50px] max-[768px]:p-[20px]" style={{
+          scrollbarWidth: 'none', /* Firefox */
+          msOverflowStyle: 'none',  /* IE and Edge */
+        }}>
         {!submitted ? (
           // ==========================================
           // I) FORM DIV
           // ==========================================
           <>
-            <div className="relative h-full w-1/2 overflow-hidden rounded-[60px] border-[5px] border-white max-[1024px]:w-[40%] max-[768px]:hidden">
+            <div className="relative h-[810px] min-h-[810px] w-1/2 overflow-hidden rounded-[60px] border-[5px] border-white max-[1024px]:w-[40%] max-[768px]:hidden">
               <img
                 src="/images/worthfit-popup.jpg"
                 alt="Worthfit"
@@ -70,7 +73,7 @@ export default function WorthfitJoinlistPopup({ onClose }: WorthfitJoinlistPopup
               />
             </div>
 
-            <div className="flex w-1/2 flex-col justify-center py-[20px] pr-[20px] max-[1024px]:w-[60%] max-[768px]:w-full max-[768px]:justify-start max-[768px]:pr-0">
+            <div className="flex w-1/2 h-full flex-col justify-start py-[20px] pr-[20px] max-[1024px]:w-[60%] max-[768px]:w-full max-[768px]:justify-start max-[768px]:pr-0">
               <button
                 type="button"
                 onClick={onClose}
@@ -197,7 +200,7 @@ export default function WorthfitJoinlistPopup({ onClose }: WorthfitJoinlistPopup
           // ==========================================
           // II) SUCCESS DIV
           // ==========================================
-          <div className="flex w-full flex-col gap-[40px]">
+          <div className="flex w-full h-full flex-col gap-[40px]">
             <div className="flex h-[45%] flex-1 flex-col items-center justify-start text-center p-[20px] max-[768px]:p-0 max-[768px]:h-[40%]">
               <button
                 type="button"
@@ -231,7 +234,7 @@ export default function WorthfitJoinlistPopup({ onClose }: WorthfitJoinlistPopup
               </Button>
             </div>
 
-            <div className="relative h-[55%] w-full overflow-hidden rounded-[60px] border-[5px] border-white max-[768px]:!h-[55%] max-[768px]:rounded-[40px]">
+            <div className="relative h-[55%] max-h-[40vh] w-full overflow-hidden rounded-[60px] border-[5px] border-white max-[768px]:!h-[55%] max-[768px]:rounded-[40px] max-[768px]:max-h-[60vh]">
               <img
                 src="/images/worthfit-popup-success.jpg"
                 alt="Welcome to Worthfit"
