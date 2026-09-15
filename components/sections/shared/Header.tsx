@@ -15,6 +15,7 @@ import { signOut } from '@/app/(login)/actions';
 import { useRouter } from 'next/navigation';
 import { User } from '@/lib/db/schema';
 import useSWR, { mutate } from 'swr';
+import { WaitlistTriggerButton } from '@/components/ui/joinlist-trigger-button';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -43,12 +44,16 @@ function UserActions() {
   if (!user) {
     return (
       <div className="flex items-center space-x-4">
-        <Button asChild variant="default">
+        {/* <Button asChild variant="default">
           <Link href="/sign-in">Log In</Link>
         </Button>
         <Button asChild variant="white">
           <Link href="/sign-up">Sign Up</Link>
-        </Button>
+        </Button> */}
+          
+        <WaitlistTriggerButton variant="default" className="max-md:w-full">
+          Join the Waitlist
+        </WaitlistTriggerButton>
       </div>
     );
   }
