@@ -5,6 +5,7 @@ import Image from 'next/image';
 import type { StorySliderWithGains } from '@/lib/db/schema';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { WaitlistTriggerButton } from '@/components/ui/joinlist-trigger-button';
 
 interface StorySliderContentCardProps {
   slide: StorySliderWithGains;
@@ -181,11 +182,9 @@ export default function StorySliderContentCard({ slide }: StorySliderContentCard
 
           {/* CTA Button */}
           <div className="mt-auto">
-            <Button asChild variant="secondary" className="max-[1024px]:!h-[60px]">
-              <Link href="/">
-                START YOUR FREE TRIAL
-              </Link>
-            </Button>
+             <WaitlistTriggerButton variant="secondary" className="max-[1024px]:!h-[60px] w-[200px]">
+              I'M IN
+            </WaitlistTriggerButton>
           </div>
         </div>
 
@@ -347,11 +346,9 @@ export function StorySliderContentCardMobile({ slide }: StorySliderContentCardMo
         {/* B-8: CTA — only in expanded state */}
        
           <div className="mt-auto">
-            <Button asChild variant="secondary" className="w-full">
-              <Link href="/">
-                START YOUR STORY
-              </Link>
-            </Button>
+             <WaitlistTriggerButton variant="secondary" className="w-full">
+              I'M IN
+              </WaitlistTriggerButton>            
           </div>
         
       </div>

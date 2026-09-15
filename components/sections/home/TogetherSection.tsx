@@ -5,6 +5,7 @@ import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Button } from '@/components/ui/button';
+import { WaitlistTriggerButton } from '@/components/ui/joinlist-trigger-button';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -167,9 +168,9 @@ export default function TogetherSection() {
           </div>
 
           <div ref={buttonRef} className="mt-[80px] will-change-transform max-[768]:mt-[60px]">
-            <Button asChild variant="white">
-              <a href="#contact">START YOUR GLOW JOURNEY</a>
-            </Button>
+            <WaitlistTriggerButton variant="white">
+               Join the Waitlist
+            </WaitlistTriggerButton>
           </div>
 
         </Container>

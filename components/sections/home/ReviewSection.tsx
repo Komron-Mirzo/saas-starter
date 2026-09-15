@@ -4,6 +4,7 @@ import { reviewsTable } from '@/lib/db/schema';
 import ReviewsSlider from './ReviewSlider';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { WaitlistTriggerButton } from '@/components/ui/joinlist-trigger-button';
 
 export function Container({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
@@ -38,11 +39,9 @@ export default async function ReviewSection() {
 
       {/* Floating Center Action Button */}
       <div className="flex justify-center relative z-20 mt-[45px]">
-        <Button asChild variant="secondary">
-          <Link href="/">
-            START YOUR FREE TRIAL
-          </Link>
-        </Button>
+        <WaitlistTriggerButton variant="secondary">
+          Join the Waitlist
+        </WaitlistTriggerButton>
       </div>
 
 

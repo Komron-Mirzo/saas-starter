@@ -156,7 +156,7 @@ export default function PassionScrollSection() {
         // Animate half circle up. Height = 110vw * 0.5.
         // y target = innerHeight - halfCircleHeight so bottom sits flush with viewport bottom.
         tl.to(halfCircleRef.current, {
-          y: () => window.innerHeight - window.innerWidth * 1.1 * 0.8, // 80vw height
+          y: () => window.innerHeight - window.innerWidth * 1.1 * 0.5, // 80vw height
           duration: 3,
           ease: "power2.inOut",
         }, 31);
@@ -213,7 +213,7 @@ export default function PassionScrollSection() {
         <div
           ref={halfCircleRef}
           id="story-worlds"
-          className="pointer-events-none absolute left-1/2 -translate-x-1/2 bg-[#FF7DA8] z-0 w-[110vw] h-[55vw] md:h-[55vw] bottom-[100vw] md:-bottom-[20vw]"
+          className="pointer-events-none absolute left-1/2 -translate-x-1/2 bg-[#FF7DA8] z-0 w-[110vw] h-[55vw] md:h-[55vw] min-[2200px]:-bottom-[13vw] min-[1920px]:-bottom-[10vw] min-[1800px]:-bottom-[20vw] max-[1024px]:bottom-[35vw] max-[900px]:bottom-[48vw] max-[806px]:bottom-[60vw] max-[768px]:bottom-[50vw] max-[725px]:bottom-[70vw] max-[630px]:bottom-[90vw] max-[560px]:bottom-[100vw] max-[535px]:bottom-[118vw] max-[480px]:bottom-[135vw] max-[450px]:bottom-[150vw] max-[410px]:bottom-[170vw] max-[380px]:bottom-[188vw] max-[350px]:bottom-[200vw] max-[335px]:bottom-[700px]"
           style={{
             borderRadius: "50% 50% 0 0 / 100% 100% 0 0",
           }}

@@ -37,11 +37,11 @@ export function Hero() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-4 w-full sm:w-auto">
   
             <WaitlistTriggerButton variant="default" className="max-md:w-full">
-              Begin your glow story
+              Join the Waitlist
             </WaitlistTriggerButton>
 
             <Button asChild variant="white" className="max-md:w-full">
-              <Link href="#peek-inside">Not sure yet? Peek inside</Link>
+              <Link href="/#features">Not sure yet? Peek inside</Link>
             </Button>
           </div>
         </div>

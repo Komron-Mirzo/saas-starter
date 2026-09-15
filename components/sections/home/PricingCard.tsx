@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { WaitlistTriggerButton } from '@/components/ui/joinlist-trigger-button';
 
 interface PricingCardProps {
     title: string;
@@ -20,7 +21,7 @@ export function PricingCard({
     imageSrc,
     imageAlt,
     features,
-    buttonText = "START YOUR JOURNEY",
+    buttonText = "SAVE MY SPOT",
     buttonHref = "/sign-up",
 }: PricingCardProps) {
     return (
@@ -78,9 +79,11 @@ export function PricingCard({
 
             {/* Action Button */}
             <div className="w-full mt-auto px-[30px] max-[768px]:px-[15px]">
-                <Button asChild className="w-full">
-                    <Link href={buttonHref}>{buttonText}</Link>
-                </Button>
+
+                <WaitlistTriggerButton variant="default" className="w-full max-md:w-full">
+                {buttonText}
+                </WaitlistTriggerButton>
+
             </div>
 
         </div>

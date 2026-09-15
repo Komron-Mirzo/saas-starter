@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { WaitlistTriggerButton } from '@/components/ui/joinlist-trigger-button';
 
 export function StaticPink() {
   return (
@@ -38,9 +39,10 @@ export function StaticPink() {
         <div className="h-[60px] shrink-0" />
 
         {/* Button: Variant White */}
-        <Button variant="white" >
-          Start Your Journey
-        </Button>
+        <WaitlistTriggerButton variant="white" className="max-[768px]:w-full">
+          Save my spot
+        </WaitlistTriggerButton>
+        
 
       </div>
     </section>

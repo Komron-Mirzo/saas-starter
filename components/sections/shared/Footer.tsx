@@ -32,7 +32,7 @@ export function Footer() {
 
   return (
     <footer className="w-full pt-[200px] max-lg:pt-[100px] pb-[30px] text-gray-900 bg-white z-1">
-<div className="max-w-[1650px] mx-auto px-[20px] lg:px-[45px] flex flex-col gap-12">
+      <div className="max-w-[1650px] mx-auto px-[20px] lg:px-[45px] flex flex-col gap-12">
         {/* Top Section: Brand Banner & Steffi Character */}
         <div className="flex justify-center w-full">
           <div className="w-full max-w-4xl relative">
@@ -109,7 +109,7 @@ export function Footer() {
 
           {/* Contacts: md = left(info)/right(icons over buttons); lg+ = top(info)/bottom(icons <-> buttons), col-span-2 */}
           <div className="flex flex-col space-y-6 md:flex-row md:items-start md:justify-between md:space-y-0 lg:flex-col lg:justify-start lg:space-y-6 lg:col-span-2 gap-8">
-            
+
             {/* Contacts Child 1 (Added flex-1 for balanced sizing) */}
             <div className="flex flex-col space-y-2 flex-1">
               <span className="text-caps-16-smbld text-[#1A1A1A]/40 uppercase">Contacts</span>
@@ -138,14 +138,14 @@ export function Footer() {
                 ))}
               </div>
 
-           <div className="flex items-center gap-3 max-lg:w-full">
-              <Button asChild variant="default" className="max-lg:flex-1">
-                <Link href="/sign-in">Log In</Link>
-              </Button>
-              <Button asChild variant="secondary" className="max-lg:flex-1">
-                <Link href="/sign-up">Sign Up</Link>
-              </Button>
-            </div>
+              {/* <div className="flex items-center gap-3 max-lg:w-full">
+                <Button asChild variant="default" className="max-lg:flex-1">
+                  <Link href="/sign-in">Log In</Link>
+                </Button>
+                <Button asChild variant="secondary" className="max-lg:flex-1">
+                  <Link href="/sign-up">Sign Up</Link>
+                </Button>
+              </div> */}
             </div>
 
           </div>

@@ -127,7 +127,7 @@ export default function FeaturesClientCarousel({ features }: Props) {
   );
 
   return (
-    <section className="w-full bg-[#FF7DA8] lg:py-[155px] py-[120px]">
+    <section id="features" className="w-full bg-[#FF7DA8] lg:py-[155px] py-[120px]">
       <div className="w-full flex flex-col items-center">
         <h2 className="text-h1-02 text-white text-center mb-[40px] px-[20px] max-[767px]:!text-[32px]">
           WHAT YOU&apos;LL GET:
